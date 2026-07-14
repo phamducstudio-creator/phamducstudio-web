@@ -1,0 +1,176 @@
+:root{
+  --ivory:#faf6f1;
+  --blush:#f3e2dd;
+  --gold:#b8965a;
+  --gold-dark:#8f7038;
+  --charcoal:#2b2622;
+  --muted:#6f645a;
+  --white:#fff;
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{
+  font-family:'Be Vietnam Pro','Georgia','Times New Roman',serif;
+  color:var(--charcoal);
+  background:var(--ivory);
+  line-height:1.6;
+}
+h1,h2,h3{font-family:'Playfair Display','Georgia',serif;font-weight:400;}
+a{text-decoration:none;color:inherit;}
+img{max-width:100%;display:block;}
+.container{max-width:1140px;margin:0 auto;padding:0 24px;}
+.eyebrow{
+  text-transform:uppercase;
+  letter-spacing:3px;
+  font-size:12px;
+  color:var(--gold-dark);
+  font-family:'Be Vietnam Pro',Arial,sans-serif;
+  font-weight:600;
+}
+
+/* ===== HEADER ===== */
+header{
+  position:sticky;top:0;z-index:50;
+  background:rgba(250,246,241,0.95);
+  backdrop-filter:blur(6px);
+  border-bottom:1px solid var(--blush);
+}
+.nav{display:flex;align-items:center;justify-content:space-between;padding:16px 24px;}
+.logo{font-size:22px;letter-spacing:1px;color:var(--gold-dark);}
+.logo b{color:var(--charcoal);}
+.nav-cta{
+  background:var(--gold-dark);color:#fff;padding:10px 20px;
+  border-radius:999px;font-family:'Be Vietnam Pro',Arial,sans-serif;font-size:13px;font-weight:600;
+  letter-spacing:0.5px;
+}
+
+/* ===== PROMO BANNER ===== */
+.promo-banner{
+  background:linear-gradient(90deg,var(--gold-dark),var(--gold));
+  color:#fff;text-align:center;padding:10px 16px;
+  font-family:'Be Vietnam Pro',Arial,sans-serif;font-size:13.5px;font-weight:600;letter-spacing:0.3px;
+}
+.promo-banner span{opacity:0.9;font-weight:400;}
+
+/* ===== HERO ===== */
+.hero{
+  position:relative;
+  min-height:88vh;
+  display:flex;align-items:center;
+  background:linear-gradient(180deg, rgba(43,38,34,0.35), rgba(43,38,34,0.55)),
+    url('https://images.unsplash.com/photo-1519741497674-611481863552?auto=format&fit=crop&w=1600&q=80') center/cover no-repeat;
+  /* [THAY ẢNH] Đổi URL trên bằng ảnh cưới thật của studio, khổ ngang 1600x1000px trở lên */
+  color:#fff;
+}
+.hero-inner{max-width:640px;padding:80px 24px 80px clamp(24px, 6vw, 96px);}
+.hero .eyebrow{color:#f0d9a8;}
+.hero h1{font-size:44px;margin:16px 0 18px;line-height:1.25;}
+.hero p{font-size:16px;opacity:0.92;margin-bottom:28px;max-width:520px;}
+.btn-group{display:flex;gap:14px;flex-wrap:wrap;}
+.btn{
+  display:inline-block;padding:14px 28px;border-radius:999px;
+  font-family:'Be Vietnam Pro',Arial,sans-serif;font-size:14px;font-weight:700;letter-spacing:0.4px;
+  cursor:pointer;border:none;
+}
+.btn-primary{background:var(--gold);color:#2b2622;}
+.btn-outline{background:transparent;color:#fff;border:1.5px solid rgba(255,255,255,0.8);}
+
+/* ===== USP STRIP ===== */
+.usp-strip{
+  background:var(--white);border-top:1px solid var(--blush);border-bottom:1px solid var(--blush);
+  padding:28px 0;
+}
+.usp-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:20px;text-align:center;}
+.usp-grid div{font-family:'Be Vietnam Pro',Arial,sans-serif;font-size:13.5px;color:var(--muted);}
+.usp-grid strong{display:block;color:var(--charcoal);font-family:Georgia,serif;font-size:17px;margin-bottom:4px;}
+
+/* ===== SECTION HEADING ===== */
+.section{padding:80px 0;}
+.section-head{text-align:center;max-width:640px;margin:0 auto 48px;}
+.section-head h2{font-size:32px;margin:10px 0 14px;}
+.section-head p{color:var(--muted);font-size:15px;}
+
+/* ===== PRICING ===== */
+.pricing-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;align-items:stretch;}
+.price-card{
+  background:#fff;border:1px solid var(--blush);border-radius:14px;
+  padding:36px 28px;display:flex;flex-direction:column;position:relative;
+}
+.price-card.popular{
+  border:2px solid var(--gold);transform:translateY(-10px);
+  box-shadow:0 20px 40px rgba(184,150,90,0.18);
+}
+.badge-popular{
+  position:absolute;top:-14px;left:50%;transform:translateX(-50%);
+  background:var(--gold-dark);color:#fff;font-family:'Be Vietnam Pro',Arial,sans-serif;
+  font-size:11px;font-weight:700;letter-spacing:1px;padding:6px 16px;border-radius:999px;
+  text-transform:uppercase;white-space:nowrap;
+}
+.price-tier{font-family:'Be Vietnam Pro',Arial,sans-serif;font-size:12px;letter-spacing:2px;color:var(--gold-dark);text-transform:uppercase;font-weight:700;}
+.price-card h3{font-size:24px;margin:8px 0 4px;}
+.price-amount{font-size:30px;color:var(--charcoal);margin:14px 0 4px;font-weight:700;font-family:'Be Vietnam Pro',Arial,sans-serif;}
+.price-amount span{font-size:13px;color:var(--muted);font-weight:400;}
+.price-sub{font-size:13px;color:var(--muted);margin-bottom:22px;font-family:'Be Vietnam Pro',Arial,sans-serif;}
+.price-list{list-style:none;font-family:'Be Vietnam Pro',Arial,sans-serif;font-size:14px;color:var(--charcoal);flex:1;}
+.price-list li{padding:8px 0;border-bottom:1px dashed var(--blush);padding-left:22px;position:relative;}
+.price-list li:last-child{border-bottom:none;}
+.price-list li::before{content:"✓";position:absolute;left:0;color:var(--gold-dark);font-weight:700;}
+.price-card .btn{margin-top:24px;width:100%;text-align:center;font-size:13.5px;}
+.price-card:not(.popular) .btn-primary{background:var(--charcoal);color:#fff;}
+
+/* ===== PORTFOLIO ===== */
+.portfolio-grid{
+  display:grid;grid-template-columns:repeat(4,1fr);grid-auto-rows:220px;gap:12px;
+}
+.portfolio-grid a{grid-column:span 1;grid-row:span 1;overflow:hidden;border-radius:8px;position:relative;}
+.portfolio-grid a:nth-child(1){grid-column:span 2;grid-row:span 2;}
+.portfolio-grid a:nth-child(6){grid-column:span 2;}
+.portfolio-grid img{width:100%;height:100%;object-fit:cover;transition:transform .5s ease;}
+.portfolio-grid a:hover img{transform:scale(1.08);}
+.portfolio-grid a::after{
+  content:attr(data-label);position:absolute;bottom:0;left:0;right:0;
+  background:linear-gradient(0deg,rgba(0,0,0,0.6),transparent);
+  color:#fff;font-family:'Be Vietnam Pro',Arial,sans-serif;font-size:12px;padding:14px 12px 10px;
+}
+
+/* ===== BOOKING FORM ===== */
+.booking{
+  background:var(--charcoal);color:#fff;
+}
+.booking .section-head p{color:#cfc6bb;}
+.booking .section-head h2{color:#fff;}
+.form-wrap{
+  max-width:640px;margin:0 auto;background:#3a342e;border-radius:16px;padding:40px;
+}
+.form-row{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:16px;}
+.form-row.full{grid-template-columns:1fr;}
+label{
+  display:block;font-family:'Be Vietnam Pro',Arial,sans-serif;font-size:12.5px;color:#e6dfd6;
+  margin-bottom:6px;letter-spacing:0.3px;
+}
+input,select,textarea{
+  width:100%;padding:12px 14px;border-radius:8px;border:1px solid #554d43;
+  background:#2b2622;color:#fff;font-family:'Be Vietnam Pro',Arial,sans-serif;font-size:14px;
+}
+input::placeholder,textarea::placeholder{color:#9a9088;}
+textarea{resize:vertical;min-height:70px;}
+.form-submit{
+  width:100%;margin-top:8px;background:var(--gold);color:#2b2622;
+  padding:15px;border-radius:999px;border:none;font-family:'Be Vietnam Pro',Arial,sans-serif;
+  font-weight:700;font-size:15px;cursor:pointer;letter-spacing:0.3px;
+}
+.form-note{font-family:'Be Vietnam Pro',Arial,sans-serif;font-size:12px;color:#a49a90;text-align:center;margin-top:14px;}
+
+/* ===== FOOTER ===== */
+footer{padding:36px 0;text-align:center;font-family:'Be Vietnam Pro',Arial,sans-serif;font-size:13px;color:var(--muted);}
+footer a{color:var(--gold-dark);font-weight:600;}
+
+/* ===== RESPONSIVE ===== */
+@media(max-width:860px){
+  .usp-grid{grid-template-columns:repeat(2,1fr);}
+  .pricing-grid{grid-template-columns:1fr;}
+  .price-card.popular{transform:none;}
+  .portfolio-grid{grid-template-columns:repeat(2,1fr);grid-auto-rows:180px;}
+  .portfolio-grid a:nth-child(1){grid-column:span 2;grid-row:span 1;}
+  .form-row{grid-template-columns:1fr;}
+  .hero h1{font-size:32px;}
+}
