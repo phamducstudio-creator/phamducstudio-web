@@ -636,3 +636,241 @@ section{padding:60px 0;}
   .tip-content p{font-size:15px;}
   .tip-quote{font-size:16px; padding:14px 18px;}
 }
+
+
+/* =====================================================================
+   TỐI ƯU CHUYỂN ĐỔI 09/2026 — khách mục tiêu: cặp đôi Cần Thơ/ĐBSCL xem
+   trên điện thoại, muốn nhắn Zalo/Messenger hơn là tự tính. Gồm:
+   promo bar, nút Zalo trên menu, thanh liên hệ cố định, hero trang chủ,
+   khối mùa cưới, CTA trên thẻ giá, chỉnh page-header mobile.
+   ===================================================================== */
+
+/* ---------- PROMO BAR (trước đây chưa có CSS → hiện chữ trần) ---------- */
+.promo-bar{background:var(--river-900); color:#F6F1E3; font-size:13px; line-height:1.45; position:relative; z-index:51;}
+.promo-bar-in{max-width:var(--maxw); margin:0 auto; padding:8px 20px; display:flex; align-items:center; justify-content:center; gap:8px 14px; flex-wrap:wrap; text-align:center;}
+.promo-tag{background:var(--gold); color:var(--river-900); font-size:10.5px; font-weight:700; letter-spacing:.12em; text-transform:uppercase; padding:4px 9px; border-radius:999px; white-space:nowrap;}
+.promo-txt b{color:var(--gold-light);}
+.promo-short{display:none;}
+.promo-cta{color:var(--river-900); background:var(--gold-light); font-weight:700; padding:6px 13px; border-radius:999px; white-space:nowrap; transition:.2s;}
+.promo-cta:hover{background:#fff;}
+@media (max-width:640px){
+  .promo-bar{font-size:12.5px;}
+  .promo-bar-in{padding:8px 14px; gap:6px 10px;}
+  .promo-tag{display:none;}
+  .promo-long{display:none;}
+  .promo-short{display:inline;}
+}
+
+/* ---------- NAV: nút Zalo là CTA chính, "Dự Toán" về link thường ---------- */
+nav.links a.nav-zalo{
+  background:var(--gold); color:#fff; padding:8px 16px; border-radius:999px; font-weight:700;
+  box-shadow:0 3px 10px rgba(199,154,68,.35); display:inline-flex; align-items:center; gap:6px;
+}
+nav.links a.nav-zalo:hover{background:#A87F32; color:#fff;}
+nav.links a.nav-zalo svg{width:15px; height:15px;}
+@media (max-width:980px){
+  nav.links.mobile-open a.nav-zalo{align-self:flex-start; margin-top:4px;}
+}
+
+/* ---------- THANH LIÊN HỆ CỐ ĐỊNH (mobile) / nút nổi (desktop) ---------- */
+.pds-bar{position:fixed; left:0; right:0; bottom:0; z-index:80; display:flex; gap:8px; padding:8px 10px calc(8px + env(safe-area-inset-bottom,0px));
+  background:rgba(10,30,28,.96); backdrop-filter:blur(8px); border-top:1px solid rgba(228,197,131,.25); box-shadow:0 -8px 30px rgba(0,0,0,.25);}
+.pds-bar-btn{flex:1; display:inline-flex; align-items:center; justify-content:center; gap:7px; min-height:44px; padding:0 8px;
+  border-radius:12px; font-size:13.5px; font-weight:700; color:#F6F1E3; border:1px solid rgba(246,241,227,.28); white-space:nowrap; transition:.2s;}
+.pds-bar-btn svg{width:18px; height:18px; flex-shrink:0;}
+.pds-bar-btn.pds-bar-zalo{flex:1.35; background:var(--gold); color:var(--river-900); border-color:var(--gold);}
+.pds-bar-btn:active{transform:scale(.98);}
+body.has-pds-bar{padding-bottom:calc(64px + env(safe-area-inset-bottom,0px));}
+@media (min-width:901px){
+  .pds-bar{left:auto; right:22px; bottom:22px; flex-direction:column; gap:10px; padding:0; background:none; backdrop-filter:none; border:0; box-shadow:none; align-items:flex-end;}
+  .pds-bar-btn{flex:none; min-height:46px; padding:0 18px 0 14px; border-radius:999px; background:var(--river-900); border-color:rgba(228,197,131,.35); box-shadow:0 10px 26px rgba(0,0,0,.28); font-size:13.5px;}
+  .pds-bar-btn:hover{transform:translateY(-2px);}
+  .pds-bar-btn.pds-bar-zalo{flex:none; min-height:52px; padding:0 22px 0 16px; font-size:14.5px;}
+  .pds-bar-btn.pds-bar-call{display:none;}
+  body.has-pds-bar{padding-bottom:0;}
+}
+/* Trang dự toán có thanh Tạm tính riêng → không dùng thanh chung */
+body.calc-page .pds-bar{display:none;}
+
+/* ---------- HERO TRANG CHỦ: ảnh + thông điệp + CTA (thay popup chào) ---------- */
+.hero-v2{position:relative; overflow:hidden; background:var(--river-900); color:#fff;}
+.hero-v2 .hero-full-photo{width:100%; height:620px; max-height:none; object-fit:cover; object-position:center 30%; display:block;}
+.hero-v2 .hero-shade{position:absolute; inset:0; background:linear-gradient(180deg, rgba(10,30,28,.05) 0%, rgba(10,30,28,.25) 45%, rgba(10,30,28,.88) 100%);}
+.hero-v2 .hero-content{position:absolute; left:0; right:0; bottom:0; padding-bottom:44px;}
+.hero-v2 .hero-inner{max-width:640px;}
+.hero-v2 .eyebrow{color:var(--gold-light); display:block; margin-bottom:12px;}
+.hero-v2 h1{color:#fff; font-size:clamp(28px,4.2vw,46px); line-height:1.15; margin:0 0 14px; letter-spacing:-0.01em;}
+.hero-v2 h1 em{font-style:italic; color:var(--gold-light);}
+.hero-v2 .hero-sub{font-size:15.5px; color:rgba(255,253,247,.86); max-width:560px; margin:0 0 22px;}
+.hero-v2 .hero-sub b{color:var(--gold-light); font-weight:700;}
+.hero-v2 .cta-row{display:flex; gap:12px; flex-wrap:wrap;}
+.hero-v2 .btn{border-radius:999px;}
+.hero-v2 .btn-outline{border-color:rgba(255,253,247,.7); color:#fff; background:rgba(10,30,28,.25); backdrop-filter:blur(4px);}
+.hero-v2 .btn-outline:hover{background:rgba(255,253,247,.14);}
+.hero-trust{display:flex; gap:8px 22px; flex-wrap:wrap; margin-top:22px; padding-top:16px; border-top:1px solid rgba(255,253,247,.22); font-size:12.5px; color:rgba(255,253,247,.8);}
+.hero-trust span{display:inline-flex; align-items:center; gap:6px; white-space:nowrap;}
+.hero-trust span::before{content:""; width:6px; height:6px; border-radius:50%; background:var(--gold);}
+@media (max-width:980px){
+  .hero-v2 .hero-full-photo{height:560px;}
+}
+@media (max-width:640px){
+  .hero-v2 .hero-full-photo{height:min(82vh,640px); min-height:520px; object-position:center 22%;}
+  .hero-v2 .hero-content{padding-bottom:26px;}
+  .hero-v2 h1{font-size:27px;}
+  .hero-v2 .hero-sub{font-size:14.5px; margin-bottom:16px;}
+  .hero-v2 .cta-row{gap:10px;}
+  .hero-v2 .btn{padding:12px 18px; font-size:14px;}
+  .hero-trust{gap:6px 14px; margin-top:16px; padding-top:12px; font-size:12px;}
+}
+
+/* ---------- DẢI TIN CẬY (ngay dưới hero) ---------- */
+.trust-strip{background:var(--white); border-bottom:1px solid var(--line); padding:18px 0 !important;}
+.trust-strip .wrap{display:flex; justify-content:space-between; gap:12px 20px; flex-wrap:wrap;}
+.trust-item{flex:1 1 150px; text-align:center;}
+.trust-item b{display:block; font-family:var(--font-display); font-size:22px; font-weight:600; color:var(--river-800); line-height:1.2;}
+.trust-item span{font-size:12.5px; color:var(--ink-soft);}
+@media (max-width:640px){
+  .trust-strip{padding:12px 0 !important;}
+  .trust-strip .wrap{display:grid; grid-template-columns:1fr 1fr; gap:10px 8px;}
+  .trust-item b{font-size:19px;}
+  .trust-item span{font-size:11.5px;}
+}
+
+/* ---------- LIÊN KẾT MỀM DƯỚI 3 GÓI ---------- */
+.pkg-links{display:flex; justify-content:center; gap:10px 28px; flex-wrap:wrap; margin-top:30px;}
+.pkg-links .link-more{margin-top:0;}
+.pkg-day{margin-top:30px; background:var(--white); border:1px solid var(--line); border-left:3px solid var(--gold); padding:18px 22px; display:flex; align-items:center; justify-content:space-between; gap:12px 20px; flex-wrap:wrap;}
+.pkg-day b{font-family:var(--font-display); font-size:17px; font-weight:600; color:var(--river-800); display:block; margin-bottom:3px;}
+.pkg-day p{margin:0; font-size:13.5px; color:var(--ink-soft);}
+.pkg-day .link-more{margin-top:0; white-space:nowrap;}
+
+/* ---------- KHỐI MÙA CƯỚI — chụp trước, cưới sau ---------- */
+.season-sec{background:linear-gradient(120deg, var(--river-900), var(--river-700)); color:var(--paper);}
+.season-grid{display:grid; grid-template-columns:1.1fr 1fr; gap:48px; align-items:center;}
+.season-copy .eyebrow{color:var(--gold-light); display:block; margin-bottom:12px;}
+.season-copy h2{color:#fff; font-size:clamp(26px,3.4vw,38px); line-height:1.15; margin-bottom:14px;}
+.season-copy h2 em{font-style:italic; color:var(--gold-light);}
+.season-copy > p{color:rgba(255,253,247,.8); font-size:15px; margin:0 0 22px; max-width:520px;}
+.season-copy .cta-row{display:flex; gap:12px; flex-wrap:wrap;}
+.season-copy .btn{border-radius:999px;}
+.season-copy .btn-outline{color:#fff;}
+.season-list{display:flex; flex-direction:column; gap:12px;}
+.season-item{background:rgba(255,253,247,.06); border:1px solid rgba(228,197,131,.28); border-radius:14px; padding:18px 20px; display:grid; grid-template-columns:38px 1fr; gap:14px; align-items:start;}
+.season-item .n{font-family:var(--font-display); font-size:26px; font-weight:600; color:var(--gold-light); line-height:1;}
+.season-item h3{font-size:16.5px; color:#fff; margin-bottom:6px;}
+.season-item p{margin:0; font-size:13.8px; color:rgba(255,253,247,.78); line-height:1.6;}
+.season-item p b{color:var(--gold-light);}
+.season-item.is-offer{background:rgba(199,154,68,.16); border-color:var(--gold);}
+@media (max-width:980px){
+  .season-grid{grid-template-columns:1fr; gap:28px;}
+}
+@media (max-width:640px){
+  .season-item{padding:14px 16px; gap:10px; grid-template-columns:30px 1fr;}
+  .season-item .n{font-size:22px;}
+}
+
+/* ---------- CTA TRÊN THẺ GIÁ (bảng giá con) ---------- */
+.card-cta{display:flex; align-items:center; justify-content:space-between; gap:8px 12px; flex-wrap:wrap; margin-top:16px; padding-top:14px; border-top:1px solid var(--line);}
+.btn-sm{padding:10px 16px; font-size:13px; border-radius:999px;}
+.card-cta .link-more{margin-top:0; font-size:13px;}
+.full-card-body{display:flex; flex-direction:column;}
+.full-card-body ul{flex:1;}
+.full-card{display:flex; flex-direction:column;}
+.full-card .full-card-body{flex:1;}
+.nc-cta-zalo{display:inline-flex; align-items:center; justify-content:center; gap:6px; background:var(--gold); color:var(--river-900); font-weight:700; font-size:13.5px; padding:11px 16px; border-radius:999px; margin-top:12px; width:100%; transition:.2s;}
+.nc-cta-zalo:hover{background:var(--gold-light);}
+
+/* ---------- BANNER TRÊN TRANG HUB BẢNG GIÁ ---------- */
+.price-hub-banner{margin:0 0 40px; background:linear-gradient(120deg,#123331,#0A1E1C); border-radius:16px; padding:26px 24px; display:flex; align-items:center; justify-content:space-between; gap:16px; flex-wrap:wrap;}
+.price-hub-banner .k{color:#C79A44; letter-spacing:.2em; text-transform:uppercase; font-size:11.5px; font-weight:700; margin-bottom:6px;}
+.price-hub-banner .t{color:#fff; font-family:var(--font-display); font-size:clamp(19px,2.6vw,25px); font-weight:600;}
+.price-hub-banner .s{color:#D6D6C6; font-size:13.5px; margin-top:4px;}
+.price-hub-banner .cta-row{display:flex; gap:10px; flex-wrap:wrap;}
+.price-hub-banner .btn{border-radius:999px; white-space:nowrap;}
+.price-hub-banner .btn-outline{color:#fff;}
+
+/* ---------- PAGE HEADER: bớt cao trên điện thoại để nội dung lên sớm ---------- */
+@media (max-width:640px){
+  .page-header{padding:88px 0 44px;}
+  .page-header h1{font-size:28px;}
+  .page-header p{font-size:14px;}
+}
+
+/* ---------- FORM ĐẶT LỊCH: kênh liên hệ + trạng thái gửi xong ---------- */
+.kenh-row{display:flex; gap:8px; flex-wrap:wrap;}
+.kenh-row label{flex:1 1 90px; display:flex; align-items:center; justify-content:center; gap:6px; margin:0; padding:10px 8px; border:1px solid rgba(255,253,247,.22); background:rgba(255,253,247,.06); color:rgba(255,253,247,.85); font-size:13px; font-weight:600; letter-spacing:0; cursor:pointer; border-radius:8px; transition:.2s;}
+.kenh-row label:has(input:checked){border-color:var(--gold); background:rgba(199,154,68,.18); color:#fff;}
+.kenh-row input{accent-color:var(--gold); margin:0;}
+.form-done{text-align:center; padding:12px 4px;}
+.form-done .ok{width:56px; height:56px; border-radius:50%; background:var(--gold); color:var(--river-900); display:flex; align-items:center; justify-content:center; font-size:26px; font-weight:700; margin:0 auto 14px;}
+.form-done h3{color:#fff; font-size:22px; margin-bottom:8px;}
+.form-done p{color:rgba(255,253,247,.78); font-size:14px; margin:0 0 18px;}
+.form-done .cta-row{display:flex; gap:10px; justify-content:center; flex-wrap:wrap;}
+.form-done .btn{border-radius:999px;}
+.form-done .btn-outline{color:#fff;}
+.form-note.is-error{color:#F5B7A6;}
+
+/* ---------- TRANG DỰ TOÁN: lối tắt Zalo + thanh Tạm tính có nút Zalo ---------- */
+.calc-shortcut{max-width:920px; margin:18px auto 0; background:var(--white); border:1px solid var(--line); border-left:3px solid var(--gold); border-radius:12px; padding:14px 18px; display:flex; align-items:center; justify-content:space-between; gap:10px 16px; flex-wrap:wrap; position:relative; z-index:2;}
+.calc-shortcut p{margin:0; font-size:14px; color:var(--ink);}
+.calc-shortcut p b{color:#A87F32;}
+.calc-shortcut .btn{border-radius:999px; white-space:nowrap;}
+.calcbar-btns{display:flex; gap:8px; align-items:center;}
+.calcbar .calczalo{display:inline-flex; align-items:center; gap:6px; background:transparent; color:#F6F1E3; border:1px solid rgba(246,241,227,.4); font-weight:700; font-size:14px; padding:12px 16px; border-radius:999px; white-space:nowrap; transition:.2s;}
+.calcbar .calczalo:hover{border-color:var(--gold); color:var(--gold-light);}
+.calcbar .calczalo svg{width:16px; height:16px;}
+@media (max-width:560px){
+  .calcbar-in{gap:10px;}
+  .calcbar-btns{width:100%;}
+  .calcbar .calccta{flex:1; width:auto; padding:12px 10px; font-size:14px;}
+  .calcbar .calczalo{padding:12px 14px;}
+}
+.cm-cta-secondary{display:flex; align-items:center; justify-content:center; gap:8px; width:100%; margin-top:8px; background:#F6F1E3; color:#1E2B24; border:1px solid #EEE4CC; font-family:inherit; font-weight:700; font-size:14px; padding:13px; border-radius:12px; text-decoration:none; transition:.2s;}
+.cm-cta-secondary:hover{border-color:#c79a44; background:#FBF7EA;}
+
+/* ---------- Chống tràn ngang trên điện thoại (select có option dài, nút nowrap) ---------- */
+.cta-grid > *{min-width:0;}
+.form-row-2 > div{min-width:0;}
+.booking-form select{min-width:0; max-width:100%;}
+.cta-band .cta-row .btn{white-space:normal; text-align:center;}
+
+/* ---------- LƯỚI ẢNH MẪU TRANG CHỦ v2 — grid ổn định, không nhảy layout khi ảnh nạp ---------- */
+.gallery-v2{display:grid; grid-template-columns:repeat(4,1fr); gap:12px;}
+.gallery-v2 a{display:block; overflow:hidden; border-radius:8px; background:var(--paper-2);}
+.gallery-v2 img{width:100%; height:100%; aspect-ratio:4/5; object-fit:cover; display:block; transition:transform .5s ease;}
+.gallery-v2 a:hover img{transform:scale(1.04);}
+@media (max-width:980px){ .gallery-v2{grid-template-columns:repeat(3,1fr);} .gallery-v2 a:nth-child(n+7){display:none;} }
+@media (max-width:640px){ .gallery-v2{grid-template-columns:repeat(2,1fr); gap:8px;} .gallery-v2 a:nth-child(n+7){display:block;} }
+
+/* ---------- HERO DESKTOP/TABLET: chia 2 cột (chữ trái trên nền xanh, ảnh phải) để chữ không đè mặt cô dâu ---------- */
+@media (min-width:768px){
+  .hero-v2{display:grid; grid-template-columns:0.9fr 1.1fr; height:620px;}
+  .hero-v2 .hero-full-photo{grid-column:2; grid-row:1; height:100%; object-position:62% 30%;}
+  .hero-v2 .hero-shade{grid-column:2; grid-row:1; position:static; background:linear-gradient(90deg, rgba(10,30,28,.55) 0%, rgba(10,30,28,0) 22%); pointer-events:none;}
+  .hero-v2 .hero-content{grid-column:1; grid-row:1; position:static; display:flex; align-items:center; padding:36px 0; background:linear-gradient(160deg, var(--river-900) 0%, var(--river-800) 60%, var(--river-700) 100%);}
+  .hero-v2 .hero-content .wrap{max-width:none; margin:0; padding:0 36px 0 max(28px, calc((100vw - var(--maxw)) / 2 + 28px)); width:100%;}
+  .hero-v2 .hero-inner{max-width:560px;}
+  .hero-v2 h1{font-size:clamp(30px,3.3vw,42px);}
+}
+
+/* ---------- HEADER GỌN HƠN TRÊN ĐIỆN THOẠI ---------- */
+@media (max-width:640px){
+  .logo img{height:48px;}
+  .nav{padding:7px 0;}
+}
+
+@media (min-width:768px) and (max-width:980px){
+  .hero-v2{height:560px; grid-template-columns:1fr 1fr;}
+  .hero-v2 h1{font-size:27px;}
+  .hero-v2 .hero-sub{font-size:14.5px;}
+  .hero-v2 .hero-content .wrap{padding:0 24px;}
+}
+
+/* ---------- MENU ĐIỆN THOẠI: canh trái, có gạch phân cách, nút Zalo full-width ---------- */
+@media (max-width:980px){
+  nav.links.mobile-open{align-items:stretch; gap:0; padding:6px 20px 16px;}
+  nav.links.mobile-open > a, nav.links.mobile-open .nav-dropdown-trigger{padding:12px 4px; border-bottom:1px solid var(--line); font-size:15px; color:var(--ink);}
+  nav.links.mobile-open .nav-dropdown-menu{padding:4px 0 8px 18px; border-bottom:1px solid var(--line); margin-top:0; gap:0; background:transparent;}
+  nav.links.mobile-open .nav-dropdown-menu a{padding:8px 0; font-size:14px;}
+  nav.links.mobile-open a.nav-zalo{align-self:stretch; justify-content:center; margin-top:14px; padding:12px; border-bottom:0; color:#fff;}
+}
