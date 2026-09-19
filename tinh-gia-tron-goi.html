@@ -133,6 +133,24 @@ body.calc-page{padding-bottom:130px}
 .cm-cta-row a:hover,.cm-cta-row button:hover{border-color:#c79a44;background:#FBF7EA;transform:translateY(-1px)}
 .cm-cta-row .ic{font-size:18px;line-height:1}
 .mnote{font-size:11.5px;color:#6E7B72;margin-top:14px;text-align:center;font-style:italic;line-height:1.5}
+
+/* Combo chọn nhanh 1 chạm (đầu trang) */
+.calc-presets{margin:26px auto 0;max-width:920px}
+.calc-presets h2{font-size:clamp(20px,3vw,26px);margin:0 0 4px;text-align:center}
+.calc-presets .calc-sub{text-align:center}
+.preset-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:14px}
+@media(max-width:760px){.preset-grid{grid-template-columns:1fr}}
+.preset{text-align:left;background:#fff;border:2px solid #EEE4CC;border-radius:16px;padding:16px 16px 14px;cursor:pointer;font-family:inherit;display:flex;flex-direction:column;gap:4px;transition:.2s;box-shadow:0 6px 20px rgba(30,43,36,.06);color:#1E2B24}
+.preset:hover{border-color:#C79A44;transform:translateY(-2px);box-shadow:0 12px 26px rgba(199,154,68,.18)}
+.preset.hot{border-color:#C79A44;background:#FBF7EA}
+.preset .ptag{font-size:10.5px;letter-spacing:.12em;text-transform:uppercase;font-weight:700;color:#A87F32;background:#F1E8D0;border-radius:999px;padding:3px 10px;align-self:flex-start}
+.preset.hot .ptag{background:#C79A44;color:#fff}
+.preset .pname{font-size:17px;font-weight:700;margin-top:4px;font-family:'Be Vietnam Pro',sans-serif}
+.preset .pnote{font-size:12.5px;color:#4B584F;line-height:1.5}
+.preset .pprice{font-family:'Playfair Display',serif;font-size:24px;font-weight:700;color:#A87F32;margin-top:6px}
+.preset .pmeta{font-size:11.5px;color:#7A857C}
+.preset .pgo{margin-top:8px;font-size:13px;font-weight:700;color:#0A1E1C;background:#F6EDD3;border-radius:999px;padding:8px 12px;text-align:center}
+.preset:hover .pgo{background:#C79A44;color:#fff}
 </style>
 </head>
 <body class="calc-page">
@@ -195,6 +213,13 @@ body.calc-page{padding-bottom:130px}
           <div class="tier" data-min="20000000"><div class="pct">−10% <span style="font-size:15px">+ 🎁</span></div><div class="from">từ 20 triệu</div><div class="name">Giảm 10% + trọn bộ quà tặng 4tr</div></div>
           <div class="tier" data-min="30000000"><div class="pct">−15% <span style="font-size:15px">+ 🎁</span></div><div class="from">từ 30 triệu</div><div class="name">Giảm 15% + trọn bộ quà tặng 4tr</div></div>
         </div>
+      </div>
+
+      <!-- COMBO CHỌN NHANH — 1 chạm chọn sẵn các mục A–E rồi mở bảng báo giá; giá tính từ data-price các thẻ bên dưới (js cuối trang) -->
+      <div class="calc-presets" id="calcPresets">
+        <h2>Chọn nhanh 1 chạm — ra ngay con số</h2>
+        <p class="calc-sub">Bấm combo gần nhất với nhu cầu, xem báo giá &amp; nhắn Zalo. Muốn chỉnh, thêm bớt từng mục bên dưới.</p>
+        <div class="preset-grid" id="presetGrid"></div>
       </div>
 
       <div class="calc-shortcut">
@@ -822,7 +847,48 @@ body.calc-page{padding-bottom:130px}
   /* Bấm Zalo/Messenger trong bảng báo giá → tự sao chép nội dung báo giá để khách dán vào khung chat */
   ['ctaZalo','ctaMess'].forEach(id=>{const el=document.getElementById(id);if(!el)return;
     el.addEventListener('click',function(){try{const t=buildText(calc());if(navigator.clipboard&&navigator.clipboard.writeText)navigator.clipboard.writeText(t).catch(()=>{});}catch(e){}});});
+  /* Xoá sạch lựa chọn (dùng cho combo chọn nhanh) */
+  function resetAll(){
+    document.querySelectorAll('.opts[data-group] .opt').forEach(c=>{c.classList.remove('selected');const oq=c.querySelector('.oq');if(oq)oq.textContent=1;});
+    document.querySelectorAll('.opt.none-opt').forEach(c=>c.classList.remove('selected'));
+    document.querySelectorAll('.qty-row').forEach(row=>{row.querySelector('.q').textContent=0;row.classList.remove('has-qty');});
+    state.A=null;state.B={};state.C={};state.E=null;state.D={};
+    update();
+  }
+  window.PDS_CALC={calc,update,buildText,resetAll,TIERS,openModal:()=>document.getElementById('openCalcModal').click()};
   update();
+})();
+</script>
+
+<script>
+/* COMBO CHỌN NHANH — chọn sẵn các thẻ theo data-name rồi mở bảng báo giá. Đổi combo: sửa mảng PRESETS (tên phải khớp data-name của thẻ). */
+(function(){
+  const C=window.PDS_CALC, grid=document.getElementById('presetGrid'); if(!C||!grid) return;
+  const PRESETS=[
+    {id:'pre', tag:'Chụp trước – cưới sau', name:'Chỉ chụp pre-wedding', style:'ngoai', items:['Pre-wedding Ngoại cảnh Premium'], note:'Ngoại cảnh Premium · 3 địa điểm · trọn 1 ngày · váy, makeup, album, ảnh cổng đã gồm'},
+    {id:'goi', tag:'Được chọn nhiều', hot:true, name:'Pre-wedding + ngày cưới gọn', style:'ngoai', items:['Pre-wedding Ngoại cảnh Premium','Ảnh phóng sự 2 máy - Combo 1','Quay truyền thống'], note:'Pre-wedding Premium + ảnh phóng sự 2 máy + quay phim ngày cưới'},
+    {id:'vip', tag:'Trọn vẹn nhất', name:'Trọn gói VIP', style:'ngoai', items:['Pre-wedding Ngoại cảnh Luxury','Ảnh Truyền thống + Phóng sự (Photobook 40 trang)','Quay phóng sự 2 máy - 2 thợ','Trang điểm Gold (2 lượt)'], note:'Luxury + ảnh truyền thống & phóng sự + quay 2 máy + trang điểm 2 lượt'}
+  ];
+  const fmt=n=>n.toLocaleString('vi-VN')+'₫';
+  const priceOf=name=>{const el=document.querySelector('.opt[data-name="'+name+'"]');return el?+el.dataset.price:0;};
+  const est=p=>{const sub=p.items.reduce((a,n)=>a+priceOf(n),0);const tier=C.TIERS.find(t=>sub>=t.min)||null;const disc=tier?Math.round(sub*tier.pct/100):0;return {sub,tier,disc,grand:sub-disc};};
+  PRESETS.forEach(p=>{
+    const r=est(p); if(!r.sub) return;
+    const b=document.createElement('button'); b.type='button'; b.className='preset'+(p.hot?' hot':''); b.dataset.preset=p.id;
+    b.innerHTML='<span class="ptag">'+p.tag+'</span><span class="pname">'+p.name+'</span><span class="pnote">'+p.note+'</span>'
+      +'<span class="pprice">'+fmt(r.grand)+'</span><span class="pmeta">'+(r.disc>0?'đã trừ '+r.tier.pct+'% ưu đãi trọn gói · giá gốc '+fmt(r.sub):'giá niêm yết')+'</span>'
+      +'<span class="pgo">Xem báo giá &amp; nhắn Zalo →</span>';
+    b.addEventListener('click',()=>apply(p));
+    grid.appendChild(b);
+  });
+  function apply(p){
+    C.resetAll();
+    const tab=document.querySelector('#preTabs button[data-style="'+p.style+'"]');
+    if(tab&&!tab.classList.contains('on')) tab.click();
+    p.items.forEach(n=>{const el=document.querySelector('.opt[data-name="'+n+'"]'); if(el&&!el.classList.contains('selected')) el.click();});
+    if(window.fbq)fbq('trackCustom','ChonCombo',{combo:p.id}); if(window.gtag)gtag('event','chon_combo',{combo:p.id});
+    setTimeout(()=>C.openModal(),150);
+  }
 })();
 </script>
 
