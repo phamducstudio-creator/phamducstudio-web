@@ -16,7 +16,8 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,600;0,700;1,500;1,600&family=Be+Vietnam+Pro:wght@400;500;600;700&display=swap" rel="stylesheet">
-<link rel="preload" as="image" href="images/hero.jpg" fetchpriority="high">
+<link rel="preload" as="image" href="images/hero-m.jpg" media="(max-width:640px)" fetchpriority="high">
+<link rel="preload" as="image" href="images/hero.jpg" media="(min-width:641px)" fetchpriority="high">
 <link rel="stylesheet" href="style.css">
 
 <script type="application/ld+json">
@@ -86,7 +87,7 @@
 
   <!-- HERO: ảnh + thông điệp + CTA (thay cho popup chào cũ — popup che hết màn hình điện thoại) -->
   <section class="hero-banner hero-v2" id="hero">
-    <img src="images/hero.jpg" alt="Cô dâu chú rể tại buổi chụp pre-wedding — Phạm Đức Studio Cần Thơ" class="hero-full-photo" fetchpriority="high" decoding="async">
+    <picture><source media="(max-width:640px)" srcset="images/hero-m.jpg"><img src="images/hero.jpg" alt="Cô dâu chú rể tại buổi chụp pre-wedding — Phạm Đức Studio Cần Thơ" class="hero-full-photo" fetchpriority="high" decoding="async"></picture>
     <div class="hero-shade"></div>
     <div class="hero-content">
       <div class="wrap">
@@ -235,14 +236,14 @@
         <p>Chọn lọc từ các buổi chụp thật tại Cần Thơ — không dùng ảnh minh hoạ, mỗi tấm đều do ekip Phạm Đức Studio thực hiện.</p>
       </div>
       <div class="gallery-v2 reveal">
-        <a href="album-ngoai-canh.html"><img src="images/album-teaser-1.jpg" width="1200" height="1500" alt="Ảnh cưới ngoại cảnh Cần Thơ — Phạm Đức Studio" loading="lazy" decoding="async"></a>
-        <a href="album-studio.html"><img src="images/album-teaser-2.jpg" width="1200" height="1500" alt="Ảnh cưới phim trường Studio — Phạm Đức Studio" loading="lazy" decoding="async"></a>
-        <a href="album-phong-su.html"><img src="images/album-teaser-3.jpg" width="1200" height="1500" alt="Ảnh phóng sự ngày cưới — Phạm Đức Studio" loading="lazy" decoding="async"></a>
-        <a href="album-studio.html"><img src="images/album-teaser-4.jpg" width="1200" height="1500" alt="Trang điểm cô dâu — Phạm Đức Studio" loading="lazy" decoding="async"></a>
-        <a href="album-ngoai-canh.html"><img src="images/album-teaser-5.jpg" width="1200" height="1500" alt="Ảnh cưới Nhà Cổ Bình Thủy — Phạm Đức Studio" loading="lazy" decoding="async"></a>
-        <a href="album-ngoai-canh.html"><img src="images/album-teaser-6.jpg" width="1200" height="1500" alt="Ảnh cưới Chợ Nổi Cái Răng — Phạm Đức Studio" loading="lazy" decoding="async"></a>
-        <a href="album-phong-su.html"><img src="images/album-teaser-7.jpg" width="1067" height="1600" alt="Ảnh phóng sự ngày cưới — Phạm Đức Studio" loading="lazy" decoding="async"></a>
-        <a href="album-ngoai-canh-13.html"><img src="images/album-ngoai-canh-13-cover.jpg" width="1066" height="1600" alt="Ảnh cưới Bến Ninh Kiều lúc blue hour — Phạm Đức Studio" loading="lazy" decoding="async"></a>
+        <a href="album-ngoai-canh.html"><img src="images/album-teaser-1-800.jpg" width="800" height="1000" alt="Ảnh cưới ngoại cảnh Cần Thơ — Phạm Đức Studio" loading="lazy" decoding="async"></a>
+        <a href="album-studio.html"><img src="images/album-teaser-2-800.jpg" width="800" height="1000" alt="Ảnh cưới phim trường Studio — Phạm Đức Studio" loading="lazy" decoding="async"></a>
+        <a href="album-phong-su.html"><img src="images/album-teaser-3-800.jpg" width="800" height="1000" alt="Ảnh phóng sự ngày cưới — Phạm Đức Studio" loading="lazy" decoding="async"></a>
+        <a href="album-studio.html"><img src="images/album-teaser-4-800.jpg" width="800" height="1000" alt="Trang điểm cô dâu — Phạm Đức Studio" loading="lazy" decoding="async"></a>
+        <a href="album-ngoai-canh.html"><img src="images/album-teaser-5-800.jpg" width="800" height="1000" alt="Ảnh cưới Nhà Cổ Bình Thủy — Phạm Đức Studio" loading="lazy" decoding="async"></a>
+        <a href="album-ngoai-canh.html"><img src="images/album-teaser-6-800.jpg" width="800" height="1000" alt="Ảnh cưới Chợ Nổi Cái Răng — Phạm Đức Studio" loading="lazy" decoding="async"></a>
+        <a href="album-phong-su.html"><img src="images/album-teaser-7-800.jpg" width="800" height="1200" alt="Ảnh phóng sự ngày cưới — Phạm Đức Studio" loading="lazy" decoding="async"></a>
+        <a href="album-ngoai-canh-13.html"><img src="images/album-ngoai-canh-13-cover-800.jpg" width="800" height="1201" alt="Ảnh cưới Bến Ninh Kiều lúc blue hour — Phạm Đức Studio" loading="lazy" decoding="async"></a>
       </div>
       <div class="section-foot-link reveal">
         <a href="album.html" class="link-more">Xem toàn bộ album →</a>
@@ -288,7 +289,7 @@
           </div>
 
         </div>
-        <img src="images/dich-vu.jpg" class="photo-slot img-fill service-photo reveal" alt="Ảnh cưới — dịch vụ Phạm Đức Studio" loading="lazy" decoding="async">
+        <img src="images/dich-vu-800.jpg" class="photo-slot img-fill service-photo reveal" alt="Ảnh cưới — dịch vụ Phạm Đức Studio" loading="lazy" decoding="async">
       </div>
     </div>
   </section>
@@ -325,7 +326,7 @@
   <section id="gioi-thieu-teaser" style="background:var(--white); border-top:1px solid var(--line);">
     <div class="wrap">
       <div class="about-grid" style="margin-bottom:0;">
-        <img src="images/gioi-thieu.jpg" alt="Mặt tiền Phạm Đức Studio — 26B Lý Chính Thắng, Cần Thơ" class="photo-slot-img" loading="lazy" decoding="async">
+        <img src="images/gioi-thieu-800.jpg" alt="Mặt tiền Phạm Đức Studio — 26B Lý Chính Thắng, Cần Thơ" class="photo-slot-img" loading="lazy" decoding="async">
         <div class="about-copy reveal">
           <span class="eyebrow">Giới Thiệu</span>
           <h2>Phạm Đức Studio</h2>

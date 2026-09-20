@@ -694,6 +694,7 @@ body.calc-page .pds-bar{display:none;}
 
 /* ---------- HERO TRANG CHỦ: ảnh + thông điệp + CTA (thay popup chào) ---------- */
 .hero-v2{position:relative; overflow:hidden; background:var(--river-900); color:#fff;}
+.hero-v2 picture{display:contents;}
 .hero-v2 .hero-full-photo{width:100%; height:620px; max-height:none; object-fit:cover; object-position:center 30%; display:block;}
 .hero-v2 .hero-shade{position:absolute; inset:0; background:linear-gradient(180deg, rgba(10,30,28,.05) 0%, rgba(10,30,28,.25) 45%, rgba(10,30,28,.88) 100%);}
 .hero-v2 .hero-content{position:absolute; left:0; right:0; bottom:0; padding-bottom:44px;}
