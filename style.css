@@ -646,19 +646,19 @@ section{padding:60px 0;}
    ===================================================================== */
 
 /* ---------- PROMO BAR (trước đây chưa có CSS → hiện chữ trần) ---------- */
-.promo-bar{background:var(--river-900); color:#F6F1E3; font-size:13px; line-height:1.45; position:relative; z-index:51;}
-.promo-bar-in{max-width:var(--maxw); margin:0 auto; padding:8px 20px; display:flex; align-items:center; justify-content:center; gap:8px 14px; flex-wrap:wrap; text-align:center;}
-.promo-tag{background:var(--gold); color:var(--river-900); font-size:10.5px; font-weight:700; letter-spacing:.12em; text-transform:uppercase; padding:4px 9px; border-radius:999px; white-space:nowrap;}
-.promo-txt b{color:var(--gold-light);}
-.promo-short{display:none;}
-.promo-cta{color:var(--river-900); background:var(--gold-light); font-weight:700; padding:6px 13px; border-radius:999px; white-space:nowrap; transition:.2s;}
-.promo-cta:hover{background:#fff;}
+.pds-notice{background:var(--river-900); color:#F6F1E3; font-size:13px; line-height:1.45; position:relative; z-index:51;}
+.pds-notice-in{max-width:var(--maxw); margin:0 auto; padding:8px 20px; display:flex; align-items:center; justify-content:center; gap:8px 14px; flex-wrap:wrap; text-align:center;}
+.pds-notice-tag{background:var(--gold); color:var(--river-900); font-size:10.5px; font-weight:700; letter-spacing:.12em; text-transform:uppercase; padding:4px 9px; border-radius:999px; white-space:nowrap;}
+.pds-notice-txt b{color:var(--gold-light);}
+.pds-notice-short{display:none;}
+.pds-notice-cta{color:var(--river-900); background:var(--gold-light); font-weight:700; padding:6px 13px; border-radius:999px; white-space:nowrap; transition:.2s;}
+.pds-notice-cta:hover{background:#fff;}
 @media (max-width:640px){
-  .promo-bar{font-size:12.5px;}
-  .promo-bar-in{padding:8px 14px; gap:6px 10px;}
-  .promo-tag{display:none;}
-  .promo-long{display:none;}
-  .promo-short{display:inline;}
+  .pds-notice{font-size:12.5px;}
+  .pds-notice-in{padding:8px 14px; gap:6px 10px;}
+  .pds-notice-tag{display:none;}
+  .pds-notice-long{display:none;}
+  .pds-notice-short{display:inline;}
 }
 
 /* ---------- NAV: nút Zalo là CTA chính, "Dự Toán" về link thường ---------- */
