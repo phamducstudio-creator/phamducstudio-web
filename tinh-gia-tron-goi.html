@@ -3,6 +3,9 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<script>document.documentElement.className+=" js"</script>
+<meta name="theme-color" content="#0A1E1C">
+<link rel="apple-touch-icon" href="images/apple-touch-icon.png">
 <title>Dự Toán Trọn Gói — Phạm Đức Studio Cần Thơ</title>
 <meta name="description" content="Dự toán gói chụp cưới trọn gói Phạm Đức Studio Cần Thơ — chọn dịch vụ, xem giá, quà tặng theo bậc và giảm đến 15% ngay lập tức.">
 <link rel="icon" type="image/png" href="images/favicon.png">
@@ -16,7 +19,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,600;0,700;1,500;1,600&family=Be+Vietnam+Pro:wght@400;500;600;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="style.css?v=20260923">
 
 <style>
 /* ==== Trang tính giá trọn gói (scoped) ==== */
@@ -160,7 +163,7 @@ body.calc-page{padding-bottom:130px}
   <div class="pds-notice-in">
     <span class="pds-notice-tag">Ưu đãi chốt lịch sớm</span>
     <span class="pds-notice-txt"><span class="pds-notice-long">Đặt cọc trước <b>30/09/2026</b> cho lịch mùa cưới T11/2026 – T3/2027 — <b>Giảm ngay 1.000.000đ</b> + Tặng 1 concept ngoại cảnh</span><span class="pds-notice-short">Cọc trước <b>30/09</b> (lịch cưới T11–T3): <b>giảm 1.000.000đ</b> + tặng 1 concept ngoại cảnh</span></span>
-    <a class="pds-notice-cta" href="https://zalo.me/0967761516" target="_blank" rel="noopener">Nhắn Zalo giữ lịch →</a>
+    <a class="pds-notice-cta" href="https://zalo.me/0967761516" target="_blank" rel="noopener"><span class="pds-notice-long">Nhắn Zalo giữ lịch →</span><span class="pds-notice-short">Giữ lịch →</span></a>
   </div>
 </div>
 
@@ -492,6 +495,7 @@ body.calc-page{padding-bottom:130px}
     <div class="pdft-contact">
       <h5>Liên Hệ</h5>
       <div class="addr">26B Lý Chính Thắng, P. Tân An,<br>Q. Ninh Kiều, Tp. Cần Thơ</div>
+      <a class="map" href="https://www.google.com/maps/search/?api=1&amp;query=26B+L%C3%BD+Ch%C3%ADnh+Th%E1%BA%AFng%2C+T%C3%A2n+An%2C+Ninh+Ki%E1%BB%81u%2C+C%E1%BA%A7n+Th%C6%A1" target="_blank" rel="noopener">📍 Chỉ đường Google Maps</a>
       <a class="tel" href="tel:0967761516">0967 761 516</a>
       <a class="tel" href="tel:0939229220">0939 229 220</a>
       <a class="web" href="https://www.phamducstudio.vn" target="_blank" rel="noopener">phamducstudio.vn</a>
@@ -531,7 +535,7 @@ body.calc-page{padding-bottom:130px}
   if('IntersectionObserver' in window){
     const io = new IntersectionObserver((entries) => {
       entries.forEach(e => { if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target); } });
-    }, {threshold:0.12});
+    }, {threshold:0, rootMargin:'0px 0px -40px 0px'});
     revealEls.forEach(el => io.observe(el));
   } else {
     revealEls.forEach(el => el.classList.add('in'));
@@ -897,7 +901,7 @@ body.calc-page{padding-bottom:130px}
 </script>
 
 
-<script src="js/pds.js" defer></script>
+<script src="js/pds.js?v=20260923" defer></script>
 
 <script>
 /* ⚙️ TRACKING — Phạm Đức Studio

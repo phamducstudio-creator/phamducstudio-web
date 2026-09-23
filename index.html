@@ -3,6 +3,9 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<script>document.documentElement.className+=" js"</script>
+<meta name="theme-color" content="#0A1E1C">
+<link rel="apple-touch-icon" href="images/apple-touch-icon.png">
 <title>Phạm Đức Studio — Chụp Ảnh & Quay Phim Cưới Cần Thơ</title>
 <meta name="description" content="Phạm Đức Studio — chụp ảnh & quay phim cưới trọn gói tại Cần Thơ, phục vụ Đồng bằng sông Cửu Long. Pre-wedding từ 5,9 triệu, váy cưới & trang điểm đã gồm, giá rõ từ đầu, không phát sinh. Nhắn Zalo nhận báo giá trong ngày.">
 <link rel="icon" type="image/png" href="images/favicon.png">
@@ -18,8 +21,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,600;0,700;1,500;1,600&family=Be+Vietnam+Pro:wght@400;500;600;700&display=swap" rel="stylesheet">
 <link rel="preload" as="image" href="images/hero-m.jpg" media="(max-width:640px)" fetchpriority="high">
 <link rel="preload" as="image" href="images/hero.jpg" media="(min-width:641px)" fetchpriority="high">
-<link rel="stylesheet" href="style.css?v=20260920">
-<style>.hero-v2 picture{display:contents;}</style>
+<link rel="stylesheet" href="style.css?v=20260923">
 
 <script type="application/ld+json">
 {
@@ -53,7 +55,7 @@
   <div class="pds-notice-in">
     <span class="pds-notice-tag">Ưu đãi chốt lịch sớm</span>
     <span class="pds-notice-txt"><span class="pds-notice-long">Đặt cọc trước <b>30/09/2026</b> cho lịch mùa cưới T11/2026 – T3/2027 — <b>Giảm ngay 1.000.000đ</b> + Tặng 1 concept ngoại cảnh</span><span class="pds-notice-short">Cọc trước <b>30/09</b> (lịch cưới T11–T3): <b>giảm 1.000.000đ</b> + tặng 1 concept ngoại cảnh</span></span>
-    <a class="pds-notice-cta" href="https://zalo.me/0967761516" target="_blank" rel="noopener">Nhắn Zalo giữ lịch →</a>
+    <a class="pds-notice-cta" href="https://zalo.me/0967761516" target="_blank" rel="noopener"><span class="pds-notice-long">Nhắn Zalo giữ lịch →</span><span class="pds-notice-short">Giữ lịch →</span></a>
   </div>
 </div>
 
@@ -88,8 +90,10 @@
 
   <!-- HERO: ảnh + thông điệp + CTA (thay cho popup chào cũ — popup che hết màn hình điện thoại) -->
   <section class="hero-banner hero-v2" id="hero">
-    <picture><source media="(max-width:640px)" srcset="images/hero-m.jpg"><img src="images/hero.jpg" alt="Cô dâu chú rể tại buổi chụp pre-wedding — Phạm Đức Studio Cần Thơ" class="hero-full-photo" fetchpriority="high" decoding="async"></picture>
-    <div class="hero-shade"></div>
+    <div class="hero-media">
+      <picture><source media="(max-width:640px)" srcset="images/hero-m.jpg"><img src="images/hero.jpg" alt="Cô dâu chú rể tại buổi chụp pre-wedding — Phạm Đức Studio Cần Thơ" class="hero-full-photo" fetchpriority="high" decoding="async"></picture>
+      <div class="hero-shade"></div>
+    </div>
     <div class="hero-content">
       <div class="wrap">
         <div class="hero-inner">
@@ -128,7 +132,8 @@
         <h2>3 gói pre-wedding tiêu biểu</h2>
         <p>Hai dòng Ngoại Cảnh &amp; Phim Trường — chọn theo gu của bạn, giá cố định, không phụ phí phát sinh.</p>
       </div>
-      <div class="pkg-grid">
+      <span class="snap-hint">Vuốt ngang để xem cả 3 gói →</span>
+      <div class="pkg-grid js-snap">
 
         <div class="pkg-card reveal">
           <h3>Phim Trường Luxury</h3>
@@ -164,7 +169,7 @@
           <div class="pkg-price">12,9 triệu <small>/ gói</small></div>
           <div class="pkg-note">Chụp trọn 1 ngày · 3 địa điểm cao cấp</div>
           <ul class="pkg-list">
-            <li>3 địa điểm tùy chọn: Victoria Resort, KS Seraton, Legacy Resort, Chợ Nổi Cái Răng, Bến Ninh Kiều...</li>
+            <li>3 địa điểm tùy chọn: Victoria Resort, KS Sheraton, Legacy Resort, Chợ Nổi Cái Răng, Bến Ninh Kiều...</li>
             <li>Ekip 5 người: 2 Photographer + 1 Camera man + 1 Makeup Artist + 1 Assistant</li>
             <li>2 váy cưới + 2 vest cao cấp + 1 trang phục tự do, hoa cưới &amp; phụ kiện</li>
             <li>Album 25×35cm (15–30 trang) + 2 ảnh cổng + 10 ảnh bàn (khung Titan) + clip pre-wedding 4K + clip BTS</li>
@@ -512,6 +517,7 @@
     <div class="pdft-contact">
       <h5>Liên Hệ</h5>
       <div class="addr">26B Lý Chính Thắng, P. Tân An,<br>Q. Ninh Kiều, Tp. Cần Thơ</div>
+      <a class="map" href="https://www.google.com/maps/search/?api=1&amp;query=26B+L%C3%BD+Ch%C3%ADnh+Th%E1%BA%AFng%2C+T%C3%A2n+An%2C+Ninh+Ki%E1%BB%81u%2C+C%E1%BA%A7n+Th%C6%A1" target="_blank" rel="noopener">📍 Chỉ đường Google Maps</a>
       <a class="tel" href="tel:0967761516">0967 761 516</a>
       <a class="tel" href="tel:0939229220">0939 229 220</a>
       <a class="web" href="https://www.phamducstudio.vn" target="_blank" rel="noopener">phamducstudio.vn</a>
@@ -551,7 +557,7 @@
   if('IntersectionObserver' in window){
     const io = new IntersectionObserver((entries) => {
       entries.forEach(e => { if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target); } });
-    }, {threshold:0.12});
+    }, {threshold:0, rootMargin:'0px 0px -40px 0px'});
     revealEls.forEach(el => io.observe(el));
   } else {
     revealEls.forEach(el => el.classList.add('in'));
@@ -582,7 +588,7 @@
       // Lưu lead vào Google Sheet — không chặn luồng nếu lỗi/mất mạng
       if(window.PDS_LEAD_SHEET_URL){
         try{
-          const fd = new URLSearchParams({hoten:name, sdt:phone, ngay:date||'', goi:goi||'', ghichu:ghichu, nguon:location.pathname});
+          const fd = new URLSearchParams({hoten:name, sdt:phone, ngay:date||'', goi:goi||'', ghichu:ghichu, nguon:location.pathname+location.search});
           fetch(window.PDS_LEAD_SHEET_URL, {method:'POST', mode:'no-cors', body:fd}).catch(() => {});
         }catch(err){}
       }
@@ -615,7 +621,7 @@
   <a href="https://m.me/phamducstudio" class="pds-bar-btn pds-bar-mess" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M4 4h16a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2H9l-5 4v-4H4a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2zm3 5v2h10V9H7zm0 4v2h7v-2H7z"/></svg>Messenger</a>
   <a href="tel:0967761516" class="pds-bar-btn pds-bar-call"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M6.6 10.8a15.1 15.1 0 0 0 6.6 6.6l2.2-2.2c.3-.3.7-.4 1-.2 1.1.4 2.3.6 3.6.6.6 0 1 .4 1 1V20c0 .6-.4 1-1 1A17 17 0 0 1 3 4c0-.6.4-1 1-1h3.5c.6 0 1 .4 1 1 0 1.2.2 2.4.6 3.6.1.3 0 .7-.2 1L6.6 10.8z"/></svg>Gọi ngay</a>
 </div>
-<script src="js/pds.js" defer></script>
+<script src="js/pds.js?v=20260923" defer></script>
 
 <script>
 /* ⚙️ TRACKING — dán mã vào 2 dòng dưới khi có (để trống = không chạy gì) */
