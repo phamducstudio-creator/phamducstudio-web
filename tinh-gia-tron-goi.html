@@ -869,17 +869,66 @@ body.calc-page{padding-bottom:130px}
 </script>
 
 <script>
-/* COMBO CHỌN NHANH — chọn sẵn các thẻ theo data-name rồi mở bảng báo giá. Đổi combo: sửa mảng PRESETS (tên phải khớp data-name của thẻ). */
+/* COMBO CHỌN NHANH — chọn sẵn theo data-name (mục A/B/C/E, thẻ .opt) + số lượng theo data-name (mục D — trang phục, dòng .qty-row) rồi mở bảng báo giá.
+   Đổi combo: sửa mảng PRESETS. items = mảng {name, qty?} khớp data-name các thẻ .opt (qty chỉ áp dụng cho mục B/C - chọn nhiều buổi/gói).
+   qtyItems = mảng {name, qty} khớp data-name các dòng trang phục mục D. Giá luôn lấy trực tiếp từ data-price trên trang — sửa giá ở đó, PRESETS tự tính lại. */
 (function(){
   const C=window.PDS_CALC, grid=document.getElementById('presetGrid'); if(!C||!grid) return;
   const PRESETS=[
-    {id:'pre', tag:'Chụp trước – cưới sau', name:'Chỉ chụp pre-wedding', style:'ngoai', items:['Pre-wedding Ngoại cảnh Premium'], note:'Ngoại cảnh Premium · 3 địa điểm · trọn 1 ngày · váy, makeup, album, ảnh cổng đã gồm'},
-    {id:'goi', tag:'Được chọn nhiều', hot:true, name:'Pre-wedding + ngày cưới gọn', style:'ngoai', items:['Pre-wedding Ngoại cảnh Premium','Ảnh phóng sự 2 máy - Combo 1','Quay truyền thống'], note:'Pre-wedding Premium + ảnh phóng sự 2 máy + quay phim ngày cưới'},
-    {id:'vip', tag:'Trọn vẹn nhất', name:'Trọn gói VIP', style:'ngoai', items:['Pre-wedding Ngoại cảnh Luxury','Ảnh Truyền thống + Phóng sự (Photobook 40 trang)','Quay phóng sự 2 máy - 2 thợ','Trang điểm Gold (2 lượt)'], note:'Luxury + ảnh truyền thống & phóng sự + quay 2 máy + trang điểm 2 lượt'}
+    {id:'gon', tag:'Tiết kiệm nhất', name:'Gói Cưới Gọn Nhẹ', style:'cong',
+      items:[
+        {name:'Ảnh cổng Combo 2'},
+        {name:'Ảnh phóng sự 1 máy - Combo 2'},
+        {name:'Trang điểm Silver (1 lượt)'}
+      ],
+      qtyItems:[
+        {name:'Váy cưới phổ thông', qty:1},
+        {name:'Váy suông', qty:1},
+        {name:'Vest chú rể cơ bản', qty:1},
+        {name:'Áo dài đôi lễ gia tiên', qty:1}
+      ],
+      note:'Ảnh cổng Studio + phóng sự ngày cưới 1 máy + trang điểm 1 lượt + trang phục cô dâu chú rể cơ bản'
+    },
+    {id:'2ngay', tag:'Được chọn nhiều', hot:true, name:'Gói Cưới 2 Ngày (Nhà Gái + Nhà Trai)', style:'phim',
+      items:[
+        {name:'Pre-wedding Phim trường Basic'},
+        {name:'Ảnh phóng sự 1 máy - Combo 2', qty:2},
+        {name:'Trang điểm Gold (2 lượt)'}
+      ],
+      qtyItems:[
+        {name:'Váy cưới phổ thông', qty:2},
+        {name:'Váy suông', qty:2},
+        {name:'Vest chú rể cơ bản', qty:2},
+        {name:'Áo dài đôi lễ gia tiên', qty:1}
+      ],
+      note:'Pre-wedding Phim trường + phóng sự 1 máy 2 buổi (nhà gái + nhà trai) + trang điểm 2 lượt + trang phục 2 bộ'
+    },
+    {id:'vip', tag:'Trọn vẹn nhất', name:'Trọn Gói VIP', style:'ngoai',
+      items:[
+        {name:'Pre-wedding Ngoại cảnh Luxury'},
+        {name:'Ảnh phóng sự 2 máy - Combo 2'},
+        {name:'Ảnh Truyền thống + Phóng sự (Photobook 40 trang)'},
+        {name:'Quay phóng sự 1 máy'},
+        {name:'Quay phóng sự 2 máy - 2 thợ'},
+        {name:'Trang điểm Platinum (2 lượt + tối)'}
+      ],
+      qtyItems:[
+        {name:'Váy cưới cao cấp', qty:2},
+        {name:'Váy suông', qty:2},
+        {name:'Vest chú rể cao cấp', qty:2},
+        {name:'Áo dài đôi cao cấp thêu tay', qty:1}
+      ],
+      note:'Ngoại cảnh Luxury + phóng sự 2 máy + truyền thống & phóng sự + quay phóng sự 1 máy & 2 máy + trang điểm Platinum + trang phục cao cấp 2 bộ'
+    }
   ];
   const fmt=n=>n.toLocaleString('vi-VN')+'₫';
   const priceOf=name=>{const el=document.querySelector('.opt[data-name="'+name+'"]');return el?+el.dataset.price:0;};
-  const est=p=>{const sub=p.items.reduce((a,n)=>a+priceOf(n),0);const tier=C.TIERS.find(t=>sub>=t.min)||null;const disc=tier?Math.round(sub*tier.pct/100):0;return {sub,tier,disc,grand:sub-disc};};
+  const priceOfQty=name=>{const el=document.querySelector('.qty-row[data-name="'+name+'"]');return el?+el.dataset.price:0;};
+  const est=p=>{
+    let sub=(p.items||[]).reduce((a,it)=>a+priceOf(it.name)*(it.qty||1),0);
+    sub+=(p.qtyItems||[]).reduce((a,it)=>a+priceOfQty(it.name)*(it.qty||1),0);
+    const tier=C.TIERS.find(t=>sub>=t.min)||null;const disc=tier?Math.round(sub*tier.pct/100):0;return {sub,tier,disc,grand:sub-disc};
+  };
   PRESETS.forEach(p=>{
     const r=est(p); if(!r.sub) return;
     const b=document.createElement('button'); b.type='button'; b.className='preset'+(p.hot?' hot':''); b.dataset.preset=p.id;
@@ -889,11 +938,22 @@ body.calc-page{padding-bottom:130px}
     b.addEventListener('click',()=>apply(p));
     grid.appendChild(b);
   });
+  function clickQty(name,times){
+    const row=document.querySelector('.qty-row[data-name="'+name+'"]'); if(!row) return;
+    const btn=row.querySelector('.plus'); if(!btn) return;
+    for(let i=0;i<times;i++) btn.click();
+  }
   function apply(p){
     C.resetAll();
     const tab=document.querySelector('#preTabs button[data-style="'+p.style+'"]');
     if(tab&&!tab.classList.contains('on')) tab.click();
-    p.items.forEach(n=>{const el=document.querySelector('.opt[data-name="'+n+'"]'); if(el&&!el.classList.contains('selected')) el.click();});
+    (p.items||[]).forEach(it=>{
+      const el=document.querySelector('.opt[data-name="'+it.name+'"]'); if(!el) return;
+      if(!el.classList.contains('selected')) el.click();
+      const qty=it.qty||1;
+      if(qty>1){ const plus=el.querySelector('.oq-plus'); if(plus){ for(let i=1;i<qty;i++) plus.click(); } }
+    });
+    (p.qtyItems||[]).forEach(it=>clickQty(it.name,it.qty||0));
     if(window.fbq)fbq('trackCustom','ChonCombo',{combo:p.id}); if(window.gtag)gtag('event','chon_combo',{combo:p.id});
     setTimeout(()=>C.openModal(),150);
   }
