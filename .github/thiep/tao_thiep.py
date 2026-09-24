@@ -66,6 +66,11 @@ RIENG = ['sdt_cd', 'sdt_cr', 'cha_cr', 'me_cr', 'cha_cd', 'me_cd', 'le', 'ban_do
          'youtube_id', 'loi_ngo', 'cau_chuyen', 'loi_moi_mau', 'tao']
 
 
+def hom_nay():
+    """Ngày hôm nay theo giờ Việt Nam (máy chạy có thể để giờ UTC)."""
+    return datetime.datetime.now(datetime.timezone(datetime.timedelta(hours=7))).date().isoformat()
+
+
 # ---------------- mã hoá ----------------
 def b64u(b):
     return base64.urlsafe_b64encode(b).decode().rstrip('=')
@@ -399,7 +404,7 @@ def lenh_tao(duong):
              'ban_do': chu(tt.get('ban_do'), 160),
              'vietqr_bank': chu(tt.get('vietqr_bank'), 40), 'vietqr_stk': chu(tt.get('vietqr_stk'), 30), 'vietqr_ten': chu(tt.get('vietqr_ten'), 60),
              'youtube_id': yt, 'loi_ngo': chu(tt.get('loi_ngo'), 600), 'cau_chuyen': chu(tt.get('cau_chuyen'), 600),
-             'loi_moi_mau': 'Quý khách', 'tao': datetime.date.today().isoformat()}
+             'loi_moi_mau': 'Quý khách', 'tao': hom_nay()}
     if not ngay_cua(rieng['le']):
         raise C.Loi('chưa có ngày cưới (le.tiec.ngay hoặc le.thanh_hon.ngay)')
     ma, k = tao_ma(ten_cd, ten_cr), tao_k()
