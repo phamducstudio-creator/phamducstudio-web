@@ -5,7 +5,7 @@
 <script>
 /* THIỆP MẪU — chọn mẫu bằng ?m=<key>. Ảnh & tên dâu rể thật của studio, ngày/giờ/địa điểm minh hoạ. Không gửi gì lên Sheet. */
 (function(){
-  var MAU = [{"key": "do-hy", "kind": "mau", "theme": "do-hy", "style": "", "ten": "Đỏ Hỷ", "mood": "Rực rỡ, ấm áp", "album": "ngoai-canh-29", "anh_ds": "04,01,05,10,06,03,07,08,02,09", "anh_cr": "", "anh_cd": "", "poster": "10", "ten_cd": "Như", "ten_cr": "Dầu", "off": 70, "gio": "09:00", "guest": "Gia đình chú Sáu", "hearts": 48, "wishes": [{"ten": "Cô Tư", "loi": "Chúc hai con trăm năm hạnh phúc, sớm có tin vui!"}, {"ten": "Anh Hai", "loi": "Mừng em về chung một nhà ❤️"}, {"ten": "Nhóm bạn cấp 3", "loi": "Chuẩn bị bàn lớn nha, tụi này đi đông lắm 🎉"}], "loc": {"vq": "Tư gia nhà gái · Cái Răng, Cần Thơ", "th": "Tư gia nhà trai · Cái Răng, Cần Thơ", "tiec": "Trung tâm tiệc cưới · Cái Răng, Cần Thơ", "map": "Cái Răng, Cần Thơ"}}, {"key": "hoang-kim", "kind": "mau", "theme": "hoang-kim", "style": "", "ten": "Hoàng Kim", "mood": "Ấm áp, nắng vàng", "album": "ngoai-canh-23", "anh_ds": "06,08,10,03,02,05,01,04,09,07", "anh_cr": "", "anh_cd": "", "poster": "03", "ten_cd": "Trinh", "ten_cr": "Phúc", "off": 84, "gio": "10:00", "guest": "Anh chị Hai", "hearts": 36, "wishes": [{"ten": "Chị Ba", "loi": "Chúc hai em mãi nắm tay nhau như nắng chiều trên sông."}, {"ten": "Đồng nghiệp", "loi": "Happy wedding! Chúc hai bạn hạnh phúc viên mãn."}, {"ten": "Bạn thân", "loi": "Cuối cùng cũng cưới rồi, mừng quá trời 😍"}], "loc": {"vq": "Tư gia nhà gái · Ninh Kiều, Cần Thơ", "th": "Tư gia nhà trai · Ninh Kiều, Cần Thơ", "tiec": "Trung tâm tiệc cưới · Ninh Kiều, Cần Thơ", "map": "Ninh Kiều, Cần Thơ"}}, {"key": "diu-dang", "kind": "mau", "theme": "diu-dang", "style": "", "ten": "Dịu Dàng", "mood": "Lãng mạn, nữ tính", "album": "ngoai-canh-19", "anh_ds": "10,09,04,07,06,02,08,03,01,05", "anh_cr": "", "anh_cd": "", "poster": "07", "ten_cd": "Linh", "ten_cr": "Ben", "off": 98, "gio": "09:30", "guest": "Bạn thân của Linh", "hearts": 52, "wishes": [{"ten": "Bạn thân", "loi": "Cô dâu xinh quá trời! Chúc hai bạn trăm năm hạnh phúc."}, {"ten": "Dì Út", "loi": "Chúc hai con thương nhau trọn đời."}, {"ten": "Team công ty", "loi": "Chúc mừng hạnh phúc hai bạn 💐"}], "loc": {"vq": "Tư gia nhà gái · Cái Răng, Cần Thơ", "th": "Tư gia nhà trai · Cái Răng, Cần Thơ", "tiec": "Trung tâm tiệc cưới · Cái Răng, Cần Thơ", "map": "Cái Răng, Cần Thơ"}}, {"key": "xanh-reu", "kind": "mau", "theme": "xanh-reu", "style": "", "ten": "Xanh Rêu", "mood": "Tươi mát, thiên nhiên", "album": "ngoai-canh-28", "anh_ds": "09,03,10,01,07,05,06,02,04,08", "anh_cr": "", "anh_cd": "", "poster": "01", "ten_cd": "Thu", "ten_cr": "Dương", "off": 112, "gio": "10:30", "guest": "Gia đình cô Út", "hearts": 29, "wishes": [{"ten": "Cô Út", "loi": "Chúc hai cháu bách niên giai lão."}, {"ten": "Anh Khoa", "loi": "Mừng hai đứa về chung một nhà!"}, {"ten": "Hội đồng hương", "loi": "Chúc hạnh phúc ngập tràn 🎊"}], "loc": {"vq": "Tư gia nhà gái · Cần Thơ", "th": "Tư gia nhà trai · Cần Thơ", "tiec": "Trung tâm tiệc cưới · Cần Thơ", "map": "Cần Thơ"}}, {"key": "xanh-dem", "kind": "mau", "theme": "xanh-dem", "style": "", "ten": "Xanh Đêm", "mood": "Sâu lắng, lung linh", "album": "ngoai-canh-13", "anh_ds": "05,06,09,04,01,07,03,10,08", "anh_cr": "", "anh_cd": "", "poster": "05", "ten_cd": "Khánh", "ten_cr": "Cường", "off": 126, "gio": "17:30", "guest": "Anh Tuấn & chị Thảo", "hearts": 41, "wishes": [{"ten": "Anh Tuấn", "loi": "Mừng hai đứa về chung một nhà ❤️"}, {"ten": "Cô Thanh", "loi": "Chúc hai con trăm năm hạnh phúc!"}, {"ten": "Nhóm bạn 12A3", "loi": "Hẹn gặp ở tiệc nha cô dâu chú rể!"}], "loc": {"vq": "Tư gia nhà gái · Ninh Kiều, Cần Thơ", "th": "Tư gia nhà trai · Ninh Kiều, Cần Thơ", "tiec": "Trung tâm tiệc cưới · Ninh Kiều, Cần Thơ", "map": "Ninh Kiều, Cần Thơ"}}, {"key": "hien-dai", "kind": "mau", "theme": "hien-dai", "style": "", "ten": "Hiện Đại", "mood": "Tối giản, cá tính", "album": "ngoai-canh-27", "anh_ds": "06,02,10,01,09,03,04,08,07,05", "anh_cr": "", "anh_cd": "", "poster": "01", "ten_cd": "Dương", "ten_cr": "Hậu", "off": 140, "gio": "18:00", "guest": "Hội bạn Đại học", "hearts": 63, "wishes": [{"ten": "Hội bạn Đại học", "loi": "Chúc mừng đôi bạn cá tính nhất lớp 🥂"}, {"ten": "Chị Vy", "loi": "Ảnh đẹp như tạp chí luôn! Hạnh phúc nha hai em."}, {"ten": "Minh", "loi": "Trăm năm hạnh phúc nha!"}], "loc": {"vq": "Tư gia nhà gái · Ninh Kiều, Cần Thơ", "th": "Tư gia nhà trai · Ninh Kiều, Cần Thơ", "tiec": "Trung tâm tiệc cưới · Ninh Kiều, Cần Thơ", "map": "Ninh Kiều, Cần Thơ"}}, {"key": "phim-xua", "kind": "pc", "theme": "", "style": "phim-xua", "ten": "Phim Xưa", "mood": "Hoài cổ, như thước phim cũ", "album": "ngoai-canh-24", "anh_ds": "07,09,10,03,08,01,02,06", "anh_cr": "05", "anh_cd": "04", "poster": "07", "ten_cd": "Tú", "ten_cr": "Cường", "off": 77, "gio": "10:00", "guest": "Gia đình bác Hai", "hearts": 57, "wishes": [{"ten": "Bác Hai", "loi": "Chúc hai cháu thuận hoà, trăm năm hạnh phúc."}, {"ten": "Bạn thân", "loi": "Ảnh đẹp như phim xưa, thương hai bạn!"}, {"ten": "Chị Hằng", "loi": "Hạnh phúc viên mãn nha em 💛"}], "loc": {"vq": "Tư gia nhà gái · Bình Thủy, Cần Thơ", "th": "Tư gia nhà trai · Bình Thủy, Cần Thơ", "tiec": "Trung tâm tiệc cưới · Bình Thủy, Cần Thơ", "map": "Bình Thủy, Cần Thơ"}}, {"key": "thanh-lich", "kind": "pc", "theme": "", "style": "thanh-lich", "ten": "Thanh Lịch", "mood": "Trắng sáng, sang trọng", "album": "ngoai-canh-31", "anh_ds": "08,06,04,09,03,02,07,05,10,01", "anh_cr": "", "anh_cd": "", "poster": "09", "ten_cd": "Uyên", "ten_cr": "Đăng", "off": 91, "gio": "11:00", "guest": "Quý khách", "hearts": 44, "wishes": [{"ten": "Cô Hạnh", "loi": "Chúc hai con mãi yêu thương nhau."}, {"ten": "Bạn học", "loi": "Đẹp đôi quá! Chúc mừng hạnh phúc."}, {"ten": "Anh Phong", "loi": "Chúc hai em trọn đời bên nhau."}], "loc": {"vq": "Tư gia nhà gái · Cần Thơ", "th": "Tư gia nhà trai · Cần Thơ", "tiec": "Trung tâm tiệc cưới · Cần Thơ", "map": "Cần Thơ"}}, {"key": "han-quoc", "kind": "pc", "theme": "", "style": "han-quoc", "ten": "Hàn Quốc", "mood": "Trong trẻo, nhẹ nhàng", "album": "ngoai-canh-20", "anh_ds": "07,10,04,06,02,09,01,08,05", "anh_cr": "", "anh_cd": "", "poster": "06", "ten_cd": "Thanh", "ten_cr": "Duy", "off": 105, "gio": "09:00", "guest": "Nhóm bạn thân", "hearts": 71, "wishes": [{"ten": "Nhóm bạn thân", "loi": "Happy wedding! Mãi hạnh phúc như phim Hàn nha 💕"}, {"ten": "Chị Mai", "loi": "Chúc hai em luôn ngọt ngào."}, {"ten": "Cậu Út", "loi": "Chúc hai cháu sớm có tin vui."}], "loc": {"vq": "Tư gia nhà gái · Cái Răng, Cần Thơ", "th": "Tư gia nhà trai · Cái Răng, Cần Thơ", "tiec": "Trung tâm tiệc cưới · Cái Răng, Cần Thơ", "map": "Cái Răng, Cần Thơ"}}, {"key": "nang-gio", "kind": "pc", "theme": "", "style": "nang-gio", "ten": "Nắng & Gió", "mood": "Tự do, phóng khoáng", "album": "ngoai-canh-16", "anh_ds": "02,07,05,04,06,03,10,01", "anh_cr": "08", "anh_cd": "09", "poster": "02", "ten_cd": "Ngân", "ten_cr": "Lộc", "off": 119, "gio": "16:30", "guest": "Anh chị Ba", "hearts": 38, "wishes": [{"ten": "Anh chị Ba", "loi": "Chúc hai em luôn rạng rỡ như nắng sớm."}, {"ten": "Hội phượt", "loi": "Cưới xong nhớ đi trăng mật xa xa nha 🌊"}, {"ten": "Dì Năm", "loi": "Chúc hai con trăm năm hạnh phúc."}], "loc": {"vq": "Tư gia nhà gái · Ninh Kiều, Cần Thơ", "th": "Tư gia nhà trai · Ninh Kiều, Cần Thơ", "tiec": "Trung tâm tiệc cưới · Ninh Kiều, Cần Thơ", "map": "Ninh Kiều, Cần Thơ"}}, {"key": "hy-phuc", "kind": "pc", "theme": "", "style": "hy-phuc", "ten": "Hỷ Phục", "mood": "Truyền thống, mở thiệp phong bì", "album": "phong-su-14", "anh_ds": "66,75,47,71,79,69,73,52,65,48", "anh_cr": "", "anh_cd": "", "poster": "71", "ten_cd": "Tường Vi", "ten_cr": "Khánh Thuận", "off": 133, "gio": "09:00", "guest": "Gia đình chú Bảy", "hearts": 88, "wishes": [{"ten": "Chú Bảy", "loi": "Chúc hai cháu bách niên giai lão, sớm sinh quý tử."}, {"ten": "Cô Ba", "loi": "Mừng hai con nên duyên vợ chồng ❤️"}, {"ten": "Bạn thân", "loi": "Chúc mừng hạnh phúc hai bạn! 🎊"}], "loc": {"vq": "Tư gia nhà gái · Cần Thơ", "th": "Tư gia nhà trai · Cần Thơ", "tiec": "Trung tâm tiệc cưới · Cần Thơ", "map": "Cần Thơ"}}];
+  var MAU = [{"key": "co-dien", "kind": "pc", "theme": "xanh-petrol", "style": "", "ten": "Cổ Điển", "mau": "Xanh Petrol", "mood": "Kể chuyện nhẹ nhàng, sang trọng", "album": "studio-21", "anh_ds": "01,05,08,07,02,06,09,10,03", "anh_cr": "", "anh_cd": "", "poster": "05", "ten_cd": "An", "ten_cr": "Phong", "off": 77, "gio": "10:00", "guest": "Gia đình chú Sáu", "hearts": 48, "wishes": [{"ten": "Cô Tư", "loi": "Chúc hai con trăm năm hạnh phúc, sớm có tin vui!"}, {"ten": "Anh Hai", "loi": "Mừng hai em về chung một nhà ❤️"}, {"ten": "Nhóm bạn cấp 3", "loi": "Chuẩn bị bàn lớn nha, tụi này đi đông lắm 🎉"}], "loc": {"vq": "Tư gia nhà gái · Ninh Kiều, Cần Thơ", "th": "Tư gia nhà trai · Ninh Kiều, Cần Thơ", "tiec": "Trung tâm tiệc cưới · Ninh Kiều, Cần Thơ", "map": "Ninh Kiều, Cần Thơ"}}, {"key": "han-quoc", "kind": "pc", "theme": "", "style": "han-quoc", "ten": "Hàn Quốc", "mau": "Hồng Phấn", "mood": "Trong trẻo, ngọt ngào", "album": "studio-19", "anh_ds": "09,06,08,10,02,07", "anh_cr": "01", "anh_cd": "04", "poster": "06", "ten_cd": "Quỳnh Anh", "ten_cr": "Khánh Duy", "off": 91, "gio": "09:30", "guest": "Nhóm bạn thân", "hearts": 71, "wishes": [{"ten": "Nhóm bạn thân", "loi": "Happy wedding! Mãi hạnh phúc như phim Hàn nha 💕"}, {"ten": "Chị Mai", "loi": "Chúc hai em luôn ngọt ngào."}, {"ten": "Cậu Út", "loi": "Chúc hai cháu sớm có tin vui."}], "loc": {"vq": "Tư gia nhà gái · Cái Răng, Cần Thơ", "th": "Tư gia nhà trai · Cái Răng, Cần Thơ", "tiec": "Trung tâm tiệc cưới · Cái Răng, Cần Thơ", "map": "Cái Răng, Cần Thơ"}}, {"key": "song-hy", "kind": "pc", "theme": "", "style": "song-hy", "ten": "Song Hỷ", "mau": "Đỏ Son", "mood": "Rộn ràng, mở thiệp phong bì", "album": "studio-18", "anh_ds": "02,03,07,05,01,08,06,04", "anh_cr": "10", "anh_cd": "09", "poster": "03", "ten_cd": "Thảo", "ten_cr": "Đăng", "off": 105, "gio": "09:00", "guest": "Gia đình chú Bảy", "hearts": 88, "wishes": [{"ten": "Chú Bảy", "loi": "Chúc hai cháu bách niên giai lão, sớm sinh quý tử."}, {"ten": "Cô Ba", "loi": "Mừng hai con nên duyên vợ chồng ❤️"}, {"ten": "Bạn thân", "loi": "Chúc mừng hạnh phúc hai bạn! 🎊"}], "loc": {"vq": "Tư gia nhà gái · Cần Thơ", "th": "Tư gia nhà trai · Cần Thơ", "tiec": "Trung tâm tiệc cưới · Cần Thơ", "map": "Cần Thơ"}}, {"key": "thanh-lich", "kind": "pc", "theme": "", "style": "thanh-lich", "ten": "Thanh Lịch", "mau": "Trắng Champagne", "mood": "Trắng sáng kiểu châu Âu", "album": "ngoai-canh-31", "anh_ds": "08,06,04,09,03,02,07,05,10,01", "anh_cr": "", "anh_cd": "", "poster": "09", "ten_cd": "Uyên", "ten_cr": "Đăng", "off": 119, "gio": "11:00", "guest": "Quý khách", "hearts": 44, "wishes": [{"ten": "Cô Hạnh", "loi": "Chúc hai con mãi yêu thương nhau."}, {"ten": "Bạn học", "loi": "Đẹp đôi quá! Chúc mừng hạnh phúc."}, {"ten": "Anh Phong", "loi": "Chúc hai em trọn đời bên nhau."}], "loc": {"vq": "Tư gia nhà gái · Cần Thơ", "th": "Tư gia nhà trai · Cần Thơ", "tiec": "Trung tâm tiệc cưới · Cần Thơ", "map": "Cần Thơ"}}, {"key": "nang-gio", "kind": "pc", "theme": "", "style": "nang-gio", "ten": "Nắng & Gió", "mau": "Vàng Nắng", "mood": "Ngoài trời, tự do, phóng khoáng", "album": "ngoai-canh-16", "anh_ds": "02,07,05,04,06,03,10,01", "anh_cr": "08", "anh_cd": "09", "poster": "02", "ten_cd": "Ngân", "ten_cr": "Lộc", "off": 133, "gio": "16:30", "guest": "Anh chị Ba", "hearts": 38, "wishes": [{"ten": "Anh chị Ba", "loi": "Chúc hai em luôn rạng rỡ như nắng sớm."}, {"ten": "Hội phượt", "loi": "Cưới xong nhớ đi trăng mật xa xa nha 🌊"}, {"ten": "Dì Năm", "loi": "Chúc hai con trăm năm hạnh phúc."}], "loc": {"vq": "Tư gia nhà gái · Ninh Kiều, Cần Thơ", "th": "Tư gia nhà trai · Ninh Kiều, Cần Thơ", "tiec": "Trung tâm tiệc cưới · Ninh Kiều, Cần Thơ", "map": "Ninh Kiều, Cần Thơ"}}, {"key": "phim-xua", "kind": "pc", "theme": "", "style": "phim-xua", "ten": "Phim Xưa", "mau": "Nâu Sepia", "mood": "Hoài cổ như thước phim cũ", "album": "ngoai-canh-24", "anh_ds": "07,09,10,03,08,01,02,06", "anh_cr": "05", "anh_cd": "04", "poster": "07", "ten_cd": "Tú", "ten_cr": "Cường", "off": 147, "gio": "10:00", "guest": "Gia đình bác Hai", "hearts": 57, "wishes": [{"ten": "Bác Hai", "loi": "Chúc hai cháu thuận hoà, trăm năm hạnh phúc."}, {"ten": "Bạn thân", "loi": "Ảnh đẹp như phim xưa, thương hai bạn!"}, {"ten": "Chị Hằng", "loi": "Hạnh phúc viên mãn nha em 💛"}], "loc": {"vq": "Tư gia nhà gái · Bình Thủy, Cần Thơ", "th": "Tư gia nhà trai · Bình Thủy, Cần Thơ", "tiec": "Trung tâm tiệc cưới · Bình Thủy, Cần Thơ", "map": "Bình Thủy, Cần Thơ"}}];
   var q = new URLSearchParams(location.search).get('m') || MAU[0].key;
   var i = 0; MAU.forEach(function(m, k){ if (m.key === q) i = k; });
   var m = MAU[i];
@@ -31,18 +31,18 @@
     loi_moi_mau: 'Quý khách', guest: m.guest, sdt_cr: '0900000000', sdt_cd: '0900000000',
     hearts: m.hearts, nhac_url: '', wishes: m.wishes
   };
-  window.__MAU_NAV__ = { list: MAU.map(function(x){ return {key:x.key, kind:x.kind, ten:x.ten}; }), i: i };
+  window.__MAU_NAV__ = { list: MAU.map(function(x){ return {key:x.key, ten:x.ten, mau:x.mau}; }), i: i };
 })();
 </script>
 
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="robots" content="noindex, nofollow">
 <title>Thiệp cưới online mẫu — Phạm Đức Studio</title>
-<meta name="description" content="Xem thử 11 mẫu thiệp cưới online của Phạm Đức Studio — 6 tông màu và 5 phong cách, ảnh cưới thật, RSVP, lời chúc, mừng cưới QR.">
+<meta name="description" content="Xem thử 6 mẫu thiệp cưới online của Phạm Đức Studio — 6 phong cách, ảnh cưới thật, RSVP, lời chúc, mừng cưới QR.">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="Phạm Đức Studio">
 <meta property="og:title" content="Thiệp cưới online mẫu — Phạm Đức Studio">
-<meta property="og:description" content="11 mẫu thiệp cưới online — ảnh cưới thật, RSVP, lời chúc, mừng cưới QR. 699.000đ, lưu trữ vĩnh viễn.">
+<meta property="og:description" content="6 mẫu thiệp cưới online — ảnh cưới thật, RSVP, lời chúc, mừng cưới QR. 699.000đ, lưu trữ vĩnh viễn.">
 <meta property="og:image" content="https://www.phamducstudio.vn/images/thiep-cuoi-online-share.jpg">
 <link rel="icon" href="/favicon.ico">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,600;1,500;1,600&family=Be+Vietnam+Pro:wght@400;500;600&family=Sacramento&family=Great+Vibes&family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500&family=Prata&display=swap">
@@ -64,6 +64,7 @@ html[data-theme="hoang-kim"]{--paper:#FAF6EE;--paper-2:#F0E4CC;--white:#FFFEFA;-
 html[data-theme="diu-dang"]{--paper:#FDF3F1;--paper-2:#F8E3DE;--white:#FFFCFB;--wine-900:#7A2E3D;--wine-800:#96475A;--wine-700:#B15E71;--gold:#D9A47B;--gold-light:#EFC9AE;--lotus:#F4B9BE;--ink:#3A2028;--ink-soft:#7A5A61;--line:rgba(122,46,61,.14);--wine-rgb:122,46,61;--wine8-rgb:150,71,90;--wine7-rgb:177,94,113;--gold-rgb:217,164,123;--goldl-rgb:239,201,174;--inksoft-rgb:122,90,97}
 html[data-theme="xanh-reu"]{--paper:#F4F1E8;--paper-2:#E6E4D3;--white:#FFFEF9;--wine-900:#1F3A2E;--wine-800:#2D4F3F;--wine-700:#3F6653;--gold:#B8964A;--gold-light:#DCC48A;--lotus:#E7E3C9;--ink:#1B2A22;--ink-soft:#56675D;--line:rgba(31,58,46,.14);--wine-rgb:31,58,46;--wine8-rgb:45,79,63;--wine7-rgb:63,102,83;--gold-rgb:184,150,74;--goldl-rgb:220,196,138;--inksoft-rgb:86,103,93}
 html[data-theme="xanh-dem"]{--paper:#F3F4F7;--paper-2:#E3E7EF;--white:#FDFDFE;--wine-900:#14213D;--wine-800:#1F3158;--wine-700:#2E4677;--gold:#C9A45C;--gold-light:#E6CF96;--lotus:#F2D9A0;--ink:#141B2D;--ink-soft:#58607A;--line:rgba(20,33,61,.14);--wine-rgb:20,33,61;--wine8-rgb:31,49,88;--wine7-rgb:46,70,119;--gold-rgb:201,164,92;--goldl-rgb:230,207,150;--inksoft-rgb:88,96,122}
+html[data-theme="xanh-petrol"]{--paper:#F4F5F2;--paper-2:#E3E9E6;--white:#FDFDFB;--wine-900:#163C45;--wine-800:#1F505B;--wine-700:#2C6673;--gold:#C9A45C;--gold-light:#E6CF96;--lotus:#F1E4C8;--ink:#14262B;--ink-soft:#56676B;--line:rgba(22,60,69,.14);--wine-rgb:22,60,69;--wine8-rgb:31,80,91;--wine7-rgb:44,102,115;--gold-rgb:201,164,92;--goldl-rgb:230,207,150;--inksoft-rgb:86,103,107}
 html[data-theme="hien-dai"]{--paper:#F5F3EF;--paper-2:#E8E4DD;--white:#FFFFFF;--wine-900:#1E1E1E;--wine-800:#2E2E2E;--wine-700:#454545;--gold:#A88B5C;--gold-light:#D6C2A0;--lotus:#E6E1D8;--ink:#1A1A1A;--ink-soft:#5E5A55;--line:rgba(30,30,30,.14);--wine-rgb:30,30,30;--wine8-rgb:46,46,46;--wine7-rgb:69,69,69;--gold-rgb:168,139,92;--goldl-rgb:214,194,160;--inksoft-rgb:94,90,85}
 
 *{box-sizing:border-box}
@@ -294,7 +295,7 @@ button,input,select,textarea{font:inherit;color:inherit}
 
 /* =====================================================================
    PHONG CÁCH (bố cục khác nhau): cột `phong_cach` trong Sheet → html[data-style]
-   phim-xua · thanh-lich · han-quoc · nang-gio · hy-phuc   (để trống = cổ điển)
+   phim-xua · thanh-lich · han-quoc · nang-gio · song-hy   (để trống = cổ điển)
    Phong cách mang sẵn bảng màu riêng (đặt SAU theme nên thắng theme).
    ===================================================================== */
 html[data-style]{--font-names:var(--font-display)}
@@ -336,17 +337,17 @@ html[data-style="phim-xua"]{--paper:#F5F0E6;--paper-2:#EAE2D3;--white:#FBF8F2;--
 [data-style="phim-xua"] .wishes li,[data-style="phim-xua"] .form,[data-style="phim-xua"] .gift{border-radius:2px}
 
 /* ---------- 2. THANH LỊCH (trắng sáng · nhà thờ châu Âu) ---------- */
-html[data-style="thanh-lich"]{--paper:#FFFFFF;--paper-2:#F4F1EE;--white:#FFFFFF;--wine-900:#8A3F24;--wine-800:#A4502E;--wine-700:#C0673F;--gold:#B98A5E;--gold-light:#E3C7A6;--lotus:#F1DDCD;--ink:#2E2A28;--ink-soft:#77706B;--line:rgba(138,63,36,.14);--wine-rgb:138,63,36;--wine8-rgb:164,80,46;--wine7-rgb:192,103,63;--gold-rgb:185,138,94;--goldl-rgb:227,199,166;--inksoft-rgb:119,112,107;
+html[data-style="thanh-lich"]{--paper:#FFFFFF;--paper-2:#F3F1EC;--white:#FFFFFF;--wine-900:#4A4540;--wine-800:#6B635B;--wine-700:#8A8177;--gold:#B89B6A;--gold-light:#E2D2B0;--lotus:#EFE6D2;--ink:#2E2B28;--ink-soft:#7A746D;--line:rgba(74,69,64,.13);--wine-rgb:74,69,64;--wine8-rgb:107,99,91;--wine7-rgb:138,129,119;--gold-rgb:184,155,106;--goldl-rgb:226,210,176;--inksoft-rgb:122,116,109;
   --font-script:'Great Vibes','Sacramento',cursive}
 [data-style="thanh-lich"] .script{color:#8C8783;font-size:54px}
-[data-style="thanh-lich"] .script::after{content:"";display:block;width:54px;height:3px;border-radius:3px;background:var(--wine-800);margin:10px auto 0}
+[data-style="thanh-lich"] .script::after{content:"";display:block;width:54px;height:2px;border-radius:2px;background:var(--gold);margin:10px auto 0}
 [data-style="thanh-lich"] .cover .shade{background:linear-gradient(180deg,rgba(0,0,0,.28) 0%,rgba(0,0,0,0) 26%,rgba(255,255,255,0) 52%,rgba(255,255,255,.9) 84%,#fff 100%)}
 [data-style="thanh-lich"] .cover .top .script{color:#fff}
 [data-style="thanh-lich"] .cover .top .script::after{display:none}
 [data-style="thanh-lich"] .cover .txt{color:var(--ink)}
-[data-style="thanh-lich"] .cover .txt .eyebrow{color:var(--wine-800)!important}
+[data-style="thanh-lich"] .cover .txt .eyebrow{color:var(--gold)!important}
 [data-style="thanh-lich"] .names{color:var(--ink)}
-[data-style="thanh-lich"] .names .amp{color:var(--wine-800)}
+[data-style="thanh-lich"] .names .amp{color:var(--gold)}
 [data-style="thanh-lich"] .date-line{color:var(--ink-soft)}
 [data-style="thanh-lich"] .invite{color:var(--ink-soft)}
 [data-style="thanh-lich"] .invite b{color:var(--wine-900)}
@@ -356,17 +357,17 @@ html[data-style="thanh-lich"]{--paper:#FFFFFF;--paper-2:#F4F1EE;--white:#FFFFFF;
 [data-style="thanh-lich"] .duo .ph{border-radius:14px;box-shadow:0 12px 26px rgba(0,0,0,.12)}
 [data-style="thanh-lich"] .duo .cap{margin:0}
 [data-style="thanh-lich"] .duo .cap b{font-family:'Great Vibes',cursive;font-weight:400;font-size:34px;color:var(--ink)}
-[data-style="thanh-lich"] .call{background:var(--wine-800)}
+[data-style="thanh-lich"] .call{background:var(--gold);color:#fff}
 [data-style="thanh-lich"] .ph{border-radius:12px}
 [data-style="thanh-lich"] .bleed{border-radius:0}
-[data-style="thanh-lich"] .count div{background:#fff;border:1px solid var(--wine-800);border-radius:999px 999px 16px 16px}
-[data-style="thanh-lich"] .count b{color:var(--wine-800)}
+[data-style="thanh-lich"] .count div{background:#fff;border:1px solid var(--gold);border-radius:999px 999px 16px 16px}
+[data-style="thanh-lich"] .count b{color:var(--gold)}
 [data-style="thanh-lich"] .count span{color:var(--ink-soft)}
-[data-style="thanh-lich"] .ev .day{background:var(--wine-800);border-radius:999px;padding:12px 0 10px}
+[data-style="thanh-lich"] .ev .day{background:var(--gold);border-radius:999px;padding:12px 0 10px}
 [data-style="thanh-lich"] .foot{background:#2E2A28}
 
 /* ---------- 3. HÀN QUỐC (studio trắng · xanh lá · điểm đỏ) ---------- */
-html[data-style="han-quoc"]{--paper:#F9F7F2;--paper-2:#EFEDE4;--white:#FFFFFF;--wine-900:#8E1A22;--wine-800:#B3202A;--wine-700:#CC3B3F;--gold:#7F9A6E;--gold-light:#C9D6BC;--lotus:#F2C4C4;--ink:#2B2B2B;--ink-soft:#6F6F6F;--line:rgba(142,26,34,.12);--wine-rgb:142,26,34;--wine8-rgb:179,32,42;--wine7-rgb:204,59,63;--gold-rgb:127,154,110;--goldl-rgb:201,214,188;--inksoft-rgb:111,111,111;
+html[data-style="han-quoc"]{--paper:#FBF6F4;--paper-2:#F5E8E5;--white:#FFFFFF;--wine-900:#8C3B4E;--wine-800:#B5566B;--wine-700:#CF7A8C;--gold:#C49A78;--gold-light:#EBD3C0;--lotus:#F6C9D0;--ink:#3A2A2E;--ink-soft:#7A6A6E;--line:rgba(140,59,78,.13);--wine-rgb:140,59,78;--wine8-rgb:181,86,107;--wine7-rgb:207,122,140;--gold-rgb:196,154,120;--goldl-rgb:235,211,192;--inksoft-rgb:122,106,110;
   --font-script:'Great Vibes','Sacramento',cursive;--font-names:'Great Vibes','Playfair Display',cursive}
 [data-style="han-quoc"] .script{color:var(--wine-800);font-size:52px}
 [data-style="han-quoc"] .cover{aspect-ratio:auto;display:flex;flex-direction:column;background:var(--paper);padding:26px 26px 22px}
@@ -388,10 +389,9 @@ html[data-style="han-quoc"]{--paper:#F9F7F2;--paper-2:#EFEDE4;--white:#FFFFFF;--
 [data-style="han-quoc"] .count div{background:#fff;border:1px solid var(--line)}
 [data-style="han-quoc"] .count b{color:var(--wine-800)}
 [data-style="han-quoc"] .count span{color:var(--ink-soft)}
-[data-style="han-quoc"] .cal-wrap::after{content:"\56CD";position:absolute;right:14px;bottom:8px;font-size:40px;line-height:1;color:rgba(var(--wine8-rgb),.85);font-family:'Noto Serif CJK SC','Noto Serif SC','Songti SC',serif;pointer-events:none}
 [data-style="han-quoc"] .ev .day{background:#fff;border:1px solid var(--wine-800);color:var(--wine-800)}
 [data-style="han-quoc"] .ev .day span{color:var(--ink-soft)}
-[data-style="han-quoc"] .foot{background:#2B2B2B}
+[data-style="han-quoc"] .foot{background:#5A2C37}
 
 /* ---------- 4. NẮNG & GIÓ (ngoại cảnh tự do · vàng mù tạt) ---------- */
 html[data-style="nang-gio"]{--paper:#FBF8F1;--paper-2:#F3ECDD;--white:#FFFFFF;--wine-900:#2F3B45;--wine-800:#3E4D59;--wine-700:#566875;--gold:#D9A22E;--gold-light:#F2D384;--lotus:#FFF6D8;--ink:#28323A;--ink-soft:#6C747B;--line:rgba(47,59,69,.12);--wine-rgb:47,59,69;--wine8-rgb:62,77,89;--wine7-rgb:86,104,117;--gold-rgb:217,162,46;--goldl-rgb:242,211,132;--inksoft-rgb:108,116,123;
@@ -414,20 +414,20 @@ html[data-style="nang-gio"]{--paper:#FBF8F1;--paper-2:#F3ECDD;--white:#FFFFFF;--
 [data-style="nang-gio"] .ev .day{background:var(--gold);color:#fff}
 [data-style="nang-gio"] .ev .day span{color:#fff}
 
-/* ---------- 5. HỶ PHỤC (song hỷ đỏ · thiệp phong bì) ---------- */
-html[data-style="hy-phuc"]{--paper:#F6EEE3;--paper-2:#EFE2D0;--white:#FFF9F1;--wine-900:#5A1414;--wine-800:#7D1A1A;--wine-700:#A12222;--gold:#C9A060;--gold-light:#E8CF9C;--lotus:#C92A2A;--ink:#3A1A16;--ink-soft:#7A5A50;--line:rgba(90,20,20,.15);--wine-rgb:90,20,20;--wine8-rgb:125,26,26;--wine7-rgb:161,34,34;--gold-rgb:201,160,96;--goldl-rgb:232,207,156;--inksoft-rgb:122,90,80;
+/* ---------- 5. SONG HỶ (đỏ son · kem · thiệp phong bì) ---------- */
+html[data-style="song-hy"]{--paper:#F6EEE3;--paper-2:#EFE2D0;--white:#FFF9F1;--wine-900:#5A1414;--wine-800:#7D1A1A;--wine-700:#A12222;--gold:#C9A060;--gold-light:#E8CF9C;--lotus:#C92A2A;--ink:#3A1A16;--ink-soft:#7A5A50;--line:rgba(90,20,20,.15);--wine-rgb:90,20,20;--wine8-rgb:125,26,26;--wine7-rgb:161,34,34;--gold-rgb:201,160,96;--goldl-rgb:232,207,156;--inksoft-rgb:122,90,80;
   --font-script:'Great Vibes','Sacramento',cursive;--font-names:'Great Vibes','Playfair Display',cursive}
-[data-style="hy-phuc"] .script{color:var(--wine-800)}
-[data-style="hy-phuc"] .cover::before{content:"";position:absolute;inset:14px;border:1.5px solid rgba(var(--goldl-rgb),.85);z-index:2;pointer-events:none;box-shadow:inset 0 0 0 5px rgba(var(--goldl-rgb),.18)}
-[data-style="hy-phuc"] .cover .top .script{color:var(--gold-light)}
-[data-style="hy-phuc"] .names{font-style:normal;font-size:42px;color:var(--gold-light)}
-[data-style="hy-phuc"] .names .amp{color:#fff;font-family:'Playfair Display',serif}
-[data-style="hy-phuc"] .duo .ph{border-radius:999px 999px 6px 6px;border:2px solid var(--gold);padding:4px;background:var(--white)}
-[data-style="hy-phuc"] .duo .ph img{border-radius:999px 999px 4px 4px}
-[data-style="hy-phuc"] #timeSec .script::before{content:"\56CD";display:block;font-size:38px;line-height:1.1;color:var(--wine-700);font-family:'Noto Serif CJK SC','Noto Serif SC','Songti SC',serif;margin-bottom:4px}
-[data-style="hy-phuc"] .count div{background:var(--wine-800)}
-[data-style="hy-phuc"] .cal .mon{color:var(--wine-800)}
-[data-style="hy-phuc"] .map{border:2px solid var(--wine-800)}
+[data-style="song-hy"] .script{color:var(--wine-800)}
+[data-style="song-hy"] .cover::before{content:"";position:absolute;inset:14px;border:1.5px solid rgba(var(--goldl-rgb),.85);z-index:2;pointer-events:none;box-shadow:inset 0 0 0 5px rgba(var(--goldl-rgb),.18)}
+[data-style="song-hy"] .cover .top{display:none}
+[data-style="song-hy"] .names{font-style:normal;font-size:42px;color:var(--gold-light)}
+[data-style="song-hy"] .names .amp{color:#fff;font-family:'Playfair Display',serif}
+[data-style="song-hy"] .duo .ph{border-radius:999px 999px 6px 6px;border:2px solid var(--gold);padding:4px;background:var(--white)}
+[data-style="song-hy"] .duo .ph img{border-radius:999px 999px 4px 4px}
+[data-style="song-hy"] #timeSec .script::before{content:"\56CD";display:block;font-size:38px;line-height:1.1;color:var(--wine-700);font-family:'Noto Serif CJK SC','Noto Serif SC','Songti SC',serif;margin-bottom:4px}
+[data-style="song-hy"] .count div{background:var(--wine-800)}
+[data-style="song-hy"] .cal .mon{color:var(--wine-800)}
+[data-style="song-hy"] .map{border:2px solid var(--wine-800)}
 
 /* ---------- Thiệp phong bì (mở bằng một chạm) ---------- */
 .env{position:fixed;inset:0;z-index:95;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:24px;
@@ -479,7 +479,7 @@ body.mau .env{top:calc(48px + env(safe-area-inset-top,0px))}
 (function(){
   var N = window.__MAU_NAV__, L = N.list, i = N.i, n = L.length;
   document.body.classList.add('mau');
-  document.getElementById('mauName').textContent = (L[i].kind === 'pc' ? 'Phong cách ' : 'Mẫu ') + L[i].ten;
+  document.getElementById('mauName').textContent = L[i].ten + ' · ' + L[i].mau;
   document.getElementById('mauIdx').textContent = 'Thiệp mẫu ' + (i+1) + '/' + n;
   document.getElementById('mauPrev').href = '?m=' + L[(i-1+n)%n].key;
   document.getElementById('mauNext').href = '?m=' + L[(i+1)%n].key;
@@ -851,12 +851,12 @@ rồi nắm tay nhau đi qua năm tháng.</p>
   }
 
   function render(d){
-    var THEMES = ['do-hy','hoang-kim','diu-dang','xanh-reu','xanh-dem','hien-dai'];
+    var THEMES = ['do-hy','hoang-kim','diu-dang','xanh-reu','xanh-dem','hien-dai','xanh-petrol'];
     if (d.theme && THEMES.indexOf(String(d.theme).trim()) > 0) document.documentElement.setAttribute('data-theme', String(d.theme).trim());
-    var STYLES = ['phim-xua','thanh-lich','han-quoc','nang-gio','hy-phuc'];
+    var STYLES = ['phim-xua','thanh-lich','han-quoc','nang-gio','song-hy'];
     var st = String(d.phong_cach||'').trim();
     if (STYLES.indexOf(st) >= 0) document.documentElement.setAttribute('data-style', st);
-    if (st === 'hy-phuc' || String(d.phong_bi||'').trim() === '1') envelope(d);
+    if (st === 'song-hy' || String(d.phong_bi||'').trim() === '1') envelope(d);
     var guest = d.guest || d.loi_moi_mau || 'Quý khách';
     var full = d.ten_cd + ' & ' + d.ten_cr;
     document.title = full + ' — Thiệp cưới';
