@@ -19,7 +19,7 @@ GOC = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..'))
 THU_MUC = os.path.join(GOC, 'thiep')
 TEMPLATE = os.path.join(GOC, 'thiep-mau.html')
 WEB = 'https://phamducstudio.vn/'
-PHIEN_BAN_SUA = '20260926a'          # ?v= của js/sua-thiep.js trong trang thiệp riêng
+PHIEN_BAN_SUA = '20260927a'          # ?v= của js/sua-thiep.js trong trang thiệp riêng (đổi cùng lúc với thiep-mau.html)
 
 THEMES = {'', 'do-hy', 'hoang-kim', 'diu-dang', 'xanh-reu', 'xanh-dem', 'hien-dai', 'xanh-petrol'}
 STYLES = {'', 'phim-xua', 'thanh-lich', 'han-quoc', 'nang-gio', 'song-hy'}
@@ -147,8 +147,124 @@ def sach_ngay(v, ten_truong, cho_trong=False):
 
 
 NHAC_CO = {'canon-in-d', 'minuet-in-g', 'gymnopedie'}
-PUB_SUA = ['ten_cd', 'ten_cr', 'bia', 'bia_pos', 'anh_cr', 'anh_cd', 'anh_ds', 'poster', 'poster_pos', 'pos', 'ngay', 'nhac']
+PUB_SUA = ['ten_cd', 'ten_cr', 'bia', 'bia_pos', 'anh_cr', 'anh_cd', 'anh_ds', 'poster', 'poster_pos', 'pos', 'ngay', 'nhac', 'tuy']
 CHUP_LAI = ('ten_cd', 'ten_cr', 'ngay', 'bia', 'bia_pos', 'theme', 'style')   # đổi mấy trường này thì chụp lại share.jpg
+
+# ---- Hiệu ứng & phần (tab "Hiệu ứng & phần" của bảng sửa ẩn; thiệp vẽ theo renderTuy() trong thiep-mau.html) ----
+# tuy = {"tat": [khoá tắt], "bat": ["phong_bi"], "td": {khoá: tiêu đề}} — công khai (thiệp mẫu: trong MAU · thiệp riêng: trong pub)
+# tho = {"1".."4": thơ} + ghi_them (lưu ý cho khách) — thiệp mẫu: trong MAU · thiệp riêng: trong phần MÃ HOÁ
+TEN_TUY = {'hoa': 'Cánh hoa rơi', 'hien': 'Hiện dần khi cuộn', 'kb': 'Ảnh bìa phóng chậm', 'phong_bi': 'Phong bì mở thiệp',
+           'bay': 'Lời chúc bay lên', 'loi_ngo': 'Lời ngỏ', 'cau_chuyen': 'Câu chuyện', 'tho1': 'Thơ khối 3 ảnh ghép',
+           'tho2': 'Thơ dưới ảnh tràn khung', 'tho3': 'Câu trích khối 2 ảnh nổi', 'lich': 'Lịch tháng cưới', 'dem': 'Đồng hồ đếm ngược',
+           'luu_lich': 'Nút lưu ngày cưới vào lịch', 'ban_do': 'Bản đồ', 'tho4': 'Thơ khối cặp ảnh cuối', 'rsvp': 'Xác nhận tham dự',
+           'qr': 'Mừng cưới QR', 'chuc': 'Lời chúc', 'thanh': 'Thanh nút dưới đáy', 'quang_cao': 'Dòng giới thiệu studio cuối thiệp'}
+TUY_TAT = tuple(TEN_TUY)
+TUY_BAT = ('phong_bi',)
+TEN_TD = {'story': 'Our Story', 'love1': 'love you (khối 3 ảnh)', 'film': 'Our Film', 'time': 'Wedding Time', 'address': 'Address',
+          'love2': 'love you (cặp ảnh cuối)', 'album': 'Khoảnh khắc của chúng mình', 'rsvp': 'RSVP', 'withlove': 'With Love',
+          'welcome': 'Welcome', 'thanks': 'Thank you', 'ghi': 'Lưu ý cho khách'}
+TEN_THO = {'1': 'Thơ khối 3 ảnh ghép', '2': 'Thơ dưới ảnh tràn khung', '3': 'Câu trích khối 2 ảnh nổi', '4': 'Thơ khối cặp ảnh cuối'}
+RE_DIEU_KHIEN = re.compile(r'[\x00-\x08\x0b-\x1f\x7f-\x9f]')
+RE_CAM_CHU = re.compile(r'[<>{}\[\]`\\|]')
+
+
+def sach_chu(v, ten_truong, dai, nhieu_dong=False):
+    """Chữ tự do (tiêu đề, thơ, lưu ý) — làm y như sachChu() của bảng sửa (bỏ ký tự điều khiển/ký tự cấm, gọn khoảng trắng)."""
+    if v is None:
+        return ''
+    if not isinstance(v, str):
+        raise Loi(f'{ten_truong} phải là chữ')
+    s = RE_CAM_CHU.sub('', RE_DIEU_KHIEN.sub('', v))
+    s = re.sub(r'\n{3,}', '\n\n', re.sub(r'[ \t]+', ' ', s)).strip() if nhieu_dong else re.sub(r'\s+', ' ', s).strip()
+    if len(s) > dai:
+        raise Loi(f'{ten_truong} dài quá {dai} chữ')
+    return s
+
+
+def sach_tuy(v):
+    """→ dạng gọn chuẩn {"tat": […a→z], "bat": […], "td": {…a→z}}, bỏ phần rỗng ({} = mặc định). Giống gonTuy() của bảng sửa."""
+    if v in (None, '', {}):
+        return {}
+    if not isinstance(v, dict):
+        raise Loi('Hiệu ứng & phần (tuy) sai dạng')
+    la = [k for k in v if k not in ('tat', 'bat', 'td')]
+    if la:
+        raise Loi('Hiệu ứng & phần: mục lạ ' + ', '.join(map(str, la)))
+    o = {}
+    ds = {}
+    for k, cho, viec in (('tat', TUY_TAT, 'tắt'), ('bat', TUY_BAT, 'bật')):
+        x = v.get(k) or []
+        if not isinstance(x, list) or not all(isinstance(y, str) for y in x):
+            raise Loi(f'Hiệu ứng & phần: danh sách {viec} sai dạng')
+        sai = [y for y in x if y not in cho]
+        if sai:
+            raise Loi(f'Hiệu ứng & phần: không có mục "{sai[0]}" để {viec}')
+        ds[k] = sorted(set(x))
+    if 'phong_bi' in ds['tat']:
+        ds['bat'] = [y for y in ds['bat'] if y != 'phong_bi']
+    for k in ('tat', 'bat'):
+        if ds[k]:
+            o[k] = ds[k]
+    td = v.get('td') or {}
+    if not isinstance(td, dict):
+        raise Loi('Hiệu ứng & phần: tiêu đề sai dạng')
+    td2 = {}
+    for k in sorted(td):
+        if k not in TEN_TD:
+            raise Loi(f'Hiệu ứng & phần: không có tiêu đề "{k}"')
+        s = sach_chu(td[k], f'Tiêu đề “{TEN_TD[k]}”', 40)
+        if s:
+            td2[k] = s
+    if td2:
+        o['td'] = td2
+    return o
+
+
+def sach_tho(v):
+    """{"1".."4": thơ ≤200 chữ} — bỏ bài trống (trống = câu mặc định của mẫu)."""
+    if v in (None, '', {}):
+        return {}
+    if not isinstance(v, dict):
+        raise Loi('Thơ (tho) sai dạng')
+    o = {}
+    for k in sorted(v, key=str):
+        if str(k) not in TEN_THO:
+            raise Loi(f'Thơ: không có khối "{k}"')
+        s = sach_chu(v[k], TEN_THO[str(k)], 200, nhieu_dong=True)
+        if s:
+            o[str(k)] = s
+    return o
+
+
+def sach_ghi(v):
+    return sach_chu(v, 'Lưu ý cho khách', 300, nhieu_dong=True)
+
+
+def dong_tuy(a, b, style=''):
+    """Tóm tắt thay đổi Hiệu ứng & phần (công khai được): tắt/bật gì, đổi tiêu đề nào."""
+    a, b = a or {}, b or {}
+
+    def bat(t, k):
+        if k == 'phong_bi':
+            return (style == 'song-hy' and k not in (t.get('tat') or [])) or k in (t.get('bat') or [])
+        return k not in (t.get('tat') or [])
+    tat_, bat_ = [], []
+    for k in TUY_TAT:
+        x, y = bat(a, k), bat(b, k)
+        if x and not y:
+            tat_.append(TEN_TUY[k])
+        elif y and not x:
+            bat_.append(TEN_TUY[k])
+    L = []
+    if tat_:
+        L.append('Tắt: ' + ' · '.join(tat_))
+    if bat_:
+        L.append('Bật: ' + ' · '.join(bat_))
+    ta, tb = a.get('td') or {}, b.get('td') or {}
+    for k in TEN_TD:
+        if ta.get(k, '') != tb.get(k, ''):
+            L.append(f"Tiêu đề “{TEN_TD[k]}”: {ta.get(k) or 'mặc định'} → {tb.get(k) or 'mặc định'}")
+    return L
 
 
 def sach_nhac(v, mac_dinh=''):
@@ -217,6 +333,11 @@ def ap_set_thiep(pub, set_, ma):
             moi['pos'][n2] = v
     moi['ngay'] = sach_ngay(m.get('ngay'), 'Ngày cưới', cho_trong=True)
     moi['nhac'] = sach_nhac(m.get('nhac'), '')
+    tuy = sach_tuy(m.get('tuy'))
+    if tuy:
+        moi['tuy'] = tuy
+    else:
+        moi.pop('tuy', None)                        # mặc định: không ghi trường rỗng
     return moi
 
 

@@ -28,6 +28,11 @@ thong-tin.json (bỏ trống mục nào thì thiệp tự ẩn khối đó):
   "vietqr_bank": "", "vietqr_stk": "", "vietqr_ten": "",
   "youtube_id": "",                       // mã 11 ký tự hoặc link YouTube (trống = không có khối clip)
   "loi_ngo": "", "cau_chuyen": "",        // trống = câu mặc định
+  "tho": {"1": "", "2": "", "3": "", "4": ""},   // 4 bài thơ/câu trích (≤200 chữ, trống = câu mặc định) — mã hoá
+  "ghi_them": "",                         // "Lưu ý cho khách" dưới phần địa điểm (≤300 chữ, trống = không hiện) — mã hoá
+  "tuy": {"tat": [], "bat": [], "td": {}},       // Hiệu ứng & phần (công khai) — khoá xem thiep_chung.TEN_TUY / TEN_TD;
+                                          //   vd tắt hoa rơi + bản đồ: {"tat": ["hoa", "ban_do"]} · phong bì cho mẫu khác Song Hỷ: {"bat": ["phong_bi"]}
+                                          //   · đổi tiêu đề: {"td": {"story": "Chuyện tụi mình"}}. Lệnh sua: ghi ĐỦ cả khối tuy.
   "nhac": "",                             // trống = nhạc của mẫu · canon-in-d · minuet-in-g · gymnopedie · d:<mã Drive> · khong
   "anh": {"thu_muc": "…", "tep": [],      // tep trống = mọi ảnh trong thư mục (theo tên)
           "bia": 1, "cr": 2, "cd": 3, "ds": [4, 5, 6], "poster": 7,   // số thứ tự trong danh sách ảnh (1 = ảnh đầu); trống = tự chọn
@@ -57,13 +62,13 @@ import thiep_chung as C  # noqa: E402
 B62 = string.ascii_letters + string.digits
 KL = 16
 DUOI_ANH = ('.jpg', '.jpeg', '.png', '.webp', '.tif', '.tiff')
-# Phần CÔNG KHAI (pub, nằm trần trong trang — như chính các file ảnh): tên, ngày cưới, bố cục ảnh, nhạc.
-# Phần RIÊNG (mã hoá): SĐT, cha mẹ, lịch lễ & địa điểm, bản đồ, tài khoản mừng cưới, clip, lời ngỏ/câu chuyện.
+# Phần CÔNG KHAI (pub, nằm trần trong trang — như chính các file ảnh): tên, ngày cưới, bố cục ảnh, nhạc, hiệu ứng & phần (tuy).
+# Phần RIÊNG (mã hoá): SĐT, cha mẹ, lịch lễ & địa điểm, bản đồ, tài khoản mừng cưới, clip, lời ngỏ/câu chuyện, thơ, lưu ý cho khách.
 # Bảng sửa ẩn (js/sua-thiep.js) dùng đúng 2 danh sách này.
 PUB_ANH = ['bia', 'bia_pos', 'anh_cr', 'anh_cd', 'anh_ds', 'poster', 'poster_pos', 'pos']
 PUB_TEN = ['ten_cd', 'ten_cr']
 RIENG = ['sdt_cd', 'sdt_cr', 'cha_cr', 'me_cr', 'cha_cd', 'me_cd', 'le', 'ban_do', 'vietqr_bank', 'vietqr_stk', 'vietqr_ten',
-         'youtube_id', 'loi_ngo', 'cau_chuyen', 'loi_moi_mau', 'tao']
+         'youtube_id', 'loi_ngo', 'cau_chuyen', 'tho', 'ghi_them', 'loi_moi_mau', 'tao']
 
 
 def hom_nay():
@@ -280,7 +285,7 @@ def ngay_cua(le):
 def xem_day_du(pub, rieng):
     """Gộp 2 phần + các dòng hiển thị (giống ghepThiep/tinhToan trong thiep-mau.html) — để in cho người đọc."""
     d = dict(rieng)
-    for k in ('mau', 'ten_cd', 'ten_cr', 'anh_co', 'nhac') + tuple(PUB_ANH):
+    for k in ('mau', 'ten_cd', 'ten_cr', 'anh_co', 'nhac', 'tuy') + tuple(PUB_ANH):
         d[k] = pub.get(k)
     le = d.get('le') or {}
     vq, th, ti = (le.get(k) or {} for k in ('vu_quy', 'thanh_hon', 'tiec'))
@@ -405,6 +410,11 @@ def lenh_tao(duong):
              'vietqr_bank': chu(tt.get('vietqr_bank'), 40), 'vietqr_stk': chu(tt.get('vietqr_stk'), 30), 'vietqr_ten': chu(tt.get('vietqr_ten'), 60),
              'youtube_id': yt, 'loi_ngo': chu(tt.get('loi_ngo'), 600), 'cau_chuyen': chu(tt.get('cau_chuyen'), 600),
              'loi_moi_mau': 'Quý khách', 'tao': hom_nay()}
+    tho, ghi, tuy = C.sach_tho(tt.get('tho')), C.sach_ghi(tt.get('ghi_them')), C.sach_tuy(tt.get('tuy'))
+    if tho:
+        rieng['tho'] = tho
+    if ghi:
+        rieng['ghi_them'] = ghi
     if not ngay_cua(rieng['le']):
         raise C.Loi('chưa có ngày cưới (le.tiec.ngay hoặc le.thanh_hon.ngay)')
     ma, k = tao_ma(ten_cd, ten_cr), tao_k()
@@ -425,6 +435,8 @@ def lenh_tao(duong):
                'anh_cr': chon['anh_cr'], 'anh_cd': chon['anh_cd'], 'anh_ds': chon['anh_ds'],
                'poster': chon['poster'], 'poster_pos': '', 'pos': pos, 'anh_co': anh_co,
                'nhac': sach_nhac(tt.get('nhac'), M.get('nhac', '')), 'nhac_ten': '', 'nhac_doi': '1'}
+        if tuy:
+            pub['tuy'] = tuy
         pub['goc'] = copy.deepcopy({x: pub[x] for x in PUB_TEN + PUB_ANH})   # nút "Về bản gốc" của bảng sửa ẩn
         ghi_thiep(ma, k, pub, rieng)
     except Exception:
@@ -476,6 +488,18 @@ def lenh_sua(l, duong):
             rieng[kk] = sach_sdt(v, kk)
         elif kk == 'youtube_id':
             rieng[kk] = youtube(v)
+        elif kk == 'tuy':                              # ghi đủ cả khối (thay hẳn khối cũ); {} = về mặc định
+            t = C.sach_tuy(v)
+            if t:
+                pub['tuy'] = t
+            else:
+                pub.pop('tuy', None)
+        elif kk in ('tho', 'ghi_them'):
+            x = C.sach_tho(v) if kk == 'tho' else C.sach_ghi(v)
+            if x:
+                rieng[kk] = x
+            else:
+                rieng.pop(kk, None)
         elif kk in RIENG:
             rieng[kk] = chu(v, 600)
         else:

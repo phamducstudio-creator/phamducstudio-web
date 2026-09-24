@@ -9,7 +9,8 @@ Chạy trong GitHub Actions (.github/workflows/sua-thiep.yml):
   ap_dung.py bao <ket-qua.json> <ap> <day> <dai> <web>   in nội dung comment trả lời issue (markdown)
 
 Chỉ đọc dữ liệu trong khối ```json cuối cùng của issue; mọi giá trị được kiểm chặt (mẫu có thật, ảnh có thật
-trong images/, canh khung đúng dạng "x% y%", tên không có ký tự lạ, không ảnh nào bị dùng 2 lần).
+trong images/, canh khung đúng dạng "x% y%", tên không có ký tự lạ, không ảnh nào bị dùng 2 lần; Hiệu ứng & phần: chỉ nhận
+đúng các khoá bật/tắt/tiêu đề có sẵn — thiep_chung.sach_tuy/sach_tho).
 Chạy thử ở máy: ap_dung.py ap-dung event-thu.json kq.json (event-thu.json = {"issue": {"number": 1, "body": "..."}}).
 """
 import hashlib
@@ -29,7 +30,9 @@ GOC = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..'))
 THIEP = os.path.join(GOC, 'thiep-mau.html')
 TRANG_BAN = os.path.join(GOC, 'thiep-cuoi-online.html')
 WEB = 'https://phamducstudio.vn/'
-FIELDS = ['album', 'ten_cr', 'ten_cd', 'bia', 'bia_pos', 'anh_cr', 'anh_cd', 'anh_ds', 'poster', 'poster_pos', 'pos']
+FIELDS_ANH = ['album', 'ten_cr', 'ten_cd', 'bia', 'bia_pos', 'anh_cr', 'anh_cd', 'anh_ds', 'poster', 'poster_pos', 'pos']
+TUY_F = ['tuy', 'tho', 'ghi_them']                   # tab "Hiệu ứng & phần" (xem thiep_chung.sach_tuy)
+FIELDS = FIELDS_ANH + TUY_F
 TIEN_TO = '  var MAU = '
 RE_SO = re.compile(r'^\d{1,3}$')
 RE_POS = re.compile(r'^(\d{1,3})% (\d{1,3})%$')
@@ -100,7 +103,24 @@ def sach_so(v, ten_truong, album, cho_trong=False):
     return v
 
 
-def dong_thay_doi(a, b):
+def ngan(s):
+    s = re.sub(r'\s+', ' ', s or '').strip()
+    return (s[:40] + '…' if len(s) > 42 else s) or '—'
+
+
+def dong_tuy_mau(a, b, style=''):
+    """Hiệu ứng & phần của thiệp mẫu (công khai hết): công tắc, tiêu đề, thơ, lưu ý."""
+    L = TC.dong_tuy(a.get('tuy'), b.get('tuy'), style)
+    ta, tb = a.get('tho') or {}, b.get('tho') or {}
+    for k, t in TC.TEN_THO.items():
+        if ta.get(k, '') != tb.get(k, ''):
+            L.append(f"{t}: {ngan(ta.get(k) or 'câu mặc định')} → {ngan(tb.get(k) or 'câu mặc định')}")
+    if (a.get('ghi_them') or '') != (b.get('ghi_them') or ''):
+        L.append(f"Lưu ý cho khách: {ngan(a.get('ghi_them'))} → {ngan(b.get('ghi_them'))}")
+    return L
+
+
+def dong_thay_doi(a, b, style=''):
     """Tóm tắt thay đổi bằng tiếng Việt (giống bảng sửa)."""
     L = []
     if a['ten_cr'] != b['ten_cr']:
@@ -111,7 +131,7 @@ def dong_thay_doi(a, b):
         L.insert(0, f"Bộ ảnh: {a['album']} → {b['album']}")
         L.append(f"Ảnh chọn lại theo bộ mới — bìa {b['bia'] or 'gốc'} · rể {b['anh_cr']} · dâu {b['anh_cd']} · "
                  f"câu chuyện {b['anh_ds'].replace(',', ' ')} · clip {b['poster']}")
-        return L
+        return L + dong_tuy_mau(a, b, style)
     if a['bia'] != b['bia'] and (a['bia'] or b['bia']):
         L.append(f"Ảnh bìa: {a['bia'] or 'bìa gốc'} → {b['bia'] or 'bìa gốc'}")
     elif a['bia_pos'] != b['bia_pos'] and a['album'] == b['album']:
@@ -130,7 +150,7 @@ def dong_thay_doi(a, b):
         doi = sorted(n for n in set(pa) | set(pb) if pa.get(n, '') != pb.get(n, '') and n in pb)
         if doi:
             L.append('Canh khung: ảnh ' + ', '.join(doi))
-    return L
+    return L + dong_tuy_mau(a, b, style)
 
 
 def ban_sua_duoc(e):
@@ -140,6 +160,7 @@ def ban_sua_duoc(e):
         'anh_cr': e.get('anh_cr', ''), 'anh_cd': e.get('anh_cd', ''), 'anh_ds': e.get('anh_ds', ''),
         'poster': e.get('poster', ''), 'poster_pos': e.get('poster_pos', '') or '',
         'pos': dict(sorted((e.get('pos') or {}).items())),
+        'tuy': TC.sach_tuy(e.get('tuy')), 'tho': TC.sach_tho(e.get('tho')), 'ghi_them': TC.sach_ghi(e.get('ghi_them')),
     }
 
 
@@ -190,6 +211,9 @@ def kiem_va_ghep(truoc, set_):
         v = sach_pos(pos[n], f'Canh khung ảnh {n2}')
         if v and n2 in than:
             moi['pos'][n2] = v
+    moi['tuy'] = TC.sach_tuy(m.get('tuy'))
+    moi['tho'] = TC.sach_tho(m.get('tho'))
+    moi['ghi_them'] = TC.sach_ghi(m.get('ghi_them'))
     return moi
 
 
@@ -222,16 +246,16 @@ def ap_dung(event_path, kq_path):
         kq['key'], kq['ten'] = key, e.get('ten', key)
         truoc = ban_sua_duoc(e)
         moi = kiem_va_ghep(truoc, pl.get('set'))
-        kq['dong'] = dong_thay_doi(truoc, moi)
+        kq['dong'] = dong_thay_doi(truoc, moi, e.get('style') or '')
         if moi == truoc:
             kq['ok'], kq['khong_doi'] = True, True
             kq['dong'] = ['Không có gì khác bản trên web — không cần sửa.']
         else:
             if 'goc' not in e:
-                e['goc'] = truoc                      # bản studio dựng ban đầu — nút "Về bản gốc"
+                e['goc'] = {k: truoc[k] for k in FIELDS_ANH}   # bản studio dựng ban đầu (tên + ảnh) — nút "Về bản gốc"
             for k in FIELDS:
-                if k in ('bia', 'bia_pos') and not moi[k]:
-                    e.pop(k, None)                    # bìa mặc định: không ghi trường rỗng
+                if k in ('bia', 'bia_pos') + tuple(TUY_F) and not moi[k]:
+                    e.pop(k, None)                    # bìa mặc định / hiệu ứng mặc định: không ghi trường rỗng
                 else:
                     e[k] = moi[k]
             if 'goc' in e:                            # goc luôn nằm cuối cho dễ đọc
@@ -293,8 +317,9 @@ def dong_thiep(a, b, co_enc):
         L.append(f"Ngày cưới: {a.get('ngay') or '—'} → {b.get('ngay') or '—'}")
     if a.get('nhac') != b.get('nhac'):
         L.append('Nhạc nền')
+    L += TC.dong_tuy(a.get('tuy'), b.get('tuy'), b.get('style') or '')
     if co_enc:
-        L.append('Thông tin riêng (lịch lễ, địa điểm, SĐT, cha mẹ, mừng cưới…) — đã mã hoá, chỉ ai có link mới đọc được')
+        L.append('Thông tin riêng (lịch lễ, địa điểm, SĐT, cha mẹ, mừng cưới, lời, thơ, lưu ý…) — đã mã hoá, chỉ ai có link mới đọc được')
     return L
 
 

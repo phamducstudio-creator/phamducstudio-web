@@ -64,12 +64,13 @@
     bia: m.bia || '', bia_pos: m.bia_pos || '', poster: m.poster || '', poster_pos: m.poster_pos || '', pos: m.pos || {},
     vietqr_bank: 'Vietcombank', vietqr_stk: '0123 456 789', vietqr_ten: 'TÊN CÔ DÂU / CHÚ RỂ',
     loi_moi_mau: 'Quý khách', guest: m.guest, sdt_cr: '0900000000', sdt_cd: '0900000000',
-    hearts: m.hearts, nhac: SUA ? 'khong' : (qNhac || m.nhac || ''), wishes: m.wishes
+    hearts: m.hearts, nhac: SUA ? 'khong' : (qNhac || m.nhac || ''), wishes: m.wishes,
+    tuy: m.tuy || {}, tho: m.tho || {}, ghi_them: m.ghi_them || ''
   };
   window.__MAU_NAV__ = { list: MAU.map(function(x){ return {key:x.key, ten:x.ten, mau:x.mau}; }), i: i, nhac: qNhac };
   if (SUA) {
     window.__SUA__ = { mau: MAU, i: i };
-    var sj = document.createElement('script'); sj.src = '/js/sua-thiep.js?v=20260926a'; sj.async = true;
+    var sj = document.createElement('script'); sj.src = '/js/sua-thiep.js?v=20260927a'; sj.async = true;
     document.head.appendChild(sj);
   }
 })();
@@ -568,6 +569,15 @@ body.mau .foot .small{display:none}
 body.mau .env{top:calc(48px + env(safe-area-inset-top,0px))}
 body.mau .music{top:calc(58px + env(safe-area-inset-top,0px))}
 .video img{object-position:var(--poster-pos,50% 50%)}
+/* Hiệu ứng & phần (bảng sửa ẩn): tắt từng hiệu ứng */
+html.tat-hoa .petal,html.tat-hoa .amb{display:none!important}
+html.tat-hien .rv{opacity:1!important;transform:none!important;transition:none!important}
+html.tat-kb .cover .photo{animation:none!important}
+html.tat-bay .wfloat{display:none!important}
+html:not([data-style]) .script.td-viet{font-family:'Great Vibes','Playfair Display',cursive}
+.ghi-them{margin:18px auto 0;max-width:420px;background:var(--white);border:1px dashed rgba(var(--gold-rgb),.65);border-radius:14px;padding:14px 16px;text-align:center}
+.ghi-them b{display:block;font-family:var(--font-display);font-weight:600;font-size:16px;color:var(--wine-900);margin-bottom:4px}
+.ghi-them p{margin:0;white-space:pre-line;color:var(--ink);font-size:14.5px;line-height:1.6}
 /* thiệp riêng: gửi xác nhận / lời chúc qua Zalo khi kho chưa dùng được */
 .zl{background:var(--white);border:1px solid rgba(var(--gold-rgb),.55);border-radius:14px;padding:16px 16px 14px;margin-top:12px;text-align:left}
 .zl b{display:block;font-family:var(--font-display);font-weight:600;font-size:17px;color:var(--wine-900)}
@@ -687,7 +697,7 @@ body.mau .music{top:calc(58px + env(safe-area-inset-top,0px))}
 
   <!-- 3. OUR STORY: portraits + call -->
   <section class="sec" id="storySec">
-    <h2 class="script rv">Our Story</h2>
+    <h2 class="script rv" data-td="story">Our Story</h2>
     <p class="poem rv d1" id="cauChuyen"></p>
     <div class="duo" id="duo">
       <div class="rv rv-l d1"><a class="ph" id="phCr" href="#"><img alt=""></a><div class="cap"><b id="crName2"></b><a class="call" id="callCr" href="#" hidden><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1.9.4 1.8.7 2.7a2 2 0 0 1-.5 2.1L8 9.8a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.4c.9.3 1.8.6 2.7.7a2 2 0 0 1 1.7 2z"/></svg>Gọi chú rể</a></div></div>
@@ -697,13 +707,13 @@ body.mau .music{top:calc(58px + env(safe-area-inset-top,0px))}
 
   <!-- 4. COLLAGE 3 + poem -->
   <section class="sec" id="col3Sec" hidden>
-    <h2 class="script sm rv">love you</h2>
+    <h2 class="script sm rv" data-td="love1">love you</h2>
     <div class="collage3" id="collage3">
       <a class="ph a rv rv-l" href="#"><img alt=""></a>
       <a class="ph b rv rv-r d1" href="#"><img alt=""></a>
       <a class="ph c rv rv-r d2" href="#"><img alt=""></a>
     </div>
-    <p class="poem left rv d1" style="margin-top:22px">Giữa muôn người, gặp đúng một người.
+    <p class="poem left rv d1" id="tho1" style="margin-top:22px">Giữa muôn người, gặp đúng một người.
 Không sớm một bước, chẳng muộn một bước —
 vừa khéo, đúng lúc, gặp nhau.</p>
   </section>
@@ -711,7 +721,7 @@ vừa khéo, đúng lúc, gặp nhau.</p>
   <!-- 5. FULL-BLEED + OVERLAY2 -->
   <section class="sec" id="bleedSec" hidden>
     <a class="ph bleed rv rv-z" id="phBleed" href="#"><img alt=""></a>
-    <p class="poem right rv d1" style="margin-top:22px">Nắng chiều nghiêng xuống bờ sông,
+    <p class="poem right rv d1" id="tho2" style="margin-top:22px">Nắng chiều nghiêng xuống bờ sông,
 thương em như thể rơi vào dịu êm.</p>
   </section>
 
@@ -720,20 +730,20 @@ thương em như thể rơi vào dịu êm.</p>
       <div class="bg" id="ovBg"></div>
       <a class="ph rv rv-l" href="#"><img alt=""></a>
       <a class="ph rv rv-r d1" href="#"><img alt=""></a>
-      <p class="poem rv d2">“Chọn nhau một lần,
+      <p class="poem rv d2" id="tho3">“Chọn nhau một lần,
 rồi cứ thế chọn nhau mỗi ngày.”</p>
     </div>
   </section>
 
   <!-- 6. VIDEO -->
   <section class="sec" id="videoSec" hidden>
-    <h2 class="script rv">Our Film</h2>
+    <h2 class="script rv" data-td="film">Our Film</h2>
     <div class="video rv rv-z d1" id="videoBox"></div>
   </section>
 
   <!-- 7. WEDDING TIME: calendar + countdown -->
   <section class="sec" id="timeSec">
-    <h2 class="script rv">Wedding Time</h2>
+    <h2 class="script rv" data-td="time">Wedding Time</h2>
     <div class="cal-wrap rv rv-z d1">
       <div class="bg" id="calBg"></div>
       <div class="cal" id="cal"></div>
@@ -750,20 +760,21 @@ rồi cứ thế chọn nhau mỗi ngày.”</p>
 
   <!-- 8. ADDRESS: events + map -->
   <section class="sec" id="evSec">
-    <h2 class="script rv">Address</h2>
+    <h2 class="script rv" data-td="address">Address</h2>
     <p class="lead rv d1" style="margin-bottom:10px">Chương trình &amp; địa điểm</p>
     <div id="evList"></div>
     <div class="map rv rv-z" id="mapBox" hidden></div>
+    <div class="ghi-them rv" id="ghiThemBox" hidden><b data-td="ghi">Lưu ý cho khách</b><p id="ghiThem"></p></div>
   </section>
 
   <!-- 9. OFFSET2 + poem -->
   <section class="sec" id="off2Sec" hidden>
-    <h2 class="script sm rv">love you</h2>
+    <h2 class="script sm rv" data-td="love2">love you</h2>
     <div class="offset2" id="offset2">
       <a class="ph rv rv-l" href="#"><img alt=""></a>
       <a class="ph rv rv-r d1" href="#"><img alt=""></a>
     </div>
-    <p class="poem left rv d1" style="margin-top:22px">Hôn nhân không phải là tình cờ,
+    <p class="poem left rv d1" id="tho4" style="margin-top:22px">Hôn nhân không phải là tình cờ,
 mà là đúng lúc, gặp đúng người —
 rồi nắm tay nhau đi qua năm tháng.</p>
   </section>
@@ -771,14 +782,14 @@ rồi nắm tay nhau đi qua năm tháng.</p>
   <!-- 10. ALBUM GRID -->
   <section class="sec" id="albumSec" hidden>
     <div class="orn rv">Album</div>
-    <h3 class="sec-sub rv d1">Khoảnh khắc của chúng mình</h3>
+    <h3 class="sec-sub rv d1" data-td="album">Khoảnh khắc của chúng mình</h3>
     <div class="grid rv d1" id="grid"></div>
     <p class="cap-note">Chạm vào ảnh để xem lớn</p>
   </section>
 
   <!-- 11. RSVP -->
   <section class="sec" id="rsvp">
-    <h2 class="script rv">RSVP</h2>
+    <h2 class="script rv" data-td="rsvp">RSVP</h2>
     <p class="lead rv d1">Xin cho hai gia đình biết trước để chuẩn bị chỗ ngồi chu đáo nhất.</p>
     <form class="form rv d1" id="rsvpForm" novalidate>
       <h4>Xác nhận tham dự</h4>
@@ -800,7 +811,7 @@ rồi nắm tay nhau đi qua năm tháng.</p>
 
   <!-- 12. MỪNG CƯỚI -->
   <section class="sec" id="mungSec" hidden>
-    <h2 class="script rv">With Love</h2>
+    <h2 class="script rv" data-td="withlove">With Love</h2>
     <p class="lead rv d1">Nếu quý khách ở xa hoặc không tiện đến, có thể gửi mừng cưới qua mã QR bên dưới.</p>
     <div class="gift rv rv-z d1">
       <img id="qrImg" alt="Mã QR mừng cưới">
@@ -815,7 +826,7 @@ rồi nắm tay nhau đi qua năm tháng.</p>
 
   <!-- 13. WELCOME / WISHES -->
   <section class="sec" id="chucSec">
-    <h2 class="script rv">Welcome</h2>
+    <h2 class="script rv" data-td="welcome">Welcome</h2>
     <p class="lead rv d1">Lời chúc từ mọi người</p>
     <ul class="wishes" id="wishes"></ul>
     <p class="lead" id="noWish" style="margin-top:12px">Hãy là người đầu tiên gửi lời chúc nhé!</p>
@@ -829,12 +840,12 @@ rồi nắm tay nhau đi qua năm tháng.</p>
   </section>
 
   <footer class="foot">
-    <h2 class="script rv">Thank you</h2>
+    <h2 class="script rv" data-td="thanks">Thank you</h2>
     <img id="logoImg" src="/images/logo-footer.png" width="265" height="300" alt="Phạm Đức Studio">
     <div class="brand">Phạm Đức Studio · Cần Thơ</div>
     <p>Thiệp cưới online thiết kế bởi Phạm Đức Studio.</p>
-    <div class="cta"><a class="btn gold" target="_blank" rel="noopener" href="https://www.phamducstudio.vn/dat-lich-mua-cuoi.html?src=thiep&utm_source=thiep&utm_medium=referral&utm_campaign=thiep-cuoi-online">Bạn cũng sắp cưới? Xem ưu đãi mùa cưới →</a></div>
-    <div class="cta" style="margin-top:6px"><a target="_blank" rel="noopener" style="color:var(--gold-light);text-decoration:underline;text-underline-offset:3px;font-size:13px" href="https://www.phamducstudio.vn/thiep-cuoi-online.html?src=thiep&utm_source=thiep&utm_medium=referral&utm_campaign=thiep-cuoi-online">Muốn có thiệp cưới online như thế này? →</a></div>
+    <div class="cta qc"><a class="btn gold" target="_blank" rel="noopener" href="https://www.phamducstudio.vn/dat-lich-mua-cuoi.html?src=thiep&utm_source=thiep&utm_medium=referral&utm_campaign=thiep-cuoi-online">Bạn cũng sắp cưới? Xem ưu đãi mùa cưới →</a></div>
+    <div class="cta qc" style="margin-top:6px"><a target="_blank" rel="noopener" style="color:var(--gold-light);text-decoration:underline;text-underline-offset:3px;font-size:13px" href="https://www.phamducstudio.vn/thiep-cuoi-online.html?src=thiep&utm_source=thiep&utm_medium=referral&utm_campaign=thiep-cuoi-online">Muốn có thiệp cưới online như thế này? →</a></div>
     <div>Zalo <b style="font-variant-numeric:tabular-nums;letter-spacing:.04em;color:var(--gold-light)">0967 761 516</b></div>
     <div class="cta"><button class="btn" type="button" id="copyLink" style="color:var(--white)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10 13a5 5 0 0 0 7 0l3-3a5 5 0 0 0-7-7l-1 1"/><path d="M14 11a5 5 0 0 0-7 0l-3 3a5 5 0 0 0 7 7l1-1"/></svg>Sao chép link thiệp để gửi Zalo</button></div>
     <div class="small">Thiệp riêng của hai gia đình — vui lòng không chia sẻ công khai lên mạng xã hội.</div>
@@ -921,7 +932,7 @@ rồi nắm tay nhau đi qua năm tháng.</p>
   }
   /* Thiệp riêng = phần công khai (pub: tên, ngày, bố cục ảnh, nhạc — ai xem kho GitHub cũng thấy như thấy ảnh)
      + phần riêng đã giải mã (SĐT, cha mẹ, lịch lễ & địa điểm, tài khoản mừng cưới, clip, lời ngỏ). */
-  var PUB_VAO = ['mau','ten_cd','ten_cr','bia','bia_pos','anh_cr','anh_cd','anh_ds','poster','poster_pos','pos','anh_co','nhac','nhac_ten','nhac_doi'];
+  var PUB_VAO = ['mau','ten_cd','ten_cr','bia','bia_pos','anh_cr','anh_cd','anh_ds','poster','poster_pos','pos','anh_co','nhac','nhac_ten','nhac_doi','tuy'];
   var THU = ['Chủ Nhật','Thứ Hai','Thứ Ba','Thứ Tư','Thứ Năm','Thứ Sáu','Thứ Bảy'];
   function fmtLe(e){   /* "Thứ Bảy · 19/12 · 08:00 — ghi chú" (giống tao_thiep.py) */
     e = e || {};
@@ -958,7 +969,7 @@ rồi nắm tay nhau đi qua năm tháng.</p>
 
   function showState(which){
     ['loading','notfound','card'].forEach(function(id){ $(id).hidden = (id!==which); });
-    $('bar').hidden = (which!=='card');
+    $('bar').hidden = (which!=='card') || !!(CUR && tuyCua(CUR).tat.thanh);
   }
 
   if (!slug && !PREVIEW) { showState('notfound'); return; }
@@ -1271,6 +1282,53 @@ rồi nắm tay nhau đi qua năm tháng.</p>
     }
   }
 
+  /* ---------- Hiệu ứng & phần (bảng sửa ẩn): d.tuy {tat:[…tắt], bat:[…bật thêm], td:{tiêu đề}}, d.tho {1..4}, d.ghi_them ---------- */
+  function tuyCua(d){
+    var t = (d && d.tuy) || {}, o = { tat: {}, bat: {}, td: t.td || {} };
+    (t.tat || []).forEach(function(k){ o.tat[k] = 1; });
+    (t.bat || []).forEach(function(k){ o.bat[k] = 1; });
+    return o;
+  }
+  function coPhongBi(d){
+    var u = tuyCua(d), macDinh = String(d.phong_cach || '').trim() === 'song-hy' || String(d.phong_bi || '').trim() === '1';
+    return (macDinh && !u.tat.phong_bi) || !!u.bat.phong_bi;
+  }
+  function renderTuy(d){
+    var u = tuyCua(d), tat = u.tat, h = document.documentElement;
+    h.classList.toggle('tat-hoa', !!tat.hoa);
+    h.classList.toggle('tat-hien', !!tat.hien);
+    h.classList.toggle('tat-kb', !!tat.kb);
+    h.classList.toggle('tat-bay', !!(tat.bay || tat.chuc));
+    $('loiNgo').hidden = !!tat.loi_ngo;
+    $('cauChuyen').hidden = !!tat.cau_chuyen;
+    [1, 2, 3, 4].forEach(function(i){
+      var e = $('tho' + i); if (!e) return;
+      if (!e.hasAttribute('data-goc')) e.setAttribute('data-goc', e.textContent);
+      var v = d.tho && d.tho[i];
+      e.textContent = v ? v : e.getAttribute('data-goc');
+      e.hidden = !!tat['tho' + i];
+    });
+    Array.prototype.forEach.call(document.querySelectorAll('[data-td]'), function(e){
+      if (!e.hasAttribute('data-goc')) e.setAttribute('data-goc', e.textContent);
+      var v = u.td[e.getAttribute('data-td')];
+      e.textContent = v ? v : e.getAttribute('data-goc');
+      e.classList.toggle('td-viet', !!v && /[^\x00-\x7F]/.test(v));   /* chữ uốn Sacramento không có dấu tiếng Việt → đổi kiểu chữ */
+    });
+    document.querySelector('.cal-wrap').hidden = !!tat.lich;
+    $('countBox').hidden = !!tat.dem;
+    $('calLink').parentNode.hidden = !!tat.luu_lich;
+    if (tat.ban_do) $('mapBox').hidden = true; else if ($('mapBox').innerHTML) $('mapBox').hidden = false;
+    $('rsvp').hidden = !!tat.rsvp;
+    var coQR = !!(d.vietqr_bank && d.vietqr_stk) && !tat.qr;
+    $('mungSec').hidden = !coQR; $('barGift').hidden = !coQR;
+    $('chucSec').hidden = !!tat.chuc; $('barWish').hidden = !!tat.chuc;
+    if (!$('card').hidden) $('bar').hidden = !!tat.thanh;
+    Array.prototype.forEach.call(document.querySelectorAll('.foot .qc'), function(e){ e.hidden = !!tat.quang_cao; });
+    var gt = String(d.ghi_them || '').trim();
+    $('ghiThem').textContent = gt; $('ghiThemBox').hidden = !gt;
+    $('evSec').hidden = !$('evList').children.length && $('mapBox').hidden && !gt;
+  }
+
   function render(d){
     CUR = d;
     var THEMES = ['do-hy','hoang-kim','diu-dang','xanh-reu','xanh-dem','hien-dai','xanh-petrol'];
@@ -1278,7 +1336,7 @@ rồi nắm tay nhau đi qua năm tháng.</p>
     var STYLES = ['phim-xua','thanh-lich','han-quoc','nang-gio','song-hy'];
     var st = String(d.phong_cach||'').trim(); if (st === 'sang-trong') st = 'thanh-lich';   /* tên hiển thị mới: Sang Trọng */
     if (STYLES.indexOf(st) >= 0) document.documentElement.setAttribute('data-style', st);
-    if ((st === 'song-hy' || String(d.phong_bi||'').trim() === '1') && !window.__SUA__) envelope(d);   /* bảng sửa: bỏ phong bì */
+    if (coPhongBi(d) && !window.__SUA__) envelope(d);   /* Song Hỷ mặc định có phong bì; bảng sửa: bỏ phong bì */
     var guest = d.guest || d.loi_moi_mau || 'Quý khách';
 
     /* hero */
@@ -1516,11 +1574,12 @@ rồi nắm tay nhau đi qua năm tháng.</p>
       play();
     }
 
+    renderTuy(d);
     showState('card');
     setupReveal();
     setupLightbox();
     window.__THIEP__ = { d: d, anh: renderAnh, bia: renderBia, clip: renderClip, ten: renderTen,   /* bảng sửa ẩn vẽ lại từng phần */
-      ngay: renderNgay, giaDinh: renderGiaDinh, goi: renderGoi, suKien: renderSuKien, qr: renderQR, video: renderVideo,
+      ngay: renderNgay, giaDinh: renderGiaDinh, goi: renderGoi, suKien: renderSuKien, qr: renderQR, video: renderVideo, tuy: renderTuy, coPhongBi: coPhongBi, phongBi: envelope,
       datD: function(x){ CUR = x; window.__THIEP__.d = x; } };
     try { document.dispatchEvent(new CustomEvent('thiep:render')); } catch (e) {}
 
@@ -1668,6 +1727,7 @@ rồi nắm tay nhau đi qua năm tháng.</p>
   }
   function startFloat(list){
     if (!list.length || matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    if (CUR) { var u0 = tuyCua(CUR).tat; if (u0.bay || u0.chuc) return; }
     var i = 0;
     setTimeout(function(){
       showBubble(list[i % list.length]); i++;
