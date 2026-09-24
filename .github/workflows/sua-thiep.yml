@@ -1,9 +1,13 @@
-# Lưu thay đổi từ BẢNG SỬA ẢNH ẨN của thiệp mẫu (thiep-mau.html?m=<mẫu>&sua=1 → nút Lưu → GitHub "New issue" điền sẵn).
+# Lưu thay đổi từ BẢNG SỬA ẨN của thiệp (nút Lưu → GitHub "New issue" điền sẵn):
+#   - thiệp MẪU: thiep-mau.html?m=<mẫu>&sua=1
+#   - thiệp RIÊNG từng cặp: thiep/<mã>/?k=…&sua=1 (phần riêng đã mã hoá sẵn trên máy — bot không đọc được, chỉ kiểm dạng)
 # Chỉ chạy với issue tiêu đề bắt đầu "[sua-thiep]" do CHÍNH CHỦ REPO tạo (người khác tạo issue sẽ không làm gì).
-# Các bước: báo đã nhận → kiểm dữ liệu & sửa thiep-mau.html (.github/sua-thiep/ap_dung.py) → commit →
-# chụp lại dải ảnh trang bán (chup_dai_anh.py) → commit → đợi web thật đổi → trả lời + đóng issue.
-# Nhiều lần lưu chạy song song vẫn an toàn: đẩy lỗi thì lấy bản mới nhất trên main rồi áp lại yêu cầu (không mất lần lưu nào).
-name: Sửa thiệp mẫu
+# Các bước: báo đã nhận → kiểm dữ liệu & sửa trang (.github/sua-thiep/ap_dung.py) → commit →
+# chụp lại ảnh (thiệp mẫu: dải ảnh trang bán · thiệp riêng: ảnh xem trước Zalo nếu đổi tên/ngày/bìa) → commit →
+# đợi web thật đổi → trả lời + đóng issue.
+# Nhiều lần lưu chạy song song vẫn an toàn: đẩy lỗi thì lấy bản mới nhất trên main rồi áp lại yêu cầu (không mất lần lưu nào;
+# thiệp riêng mà phần chữ đã có bản mới hơn thì báo ❌ để anh làm lại, không ghi đè).
+name: Sửa thiệp
 
 on:
   issues:
@@ -43,10 +47,13 @@ jobs:
         id: day
         if: steps.ap.outputs.doi == '1'
         env:
+          LOAI: ${{ steps.ap.outputs.loai }}
           MAU_KEY: ${{ steps.ap.outputs.key }}
+          MA_TH: ${{ steps.ap.outputs.id }}
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          if [ "$LOAI" = "thiep" ]; then MSG="Thiệp riêng ${MA_TH}: sửa từ bảng sửa ẩn (#${SO})"; else MSG="Thiệp mẫu ${MAU_KEY}: sửa ảnh từ bảng sửa ẩn (#${SO})"; fi
           for i in 1 2 3 4 5; do
             if [ "$i" -gt 1 ]; then
               sleep $((i * 3))
@@ -54,15 +61,16 @@ jobs:
               python3 .github/sua-thiep/ap_dung.py ap-dung "$GITHUB_EVENT_PATH" "$RUNNER_TEMP/ket-qua.json" > /dev/null
             fi
             git add thiep-mau.html thiep-cuoi-online.html
+            if [ -n "$MA_TH" ] && [ -d "thiep/$MA_TH" ]; then git add "thiep/$MA_TH"; fi
             if git diff --cached --quiet; then exit 0; fi
-            git commit -q -m "Thiệp mẫu ${MAU_KEY}: sửa ảnh từ bảng sửa ẩn (#${SO})"
+            git commit -q -m "$MSG"
             if git push -q origin HEAD:main; then exit 0; fi
           done
           exit 1
 
-      - name: Chụp lại dải ảnh ở trang bán
+      - name: Chụp lại dải ảnh ở trang bán (thiệp mẫu)
         id: dai
-        if: steps.day.outcome == 'success'
+        if: steps.day.outcome == 'success' && steps.ap.outputs.loai != 'thiep'
         continue-on-error: true
         env:
           MAU_KEY: ${{ steps.ap.outputs.key }}
@@ -79,6 +87,25 @@ jobs:
           done
           exit 1
 
+      - name: Chụp lại ảnh xem trước Zalo (thiệp riêng)
+        id: the
+        if: steps.day.outcome == 'success' && steps.ap.outputs.loai == 'thiep' && steps.ap.outputs.anh == '1'
+        continue-on-error: true
+        env:
+          MA_TH: ${{ steps.ap.outputs.id }}
+        run: |
+          python3 -m pip install -q playwright pillow
+          python3 .github/thiep/anh_chia_se.py "$MA_TH"
+          git add "thiep/$MA_TH"
+          if git diff --cached --quiet; then exit 0; fi
+          git commit -q -m "Thiệp riêng ${MA_TH}: chụp lại ảnh xem trước (#${SO})"
+          for i in 1 2 3 4 5; do
+            if git pull -q --rebase origin main && git push -q origin HEAD:main; then exit 0; fi
+            git rebase --abort 2>/dev/null || true
+            sleep $((i * 3))
+          done
+          exit 1
+
       - name: Đợi web đổi
         id: web
         if: steps.day.outcome == 'success'
@@ -87,7 +114,7 @@ jobs:
       - name: Trả lời & đóng issue
         if: always()
         run: |
-          python3 .github/sua-thiep/ap_dung.py bao "$RUNNER_TEMP/ket-qua.json" "${{ steps.ap.outcome }}" "${{ steps.day.outcome }}" "${{ steps.dai.outcome }}" "${{ steps.web.outcome }}" > "$RUNNER_TEMP/tra-loi.md" \
+          python3 .github/sua-thiep/ap_dung.py bao "$RUNNER_TEMP/ket-qua.json" "${{ steps.ap.outcome }}" "${{ steps.day.outcome }}" "${{ steps.ap.outputs.loai == 'thiep' && steps.the.outcome || steps.dai.outcome }}" "${{ steps.web.outcome }}" > "$RUNNER_TEMP/tra-loi.md" \
             || echo "❌ Có lỗi khi xử lý — thiệp trên web chưa đổi. Nhắn Claude kiểm tra giúp." > "$RUNNER_TEMP/tra-loi.md"
           gh issue comment "$SO" --repo "$GITHUB_REPOSITORY" --body-file "$RUNNER_TEMP/tra-loi.md"
           gh issue close "$SO" --repo "$GITHUB_REPOSITORY" || true

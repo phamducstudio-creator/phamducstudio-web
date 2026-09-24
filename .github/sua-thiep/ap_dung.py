@@ -1,5 +1,7 @@
 #!/usr/bin/env python3
-"""Áp dụng yêu cầu sửa thiệp mẫu gửi từ bảng sửa ẩn (js/sua-thiep.js) qua GitHub issue.
+"""Áp dụng yêu cầu sửa thiệp gửi từ bảng sửa ẩn (js/sua-thiep.js) qua GitHub issue — thiệp MẪU (thiep-mau.html) và
+thiệp RIÊNG từng cặp (thiep/<mã>/index.html, "loai": "thiep": phần công khai kiểm chặt như thiệp mẫu; phần riêng đã mã hoá
+sẵn trên máy anh Đức — bot không giải mã được, chỉ kiểm dạng + "base" để không ghi đè bản mới hơn).
 
 Chạy trong GitHub Actions (.github/workflows/sua-thiep.yml):
   ap_dung.py ap-dung <event.json> <ket-qua.json>   kiểm dữ liệu + sửa thiep-mau.html (+ tên ở trang bán)
@@ -10,6 +12,7 @@ Chỉ đọc dữ liệu trong khối ```json cuối cùng của issue; mọi gi
 trong images/, canh khung đúng dạng "x% y%", tên không có ký tự lạ, không ảnh nào bị dùng 2 lần).
 Chạy thử ở máy: ap_dung.py ap-dung event-thu.json kq.json (event-thu.json = {"issue": {"number": 1, "body": "..."}}).
 """
+import hashlib
 import html
 import json
 import os
@@ -18,6 +21,9 @@ import subprocess
 import sys
 import time
 import urllib.request
+
+sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', 'thiep'))
+import thiep_chung as TC  # noqa: E402
 
 GOC = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..'))
 THIEP = os.path.join(GOC, 'thiep-mau.html')
@@ -31,8 +37,7 @@ RE_ALBUM = re.compile(r'^(studio|ngoai-canh)-\d{1,3}$')
 KY_TU_CAM = set('<>{}[]`"\\|')
 
 
-class Loi(Exception):
-    pass
+Loi = TC.Loi
 
 
 def doc_mau(noi_dung):
@@ -205,6 +210,9 @@ def ap_dung(event_path, kq_path):
         pl = lay_payload(issue.get('body') or '')
         if pl.get('v') != 1:
             raise Loi('phiên bản dữ liệu không đúng')
+        if pl.get('loai') == 'thiep':
+            ap_dung_thiep(pl, kq)
+            raise _Xong()
         noi_dung = open(THIEP, encoding='utf-8').read()
         mau, dong_cu = doc_mau(noi_dung)
         key = str(pl.get('key') or '')
@@ -235,14 +243,91 @@ def ap_dung(event_path, kq_path):
                 kq['luu_y'] = 'Mô tả ngắn của mẫu này ở trang bán thiệp vẫn giữ như cũ — nếu bộ ảnh mới khác kiểu (studio ↔ ngoại cảnh), nhắn Claude sửa câu mô tả.'
             kq['ok'] = True
         kq['set'] = {k: moi[k] for k in FIELDS}
+    except _Xong:
+        pass
     except Loi as er:
         kq['loi'] = str(er)
     except Exception as er:                            # lỗi lạ: vẫn trả lời issue cho anh biết
         kq['loi'] = 'lỗi không mong muốn: ' + type(er).__name__
     json.dump(kq, open(kq_path, 'w', encoding='utf-8'), ensure_ascii=False, indent=1)
-    ghi_output(doi='1' if kq['ok'] and not kq.get('khong_doi') else '0', ok='1' if kq['ok'] else '0',
-               key=kq['key'] if re.match(r'^[a-z0-9-]{1,40}$', kq['key'] or '') else '')
+    loai = kq.get('loai') or 'mau'
+    ghi_output(doi='1' if kq['ok'] and not kq.get('khong_doi') else '0', ok='1' if kq['ok'] else '0', loai=loai,
+               key=kq['key'] if loai == 'mau' and re.match(r'^[a-z0-9-]{1,40}$', kq['key'] or '') else '',
+               id=kq.get('id', '') if TC.RE_MA.match(kq.get('id', '') or '') else '',
+               anh='1' if kq.get('anh') else '0')
     print(json.dumps(kq, ensure_ascii=False, indent=1))
+
+
+class _Xong(Exception):
+    pass
+
+
+def bam(ct):
+    return hashlib.sha256(str(ct).encode()).hexdigest()[:16]
+
+
+def dong_thiep(a, b, co_enc):
+    """Tóm tắt (công khai) thay đổi của thiệp riêng — phần riêng chỉ ghi chung chung."""
+    L = []
+    for k, t in (('ten_cd', 'Tên cô dâu'), ('ten_cr', 'Tên chú rể')):
+        if a.get(k) != b.get(k):
+            L.append(f'{t}: {a.get(k)} → {b.get(k)}')
+    if a.get('bia') != b.get('bia'):
+        L.append(f"Ảnh bìa: {a.get('bia')} → {b.get('bia')}")
+    elif a.get('bia_pos') != b.get('bia_pos'):
+        L.append('Canh khung ảnh bìa')
+    for k, t in (('anh_cr', 'Ảnh chú rể'), ('anh_cd', 'Ảnh cô dâu')):
+        if a.get(k) != b.get(k):
+            L.append(f'{t}: {a.get(k)} → {b.get(k)}')
+    if a.get('anh_ds') != b.get('anh_ds'):
+        L.append(f"Ảnh câu chuyện: {(a.get('anh_ds') or '—').replace(',', ' ')} → {(b.get('anh_ds') or '—').replace(',', ' ')}")
+    if a.get('poster') != b.get('poster'):
+        L.append(f"Ảnh khung clip: {a.get('poster') or '—'} → {b.get('poster') or '—'}")
+    elif a.get('poster_pos') != b.get('poster_pos'):
+        L.append('Canh khung ảnh clip')
+    pa, pb = a.get('pos') or {}, b.get('pos') or {}
+    doi = sorted(n for n in set(pa) | set(pb) if pa.get(n, '') != pb.get(n, '') and n in pb)
+    if doi:
+        L.append('Canh khung: ảnh ' + ', '.join(doi))
+    if a.get('ngay') != b.get('ngay'):
+        L.append(f"Ngày cưới: {a.get('ngay') or '—'} → {b.get('ngay') or '—'}")
+    if a.get('nhac') != b.get('nhac'):
+        L.append('Nhạc nền')
+    if co_enc:
+        L.append('Thông tin riêng (lịch lễ, địa điểm, SĐT, cha mẹ, mừng cưới…) — đã mã hoá, chỉ ai có link mới đọc được')
+    return L
+
+
+def ap_dung_thiep(pl, kq):
+    ma = str(pl.get('id') or '')
+    kq.update(loai='thiep', id=ma)
+    s, E = TC.doc_trang(ma)
+    pub = dict(E.get('pub') or {})
+    kq['ten'] = f"{pub.get('ten_cd', '')} & {pub.get('ten_cr', '')}"
+    moi = TC.ap_set_thiep(pub, pl['set'], ma) if pl.get('set') else dict(pub)
+    E2 = dict(E, pub=moi)
+    enc = pl.get('enc')
+    if enc and isinstance(enc, dict) and enc.get('ct') == E.get('ct'):
+        enc = None                                     # phần riêng này đã có trên web (áp lại cùng 1 yêu cầu)
+    if enc:
+        if not isinstance(enc, dict):
+            raise Loi('phần mã hoá sai dạng')
+        if str(enc.get('base') or '') != bam(E['ct']):
+            raise Loi('thiệp trên web vừa có bản khác (lần lưu trước, hoặc Claude vừa sửa) — anh tải lại trang sửa rồi làm lại phần chữ')
+        iv, ct = str(enc.get('iv') or ''), str(enc.get('ct') or '')
+        if not (TC.RE_B64U.match(iv) and len(iv) == 16 and TC.RE_B64U.match(ct) and 40 <= len(ct) <= 60000):
+            raise Loi('phần mã hoá không đúng dạng')
+        E2['iv'], E2['ct'] = iv, ct
+    if E2 == E:
+        kq['ok'], kq['khong_doi'] = True, True
+        kq['dong'] = ['Không có gì khác bản trên web — không cần sửa.']
+        return
+    s2 = TC.ghi_meta(TC.ghi_du_lieu(s, E2), moi)
+    open(TC.duong_dan(ma, 'index.html'), 'w', encoding='utf-8').write(s2)
+    kq['dong'] = dong_thiep(pub, moi, bool(enc))
+    kq['anh'] = any(pub.get(x) != moi.get(x) for x in TC.CHUP_LAI)
+    kq['cho'] = {'ct': E2['ct'], 'pub': {x: moi.get(x) for x in TC.PUB_SUA}}
+    kq['ok'] = True
 
 
 def doi_ten_trang_ban(key, ten_cd, ten_cr):
@@ -263,18 +348,43 @@ def tai_web():
         return r.read().decode('utf-8', 'replace')
 
 
+def tai_trang(url):
+    req = urllib.request.Request(url + ('&' if '?' in url else '?') + 'cb=' + str(int(time.time() * 1000)),
+                                 headers={'User-Agent': 'sua-thiep-bot', 'Cache-Control': 'no-cache'})
+    with urllib.request.urlopen(req, timeout=20) as r:
+        return r.read().decode('utf-8', 'replace')
+
+
+def khop_thiep(kq):
+    m = TC.RE_KHOI.search(tai_trang(WEB + 'thiep/' + kq['id'] + '/'))
+    if not m:
+        return False
+    E = json.loads(m.group(2).replace('<\\/', '</'))
+    cho = kq.get('cho') or {}
+    pub = E.get('pub') or {}
+    return E.get('ct') == cho.get('ct') and all(pub.get(k) == v for k, v in (cho.get('pub') or {}).items())
+
+
 def cho_web(kq_path):
     kq = json.load(open(kq_path, encoding='utf-8'))
+    if not kq.get('ok') or kq.get('khong_doi'):
+        print('không có gì để đợi')
+        return
     muc = kq.get('set') or {}
     bat_dau, da_nho = time.time(), False
     kq['web'] = False
     while time.time() - bat_dau < 480:
         try:
-            mau, _ = doc_mau(tai_web())
-            e = next((x for x in mau if x.get('key') == kq['key']), None)
-            if e and ban_sua_duoc(e) == muc:
-                kq['web'] = True
-                break
+            if kq.get('loai') == 'thiep':
+                if khop_thiep(kq):
+                    kq['web'] = True
+                    break
+            else:
+                mau, _ = doc_mau(tai_web())
+                e = next((x for x in mau if x.get('key') == kq['key']), None)
+                if e and ban_sua_duoc(e) == muc:
+                    kq['web'] = True
+                    break
         except Exception:
             pass
         if not da_nho and time.time() - bat_dau > 180:
@@ -295,6 +405,8 @@ def bao(kq_path, ap, day, dai, web):
         kq = json.load(open(kq_path, encoding='utf-8'))
     except Exception:
         kq = {'ok': False, 'loi': 'không đọc được yêu cầu'}
+    if kq.get('loai') == 'thiep':
+        return bao_thiep(kq, day, dai, web)
     ten, key = kq.get('ten') or 'thiệp mẫu', kq.get('key') or ''
     link = WEB + 'thiep-mau.html?m=' + key if key else WEB + 'thiep-cuoi-online.html'
     dong = '\n'.join('- ' + d for d in kq.get('dong') or [])
@@ -314,6 +426,25 @@ def bao(kq_path, ap, day, dai, web):
     luu_y = ('\n\n⚠️ ' + kq['luu_y']) if kq.get('luu_y') else ''
     print(f'✅ Đã cập nhật thiệp mẫu **{ten}**. {web_txt}\n\n{dong}\n\nXem: {link}\n\n{dai_txt}{luu_y}\n\n'
           '_(Điện thoại đang mở sẵn thiệp thì tải lại trang.)_')
+
+
+def bao_thiep(kq, day, dai, web):
+    ten = kq.get('ten') or kq.get('id') or 'thiệp'
+    dong = '\n'.join('- ' + d for d in kq.get('dong') or [])
+    if not kq.get('ok'):
+        print(f"❌ Chưa lưu được thiệp **{ten}**: {kq.get('loi') or 'lỗi kiểm tra dữ liệu'}.\n\n"
+              'Thiệp trên web **chưa thay đổi**. Anh mở lại link thiệp (thêm &sua=1), chỉnh lại rồi bấm Lưu lần nữa — hoặc nhắn Claude kiểm tra giúp.')
+        return
+    if kq.get('khong_doi'):
+        print(f'✅ Thiệp **{ten}** đã giống hệt yêu cầu — không cần sửa gì.')
+        return
+    if day != 'success':
+        print(f'❌ Đã kiểm xong nhưng **chưa đẩy được lên web** (lỗi lúc lưu vào kho). Anh bấm Lưu lại sau ít phút — hoặc nhắn Claude.\n\n{dong}')
+        return
+    the = '' if not kq.get('anh') else ('\n\nẢnh xem trước khi gửi Zalo: ' + ('đã chụp lại theo bản mới.' if dai == 'success' else 'chưa chụp lại được (thiệp vẫn đã đổi) — nhắn Claude chụp lại giúp.'))
+    web_txt = 'Web đã đổi.' if kq.get('web') or web == 'true' else 'Đã lưu — GitHub Pages đang cập nhật, vài phút nữa mở lại sẽ thấy.'
+    print(f'✅ Đã cập nhật thiệp **{ten}**. {web_txt}\n\n{dong}{the}\n\n'
+          '_(Mở lại đúng link thiệp — máy đang mở sẵn thì tải lại trang. Link không đổi.)_')
 
 
 if __name__ == '__main__':
