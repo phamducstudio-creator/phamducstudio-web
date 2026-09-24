@@ -5,7 +5,7 @@
 <script>
 /* THIỆP MẪU — chọn mẫu bằng ?m=<key>. Ảnh & tên dâu rể thật của studio, ngày/giờ/địa điểm minh hoạ. Không gửi gì lên Sheet. */
 (function(){
-  var MAU = [{"key": "co-dien", "nhac": "canon-in-d", "theme": "xanh-petrol", "style": "", "ten": "Cổ Điển", "mau": "Xanh Petrol", "mood": "Kể chuyện nhẹ nhàng, sang trọng", "album": "studio-21", "anh_ds": "08,09,07,10,05,04", "anh_cr": "01", "anh_cd": "06", "poster": "03", "poster_pos": "50% 29%", "ten_cd": "An", "ten_cr": "Phong", "off": 77, "gio": "10:00", "guest": "Gia đình chú Sáu", "hearts": 48, "wishes": [{"ten": "Cô Tư", "loi": "Chúc hai con trăm năm hạnh phúc, sớm có tin vui!"}, {"ten": "Anh Hai", "loi": "Mừng hai em về chung một nhà ❤️"}, {"ten": "Nhóm bạn cấp 3", "loi": "Chuẩn bị bàn lớn nha, tụi này đi đông lắm 🎉"}], "loc": {"vq": "Tư gia nhà gái · Ninh Kiều, Cần Thơ", "th": "Tư gia nhà trai · Ninh Kiều, Cần Thơ", "tiec": "Trung tâm tiệc cưới · Ninh Kiều, Cần Thơ", "map": "Ninh Kiều, Cần Thơ"}}, {"key": "han-quoc", "nhac": "minuet-in-g", "theme": "", "style": "han-quoc", "ten": "Hàn Quốc", "mau": "Hồng Phấn", "mood": "Trong trẻo, ngọt ngào", "album": "studio-19", "anh_ds": "09,02,03,10,07", "anh_cr": "01", "anh_cd": "04", "poster": "06", "poster_pos": "50% 50%", "ten_cd": "Quỳnh Anh", "ten_cr": "Khánh Duy", "off": 91, "gio": "10:30", "guest": "Nhóm bạn thân", "hearts": 71, "wishes": [{"ten": "Nhóm bạn thân", "loi": "Happy wedding! Mãi hạnh phúc như phim Hàn nha 💕"}, {"ten": "Chị Mai", "loi": "Chúc hai em luôn ngọt ngào."}, {"ten": "Cậu Út", "loi": "Chúc hai cháu sớm có tin vui."}], "loc": {"vq": "Tư gia nhà gái · Cái Răng, Cần Thơ", "th": "Tư gia nhà trai · Cái Răng, Cần Thơ", "tiec": "Trung tâm tiệc cưới · Cái Răng, Cần Thơ", "map": "Cái Răng, Cần Thơ"}}, {"key": "song-hy", "nhac": "canon-in-d", "theme": "", "style": "song-hy", "ten": "Song Hỷ", "mau": "Đỏ Son", "mood": "Rộn ràng, mở thiệp phong bì", "album": "studio-18", "anh_ds": "02,04,06,05,01,08", "anh_cr": "10", "anh_cd": "09", "poster": "03", "poster_pos": "50% 50%", "ten_cd": "Thảo", "ten_cr": "Đăng", "off": 105, "gio": "11:00", "guest": "Gia đình chú Bảy", "hearts": 88, "wishes": [{"ten": "Chú Bảy", "loi": "Chúc hai cháu bách niên giai lão, sớm sinh quý tử."}, {"ten": "Cô Ba", "loi": "Mừng hai con nên duyên vợ chồng ❤️"}, {"ten": "Bạn thân", "loi": "Chúc mừng hạnh phúc hai bạn! 🎊"}], "loc": {"vq": "Tư gia nhà gái · Cần Thơ", "th": "Tư gia nhà trai · Cần Thơ", "tiec": "Trung tâm tiệc cưới · Cần Thơ", "map": "Cần Thơ"}}, {"key": "sang-trong", "nhac": "canon-in-d", "theme": "", "style": "thanh-lich", "ten": "Sang Trọng", "mau": "Trắng Champagne", "mood": "Trắng sáng kiểu châu Âu", "album": "ngoai-canh-31", "anh_ds": "04,02,06,07,01", "anh_cr": "08", "anh_cd": "10", "poster": "09", "poster_pos": "50% 50%", "ten_cd": "Uyên", "ten_cr": "Đăng", "off": 119, "gio": "11:00", "guest": "Quý khách", "hearts": 44, "wishes": [{"ten": "Cô Hạnh", "loi": "Chúc hai con mãi yêu thương nhau."}, {"ten": "Bạn học", "loi": "Đẹp đôi quá! Chúc mừng hạnh phúc."}, {"ten": "Anh Phong", "loi": "Chúc hai em trọn đời bên nhau."}], "loc": {"vq": "Tư gia nhà gái · Cần Thơ", "th": "Tư gia nhà trai · Cần Thơ", "tiec": "Trung tâm tiệc cưới · Cần Thơ", "map": "Cần Thơ"}}, {"key": "nang-gio", "nhac": "minuet-in-g", "theme": "", "style": "nang-gio", "ten": "Nắng & Gió", "mau": "Vàng Nắng", "mood": "Ngoài trời, tự do, phóng khoáng", "album": "ngoai-canh-20", "anh_ds": "05,09,01,06,10", "anh_cr": "04", "anh_cd": "07", "poster": "08", "poster_pos": "50% 30%", "ten_cd": "Thanh", "ten_cr": "Duy", "off": 133, "gio": "16:30", "guest": "Anh chị Ba", "hearts": 38, "wishes": [{"ten": "Anh chị Ba", "loi": "Chúc hai em luôn rạng rỡ như nắng sớm."}, {"ten": "Hội phượt", "loi": "Cưới xong nhớ đi trăng mật xa xa nha 🌊"}, {"ten": "Dì Năm", "loi": "Chúc hai con trăm năm hạnh phúc."}], "loc": {"vq": "Tư gia nhà gái · Ninh Kiều, Cần Thơ", "th": "Tư gia nhà trai · Ninh Kiều, Cần Thơ", "tiec": "Trung tâm tiệc cưới · Ninh Kiều, Cần Thơ", "map": "Ninh Kiều, Cần Thơ"}}, {"key": "phim-xua", "nhac": "gymnopedie", "theme": "", "style": "phim-xua", "ten": "Phim Xưa", "mau": "Nâu Sepia", "mood": "Hoài cổ như thước phim cũ", "album": "ngoai-canh-24", "anh_ds": "07,08,02,06,10,03", "anh_cr": "05", "anh_cd": "04", "poster": "01", "poster_pos": "50% 40%", "ten_cd": "Tú", "ten_cr": "Cường", "off": 147, "gio": "10:00", "guest": "Gia đình bác Hai", "hearts": 57, "wishes": [{"ten": "Bác Hai", "loi": "Chúc hai cháu thuận hoà, trăm năm hạnh phúc."}, {"ten": "Bạn thân", "loi": "Ảnh đẹp như phim xưa, thương hai bạn!"}, {"ten": "Chị Hằng", "loi": "Hạnh phúc viên mãn nha em 💛"}], "loc": {"vq": "Tư gia nhà gái · Bình Thủy, Cần Thơ", "th": "Tư gia nhà trai · Bình Thủy, Cần Thơ", "tiec": "Trung tâm tiệc cưới · Bình Thủy, Cần Thơ", "map": "Bình Thủy, Cần Thơ"}}];
+  var MAU = [{"key": "co-dien", "nhac": "canon-in-d", "theme": "xanh-petrol", "style": "", "ten": "Cổ Điển", "mau": "Xanh Petrol", "mood": "Kể chuyện nhẹ nhàng, sang trọng", "album": "studio-21", "anh_ds": "08,09,07,10,05,04", "anh_cr": "01", "anh_cd": "06", "poster": "03", "poster_pos": "50% 29%", "pos": {"09": "50% 22%", "07": "50% 12%", "10": "50% 12%", "05": "50% 60%", "04": "50% 45%"}, "ten_cd": "An", "ten_cr": "Phong", "off": 77, "gio": "10:00", "guest": "Gia đình chú Sáu", "hearts": 48, "wishes": [{"ten": "Cô Tư", "loi": "Chúc hai con trăm năm hạnh phúc, sớm có tin vui!"}, {"ten": "Anh Hai", "loi": "Mừng hai em về chung một nhà ❤️"}, {"ten": "Nhóm bạn cấp 3", "loi": "Chuẩn bị bàn lớn nha, tụi này đi đông lắm 🎉"}], "loc": {"vq": "Tư gia nhà gái · Ninh Kiều, Cần Thơ", "th": "Tư gia nhà trai · Ninh Kiều, Cần Thơ", "tiec": "Trung tâm tiệc cưới · Ninh Kiều, Cần Thơ", "map": "Ninh Kiều, Cần Thơ"}}, {"key": "han-quoc", "nhac": "minuet-in-g", "theme": "", "style": "han-quoc", "ten": "Hàn Quốc", "mau": "Hồng Phấn", "mood": "Trong trẻo, ngọt ngào", "album": "studio-19", "anh_ds": "09,02,03,10,07", "anh_cr": "01", "anh_cd": "04", "poster": "06", "poster_pos": "50% 50%", "pos": {"01": "50% 0%", "04": "50% 10%", "02": "50% 20%", "03": "50% 0%"}, "ten_cd": "Quỳnh Anh", "ten_cr": "Khánh Duy", "off": 91, "gio": "10:30", "guest": "Nhóm bạn thân", "hearts": 71, "wishes": [{"ten": "Nhóm bạn thân", "loi": "Happy wedding! Mãi hạnh phúc như phim Hàn nha 💕"}, {"ten": "Chị Mai", "loi": "Chúc hai em luôn ngọt ngào."}, {"ten": "Cậu Út", "loi": "Chúc hai cháu sớm có tin vui."}], "loc": {"vq": "Tư gia nhà gái · Cái Răng, Cần Thơ", "th": "Tư gia nhà trai · Cái Răng, Cần Thơ", "tiec": "Trung tâm tiệc cưới · Cái Răng, Cần Thơ", "map": "Cái Răng, Cần Thơ"}}, {"key": "song-hy", "nhac": "canon-in-d", "theme": "", "style": "song-hy", "ten": "Song Hỷ", "mau": "Đỏ Son", "mood": "Rộn ràng, mở thiệp phong bì", "album": "studio-18", "anh_ds": "02,04,06,05,01,08", "anh_cr": "10", "anh_cd": "09", "poster": "03", "poster_pos": "50% 50%", "pos": {"04": "50% 30%", "05": "50% 25%", "08": "50% 30%"}, "ten_cd": "Thảo", "ten_cr": "Đăng", "off": 105, "gio": "11:00", "guest": "Gia đình chú Bảy", "hearts": 88, "wishes": [{"ten": "Chú Bảy", "loi": "Chúc hai cháu bách niên giai lão, sớm sinh quý tử."}, {"ten": "Cô Ba", "loi": "Mừng hai con nên duyên vợ chồng ❤️"}, {"ten": "Bạn thân", "loi": "Chúc mừng hạnh phúc hai bạn! 🎊"}], "loc": {"vq": "Tư gia nhà gái · Cần Thơ", "th": "Tư gia nhà trai · Cần Thơ", "tiec": "Trung tâm tiệc cưới · Cần Thơ", "map": "Cần Thơ"}}, {"key": "sang-trong", "nhac": "canon-in-d", "theme": "", "style": "thanh-lich", "ten": "Sang Trọng", "mau": "Trắng Champagne", "mood": "Trắng sáng kiểu châu Âu", "album": "ngoai-canh-31", "anh_ds": "04,02,06,07,01", "anh_cr": "08", "anh_cd": "10", "poster": "09", "poster_pos": "50% 50%", "pos": {"06": "55% 50%"}, "ten_cd": "Uyên", "ten_cr": "Đăng", "off": 119, "gio": "11:00", "guest": "Quý khách", "hearts": 44, "wishes": [{"ten": "Cô Hạnh", "loi": "Chúc hai con mãi yêu thương nhau."}, {"ten": "Bạn học", "loi": "Đẹp đôi quá! Chúc mừng hạnh phúc."}, {"ten": "Anh Phong", "loi": "Chúc hai em trọn đời bên nhau."}], "loc": {"vq": "Tư gia nhà gái · Cần Thơ", "th": "Tư gia nhà trai · Cần Thơ", "tiec": "Trung tâm tiệc cưới · Cần Thơ", "map": "Cần Thơ"}}, {"key": "nang-gio", "nhac": "minuet-in-g", "theme": "", "style": "nang-gio", "ten": "Nắng & Gió", "mau": "Vàng Nắng", "mood": "Ngoài trời, tự do, phóng khoáng", "album": "ngoai-canh-20", "anh_ds": "05,09,01,06,10", "anh_cr": "04", "anh_cd": "07", "poster": "08", "poster_pos": "50% 30%", "pos": {"07": "50% 20%", "01": "52% 50%", "10": "50% 0%"}, "ten_cd": "Thanh", "ten_cr": "Duy", "off": 133, "gio": "16:30", "guest": "Anh chị Ba", "hearts": 38, "wishes": [{"ten": "Anh chị Ba", "loi": "Chúc hai em luôn rạng rỡ như nắng sớm."}, {"ten": "Hội phượt", "loi": "Cưới xong nhớ đi trăng mật xa xa nha 🌊"}, {"ten": "Dì Năm", "loi": "Chúc hai con trăm năm hạnh phúc."}], "loc": {"vq": "Tư gia nhà gái · Ninh Kiều, Cần Thơ", "th": "Tư gia nhà trai · Ninh Kiều, Cần Thơ", "tiec": "Trung tâm tiệc cưới · Ninh Kiều, Cần Thơ", "map": "Ninh Kiều, Cần Thơ"}}, {"key": "phim-xua", "nhac": "gymnopedie", "theme": "", "style": "phim-xua", "ten": "Phim Xưa", "mau": "Nâu Sepia", "mood": "Hoài cổ như thước phim cũ", "album": "ngoai-canh-24", "anh_ds": "07,08,02,06,10,03", "anh_cr": "05", "anh_cd": "04", "poster": "01", "poster_pos": "50% 40%", "pos": {}, "ten_cd": "Tú", "ten_cr": "Cường", "off": 147, "gio": "10:00", "guest": "Gia đình bác Hai", "hearts": 57, "wishes": [{"ten": "Bác Hai", "loi": "Chúc hai cháu thuận hoà, trăm năm hạnh phúc."}, {"ten": "Bạn thân", "loi": "Ảnh đẹp như phim xưa, thương hai bạn!"}, {"ten": "Chị Hằng", "loi": "Hạnh phúc viên mãn nha em 💛"}], "loc": {"vq": "Tư gia nhà gái · Bình Thủy, Cần Thơ", "th": "Tư gia nhà trai · Bình Thủy, Cần Thơ", "tiec": "Trung tâm tiệc cưới · Bình Thủy, Cần Thơ", "map": "Bình Thủy, Cần Thơ"}}];
   function INT(d){ return Math.floor(d); }
   function jdFromDate(dd, mm, yy){ var a=INT((14-mm)/12), y=yy+4800-a, m=mm+12*a-3; var jd=dd+INT((153*m+2)/5)+365*y+INT(y/4)-INT(y/100)+INT(y/400)-32045; if(jd<2299161){ jd=dd+INT((153*m+2)/5)+365*y+INT(y/4)-32083; } return jd; }
   function NewMoon(k){ var T=k/1236.85, T2=T*T, T3=T2*T, dr=Math.PI/180; var Jd1=2415020.75933+29.53058868*k+0.0001178*T2-0.000000155*T3; Jd1=Jd1+0.00033*Math.sin((166.56+132.87*T-0.009173*T2)*dr); var M=359.2242+29.10535608*k-0.0000333*T2-0.00000347*T3; var Mpr=306.0253+385.81691806*k+0.0107306*T2+0.00001236*T3; var F=21.2964+390.67050646*k-0.0016528*T2-0.00000239*T3; var C1=(0.1734-0.000393*T)*Math.sin(M*dr)+0.0021*Math.sin(2*dr*M); C1=C1-0.4068*Math.sin(Mpr*dr)+0.0161*Math.sin(dr*2*Mpr); C1=C1-0.0004*Math.sin(dr*3*Mpr); C1=C1+0.0104*Math.sin(dr*2*F)-0.0051*Math.sin(dr*(M+Mpr)); C1=C1-0.0074*Math.sin(dr*(M-Mpr))+0.0004*Math.sin(dr*(2*F+M)); C1=C1-0.0004*Math.sin(dr*(2*F-M))-0.0006*Math.sin(dr*(2*F+Mpr)); C1=C1+0.0010*Math.sin(dr*(2*F-Mpr))+0.0005*Math.sin(dr*(2*Mpr+M)); var deltat; if(T<-11){ deltat=0.001+0.000839*T+0.0002261*T2-0.00000845*T3-0.000000081*T*T3; } else { deltat=-0.000278+0.000265*T+0.000262*T2; } return Jd1+C1-deltat; }
@@ -24,6 +24,8 @@
   if (ALIAS[q]) { q = ALIAS[q]; try { history.replaceState(null, '', '?m=' + q + location.hash); } catch (e) {} }
   var i = 0; MAU.forEach(function(m, k){ if (m.key === q) i = k; });
   var m = MAU[i];
+  /* ?sua=1 → bảng sửa ảnh ẩn (js/sua-thiep.js). Chỉ tài khoản GitHub chủ repo mới lưu lên web được. */
+  var SUA = QS.has('sua');
   if (m.theme && m.theme !== 'do-hy') document.documentElement.setAttribute('data-theme', m.theme);
   if (m.style) document.documentElement.setAttribute('data-style', m.style);
   if (m.poster_pos) document.documentElement.style.setProperty('--poster-pos', m.poster_pos);
@@ -58,11 +60,17 @@
     thanhhon_thoigian: ds(t) + ' · ' + gioLe(m.gio), thanhhon_diadiem: m.loc.th,
     tiec_thoigian: ds(t) + ' · ' + m.gio + ' — đón khách trước 30 phút', tiec_diadiem: m.loc.tiec, map_diadiem: m.loc.map,
     album: m.album, anh_ds: m.anh_ds, anh_cr: m.anh_cr, anh_cd: m.anh_cd, youtube_id: 'mau',
+    bia: m.bia || '', bia_pos: m.bia_pos || '', poster: m.poster || '', poster_pos: m.poster_pos || '', pos: m.pos || {},
     vietqr_bank: 'Vietcombank', vietqr_stk: '0123 456 789', vietqr_ten: 'TÊN CÔ DÂU / CHÚ RỂ',
     loi_moi_mau: 'Quý khách', guest: m.guest, sdt_cr: '0900000000', sdt_cd: '0900000000',
-    hearts: m.hearts, nhac: qNhac || m.nhac || '', wishes: m.wishes
+    hearts: m.hearts, nhac: SUA ? 'khong' : (qNhac || m.nhac || ''), wishes: m.wishes
   };
   window.__MAU_NAV__ = { list: MAU.map(function(x){ return {key:x.key, ten:x.ten, mau:x.mau}; }), i: i, nhac: qNhac };
+  if (SUA) {
+    window.__SUA__ = { mau: MAU, i: i };
+    var sj = document.createElement('script'); sj.src = 'js/sua-thiep.js?v=20260925'; sj.async = true;
+    document.head.appendChild(sj);
+  }
 })();
 </script>
 
@@ -556,22 +564,6 @@ body.mau .foot .small{display:none}
 body.mau .env{top:calc(48px + env(safe-area-inset-top,0px))}
 body.mau .music{top:calc(58px + env(safe-area-inset-top,0px))}
 .video img{object-position:var(--poster-pos,50% 50%)}
-html .ph img[src$="album-studio-21-09-800.jpg"]{object-position:50% 22%}
-html .ph img[src$="album-studio-21-07-800.jpg"]{object-position:50% 12%}
-html .ph img[src$="album-studio-21-10-800.jpg"]{object-position:50% 12%}
-html .ph img[src$="album-studio-21-05-800.jpg"]{object-position:50% 60%}
-html .ph img[src$="album-studio-21-04-800.jpg"]{object-position:50% 45%}
-html .ph img[src$="album-studio-19-01-800.jpg"]{object-position:50% 0%}
-html .ph img[src$="album-studio-19-04-800.jpg"]{object-position:50% 10%}
-html .ph img[src$="album-studio-19-02-800.jpg"]{object-position:50% 20%}
-html .ph img[src$="album-studio-19-03-800.jpg"]{object-position:50% 0%}
-html .ph img[src$="album-studio-18-04-800.jpg"]{object-position:50% 30%}
-html .ph img[src$="album-studio-18-05-800.jpg"]{object-position:50% 25%}
-html .ph img[src$="album-studio-18-08-800.jpg"]{object-position:50% 30%}
-html .ph img[src$="album-ngoai-canh-31-06-800.jpg"]{object-position:55% 50%}
-html .ph img[src$="album-ngoai-canh-20-07-800.jpg"]{object-position:50% 20%}
-html .ph img[src$="album-ngoai-canh-20-01-800.jpg"]{object-position:52% 50%}
-html .ph img[src$="album-ngoai-canh-20-10-800.jpg"]{object-position:50% 0%}
 </style>
 </head>
 <body>
@@ -942,21 +934,89 @@ rồi nắm tay nhau đi qua năm tháng.</p>
   }
 
   /* ---------- render ---------- */
-  var photos = [];   // {thumb, big} for lightbox
-  function addPhoto(el, thumb, big){
-    var i = photos.length; photos.push({ thumb: thumb, big: big });
-    el.querySelector('img').src = R(thumb);
-    el.setAttribute('data-i', i);
-    el.addEventListener('click', function(e){ e.preventDefault(); openLb(i); });
-  }
+  var photos = [];   // {thumb, big} cho lightbox — chạm ảnh: 1 bộ nghe chung trên #card (setupLightbox) nên vẽ lại ảnh không bị gắn trùng
   function img(album, n, size){ return 'images/album-' + album + '-' + n + (size?('-'+size):'') + '.jpg'; }
+  /* Ô ảnh mang data-slot (cr · cd · ds:<thứ tự trong anh_ds>) + data-n (số ảnh) để bảng sửa ẩn biết ô nào là ảnh nào.
+     d.pos {"<số ảnh>": "x% y%"} = canh khung riêng từng ảnh (thay cho CSS theo tên file trước 25/09). */
+  function addPhoto(el, d, n, slot){
+    var i = photos.length; photos.push({ thumb: img(d.album, n, '800'), big: img(d.album, n) });
+    var im = el.querySelector('img'); im.src = R(photos[i].thumb);
+    im.style.objectPosition = (d.pos && d.pos[n]) || '';
+    el.setAttribute('data-i', i); el.setAttribute('data-slot', slot); el.setAttribute('data-n', n);
+  }
+  /* Ảnh bìa: mặc định album-<x>-bia.jpg (cắt sẵn theo mặt). d.bia = số ảnh → dùng ảnh gốc đó (bìa cần nét), bản nhỏ cho phong bì + nền lịch. */
+  function biaSrc(d, nho){ return d.bia ? img(d.album, d.bia, nho ? '800' : '') : 'images/album-' + d.album + '-bia.jpg'; }
+  function posterSrc(d){ return d.poster ? img(d.album, d.poster, '800') : (window.__POSTER__ ? window.__POSTER__ : 'https://i.ytimg.com/vi/' + encodeURIComponent(d.youtube_id) + '/hqdefault.jpg'); }
+  function renderBia(d){
+    var c = $('coverImg');
+    c.src = R(biaSrc(d)); c.style.objectPosition = d.bia_pos || ''; c.setAttribute('data-slot', 'bia');
+    if (d.bia) c.setAttribute('data-n', d.bia); else c.removeAttribute('data-n');
+    $('calBg').style.backgroundImage = 'url("' + R(biaSrc(d, true)) + '")';
+    var lt = document.querySelector('#env .letter img');
+    if (lt) { lt.src = R(biaSrc(d, true)); lt.style.objectPosition = d.bia_pos || ''; }
+  }
+  function renderTen(d){
+    document.title = d.ten_cd + ' & ' + d.ten_cr + ' — Thiệp cưới';
+    $('coverImg').alt = d.ten_cd + ' và ' + d.ten_cr;
+    $('names').innerHTML = esc(d.ten_cd) + ' <span class="amp">&amp;</span> ' + esc(d.ten_cr);
+    $('crName').textContent = d.ten_cr; $('crName2').textContent = d.ten_cr;
+    $('cdName').textContent = d.ten_cd; $('cdName2').textContent = d.ten_cd;
+    $('mono').innerHTML = esc(initial(d.ten_cr)) + '<i>&amp;</i>' + esc(initial(d.ten_cd));
+  }
+  function renderClip(d){
+    var im = $('videoBox').querySelector('img'); if (!im) return;
+    im.src = R(posterSrc(d)); im.style.objectPosition = d.poster_pos || '';
+    if (d.poster) $('videoBox').setAttribute('data-n', d.poster); else $('videoBox').removeAttribute('data-n');
+  }
+  /* Ảnh câu chuyện: rải anh_ds vào các khối theo thứ tự (ghép 3 → ảnh tràn → 2 ảnh nổi → love you → lưới album).
+     Gọi lại được nhiều lần (bảng sửa ẩn đổi ảnh là vẽ lại ngay). */
+  function renderAnh(d){
+    photos = [];
+    Array.prototype.forEach.call($('card').querySelectorAll('.ph[data-slot]'), function(e){ e.removeAttribute('data-slot'); e.removeAttribute('data-n'); e.removeAttribute('data-i'); });
+    ['col3Sec','bleedSec','ovSec','off2Sec','albumSec'].forEach(function(id){ $(id).hidden = true; });
+    $('phCr').parentElement.style.display = ''; $('phCd').parentElement.style.display = '';
+    var ofs = $('offset2').querySelectorAll('.ph'); ofs[1].style.display = ''; $('offset2').classList.remove('single');
+    $('grid').innerHTML = '';
+    var nums = (d.anh_ds||'').split(',').map(function(s){return s.trim();}).filter(Boolean);
+    var pool = nums.map(function(n, k){ return { n: n, s: 'ds:' + k }; });
+    function take(){ return pool.length ? pool.shift() : null; }
+    var cr = d.anh_cr ? { n: d.anh_cr, s: 'cr' } : take(), cd = d.anh_cd ? { n: d.anh_cd, s: 'cd' } : take();
+    if (cr) addPhoto($('phCr'), d, cr.n, cr.s); else $('phCr').parentElement.style.display='none';
+    if (cd) addPhoto($('phCd'), d, cd.n, cd.s); else $('phCd').parentElement.style.display='none';
+    if (pool.length >= 3) {
+      var c3 = $('collage3').querySelectorAll('.ph');
+      for (var i=0;i<3;i++){ var x=take(); addPhoto(c3[i], d, x.n, x.s); }
+      $('col3Sec').hidden = false;
+    }
+    if (pool.length >= 1) { var xb=take(); addPhoto($('phBleed'), d, xb.n, xb.s); $('bleedSec').hidden = false; }
+    if (pool.length >= 2) {
+      var ov = $('overlay2').querySelectorAll('.ph'), x1=take(), x2=take();
+      addPhoto(ov[0], d, x1.n, x1.s); addPhoto(ov[1], d, x2.n, x2.s);
+      $('ovBg').style.backgroundImage = 'url("' + R(img(d.album, x1.n, '800')) + '")';
+      $('ovSec').hidden = false;
+    }
+    if (pool.length >= 2) {
+      var o1=take(), o2=take();
+      addPhoto(ofs[0], d, o1.n, o1.s); addPhoto(ofs[1], d, o2.n, o2.s);
+      $('off2Sec').hidden = false;
+    } else if (pool.length === 1) {            // lẻ 1 ảnh: 1 ảnh dọc giữa khung, không tạo lưới album 1 ô
+      var o=take(); addPhoto(ofs[0], d, o.n, o.s);
+      ofs[1].style.display = 'none'; $('offset2').classList.add('single');
+      $('off2Sec').hidden = false;
+    }
+    if (pool.length) {
+      var g = $('grid');
+      pool.forEach(function(x){ var a=document.createElement('a'); a.className='ph'; a.href='#'; a.innerHTML='<img alt="" loading="lazy">'; g.appendChild(a); addPhoto(a, d, x.n, x.s); });
+      $('albumSec').hidden = false;
+    }
+  }
 
   /* ---------- thiệp phong bì: chạm để mở ---------- */
   function envelope(d){
     var e = document.createElement('div'); e.className = 'env'; e.id = 'env';
     e.innerHTML = '<p class="k">We\'re getting married!</p>' +
       '<h2 class="n">' + esc(d.ten_cd) + ' &amp; ' + esc(d.ten_cr) + '</h2>' +
-      '<button class="box" type="button" aria-label="Mở thiệp"><span class="back"></span><span class="letter"><img alt="" src="' + R('images/album-' + d.album + '-bia.jpg') + '"></span><span class="front"></span><span class="flap"></span><span class="seal">' + esc(initial(d.ten_cr)) + '&amp;' + esc(initial(d.ten_cd)) + '</span></button>' +
+      '<button class="box" type="button" aria-label="Mở thiệp"><span class="back"></span><span class="letter"><img alt="" src="' + R(biaSrc(d, true)) + '"></span><span class="front"></span><span class="flap"></span><span class="seal">' + esc(initial(d.ten_cr)) + '&amp;' + esc(initial(d.ten_cd)) + '</span></button>' +
       '<p class="tap">Chạm để mở thiệp</p>';
     document.body.appendChild(e); document.body.classList.add('env-lock');
     var opened = false;
@@ -974,78 +1034,39 @@ rồi nắm tay nhau đi qua năm tháng.</p>
     var STYLES = ['phim-xua','thanh-lich','han-quoc','nang-gio','song-hy'];
     var st = String(d.phong_cach||'').trim(); if (st === 'sang-trong') st = 'thanh-lich';   /* tên hiển thị mới: Sang Trọng */
     if (STYLES.indexOf(st) >= 0) document.documentElement.setAttribute('data-style', st);
-    if (st === 'song-hy' || String(d.phong_bi||'').trim() === '1') envelope(d);
+    if ((st === 'song-hy' || String(d.phong_bi||'').trim() === '1') && !window.__SUA__) envelope(d);   /* bảng sửa: bỏ phong bì */
     var guest = d.guest || d.loi_moi_mau || 'Quý khách';
     var full = d.ten_cd + ' & ' + d.ten_cr;
-    document.title = full + ' — Thiệp cưới';
     var dt = ymd(d.ngay_cuoi);
 
     /* hero */
-    $('coverImg').src = R('images/album-' + d.album + '-bia.jpg');
-    $('coverImg').alt = d.ten_cd + ' và ' + d.ten_cr;
-    $('names').innerHTML = esc(d.ten_cd) + ' <span class="amp">&amp;</span> ' + esc(d.ten_cr);
+    renderBia(d);
+    renderTen(d);
     $('dateLine').textContent = dt ? (dt.y + ' 丨 ' + pad(dt.d) + '.' + pad(dt.m) + (d.gio_dem_nguoc ? (' 丨 ' + d.gio_dem_nguoc) : '')) : '';
     $('guestName').textContent = guest;
     $('rsvp-name').value = guest === 'Quý khách' ? '' : guest;
     $('wish-name').value = guest === 'Quý khách' ? '' : guest;
 
     /* couple */
-    $('crName').textContent = d.ten_cr; $('crName2').textContent = d.ten_cr;
-    $('cdName').textContent = d.ten_cd; $('cdName2').textContent = d.ten_cd;
     $('crFam').textContent = [d.cha_cr, d.me_cr].filter(Boolean).join('\n');
     $('cdFam').textContent = [d.cha_cd, d.me_cd].filter(Boolean).join('\n');
-    $('mono').innerHTML = esc(initial(d.ten_cr)) + '<i>&amp;</i>' + esc(initial(d.ten_cd));
     $('loiNgo').textContent = d.loi_ngo || 'Có những khoảnh khắc chỉ cần một ánh nhìn là biết mình đã tìm đúng người.\nChúng mình đã nắm tay nhau đi qua những ngày nắng, ngày mưa —\nvà hôm nay, xin được nối dài những ngày ấy thành một đời.';
     $('cauChuyen').textContent = d.cau_chuyen || 'Với cả thế giới, bạn có thể chỉ là một người.\nNhưng với một người, bạn là cả thế giới.';
 
-    /* photos: distribute album list across story blocks */
-    var nums = (d.anh_ds||'').split(',').map(function(s){return s.trim();}).filter(Boolean);
-    var pool = nums.slice();
-    function take(){ return pool.length ? pool.shift() : null; }
-    var crN = d.anh_cr || take(), cdN = d.anh_cd || take();
-    if (crN) addPhoto($('phCr'), img(d.album, crN, '800'), img(d.album, crN)); else $('phCr').parentElement.style.display='none';
-    if (cdN) addPhoto($('phCd'), img(d.album, cdN, '800'), img(d.album, cdN)); else $('phCd').parentElement.style.display='none';
+    /* photos */
+    renderAnh(d);
     if (d.sdt_cr) { $('callCr').href = 'tel:' + tel(d.sdt_cr); $('callCr').hidden = false; }
     if (d.sdt_cd) { $('callCd').href = 'tel:' + tel(d.sdt_cd); $('callCd').hidden = false; }
     if (PREVIEW) ['callCr','callCd'].forEach(function(id){ $(id).addEventListener('click', function(e){ e.preventDefault(); toast('Thiệp mẫu — thiệp thật sẽ gọi đúng số của cô dâu, chú rể'); }); });
-
-    if (pool.length >= 3) {
-      var c3 = $('collage3').querySelectorAll('.ph');
-      for (var i=0;i<3;i++){ var n=take(); addPhoto(c3[i], img(d.album, n, '800'), img(d.album, n)); }
-      $('col3Sec').hidden = false;
-    }
-    if (pool.length >= 1) { var nb=take(); addPhoto($('phBleed'), img(d.album, nb, '800'), img(d.album, nb)); $('bleedSec').hidden = false; }
-    if (pool.length >= 2) {
-      var ov = $('overlay2').querySelectorAll('.ph');
-      var n1=take(), n2=take();
-      addPhoto(ov[0], img(d.album, n1, '800'), img(d.album, n1)); addPhoto(ov[1], img(d.album, n2, '800'), img(d.album, n2));
-      $('ovBg').style.backgroundImage = 'url("' + R(img(d.album, n1, '800')) + '")';
-      $('ovSec').hidden = false;
-    }
-    if (pool.length >= 2) {
-      var of = $('offset2').querySelectorAll('.ph');
-      var o1=take(), o2=take();
-      addPhoto(of[0], img(d.album, o1, '800'), img(d.album, o1)); addPhoto(of[1], img(d.album, o2, '800'), img(d.album, o2));
-      $('off2Sec').hidden = false;
-    } else if (pool.length === 1) {            // lẻ 1 ảnh: 1 ảnh dọc giữa khung, không tạo lưới album 1 ô
-      var ofs = $('offset2').querySelectorAll('.ph'), o=take();
-      addPhoto(ofs[0], img(d.album, o, '800'), img(d.album, o));
-      ofs[1].style.display = 'none'; $('offset2').classList.add('single');
-      $('off2Sec').hidden = false;
-    }
-    if (pool.length) {
-      var g = $('grid');
-      pool.forEach(function(n){ var a=document.createElement('a'); a.className='ph'; a.href='#'; a.innerHTML='<img alt="" loading="lazy">'; g.appendChild(a); addPhoto(a, img(d.album, n, '800'), img(d.album, n)); });
-      $('albumSec').hidden = false;
-    }
-    $('calBg').style.backgroundImage = 'url("' + R('images/album-' + d.album + '-bia.jpg') + '")';
     var dtY = ymd(d.ngay_cuoi); if (dtY) document.querySelector('.cal-wrap').setAttribute('data-year', dtY.y);
 
     /* video */
     if (d.youtube_id) {
       $('videoBox').innerHTML =
-        '<img src="' + (window.__POSTER__ ? R(window.__POSTER__) : 'https://i.ytimg.com/vi/'+esc(d.youtube_id)+'/hqdefault.jpg') + '" alt="" loading="lazy">' +
+        '<img alt="" loading="lazy">' +
         '<button class="play" type="button" id="playBtn"><span><svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg></span><em>Xem clip pre-wedding</em></button>';
+      $('videoBox').setAttribute('data-slot', 'poster');
+      renderClip(d);
       $('videoSec').hidden = false;
       $('playBtn').addEventListener('click', function(){
         if (PREVIEW) { toast('Ở bản thật, clip YouTube của cặp đôi sẽ phát ngay tại đây'); return; }
@@ -1316,6 +1337,8 @@ rồi nắm tay nhau đi qua năm tháng.</p>
     showState('card');
     setupReveal();
     setupLightbox();
+    window.__THIEP__ = { d: d, anh: renderAnh, bia: renderBia, clip: renderClip, ten: renderTen };   /* bảng sửa ẩn vẽ lại ảnh/tên */
+    try { document.dispatchEvent(new CustomEvent('thiep:render')); } catch (e) {}
 
     $('barWish').addEventListener('click', function(){ $('wishForm').scrollIntoView({behavior:'smooth', block:'center'}); setTimeout(function(){ $('wish-text').focus(); }, 500); });
 
@@ -1419,6 +1442,10 @@ rồi nắm tay nhau đi qua năm tháng.</p>
   function lbClose(){ $('lb').hidden = true; document.body.style.overflow=''; }
   function setupLightbox(){
     var lb = $('lb');
+    $('card').addEventListener('click', function(e){
+      var a = e.target && e.target.closest ? e.target.closest('.ph[data-i]') : null;
+      if (!a) return; e.preventDefault(); openLb(+a.getAttribute('data-i'));
+    });
     $('lbX').addEventListener('click', lbClose);
     $('lbP').addEventListener('click', function(){ lbShow(lbCur-1); });
     $('lbN').addEventListener('click', function(){ lbShow(lbCur+1); });
@@ -1435,6 +1462,14 @@ rồi nắm tay nhau đi qua năm tháng.</p>
   function toUTCStamp(d){ return d.toISOString().replace(/[-:]/g,'').split('.')[0]+'Z'; }
 
   $('copyLink').addEventListener('click', function(){ copy(location.href, 'Đã sao chép link thiệp'); });
+  /* thiệp mẫu: chạm logo cuối thiệp 5 lần liền → mở bảng sửa ảnh ẩn (lưu được hay không do GitHub kiểm tài khoản chủ) */
+  if (window.__MAU_NAV__ && !window.__SUA__) {
+    var logoN = 0, logoT = 0;
+    $('logoImg').addEventListener('click', function(){
+      var now = Date.now(); if (now - logoT > 1500) logoN = 0; logoT = now;
+      if (++logoN >= 5) { var N = window.__MAU_NAV__; location.href = '?m=' + encodeURIComponent(N.list[N.i].key) + '&sua=1'; }
+    });
+  }
 })();
 </script>
 </body>
