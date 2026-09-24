@@ -968,12 +968,29 @@
       if (!p.loi) hen = setTimeout(vong, document.hidden ? 30000 : 12000);
     });
   }
-  function kiemWeb(p){
+  /* dữ liệu mẫu này trên web thật (bỏ qua bộ nhớ đệm) */
+  function layWeb(){
     return fetch('thiep-mau.html?cb=' + Date.now(), { cache: 'no-store' }).then(function(r){ return r.ok ? r.text() : ''; }).then(function(t){
-      var dong = t.split('\n').filter(function(l){ return l.indexOf('  var MAU = ') === 0; })[0]; if (!dong) return;
+      var dong = t.split('\n').filter(function(l){ return l.indexOf('  var MAU = ') === 0; })[0]; if (!dong) return null;
       var arr = JSON.parse(dong.slice(dong.indexOf('['), dong.lastIndexOf(']') + 1));
-      var e = arr.filter(function(x){ return x.key === KEY; })[0]; if (!e) return;
-      if (khopWeb(e, p.set)) xongLuu(e);
+      return arr.filter(function(x){ return x.key === KEY; })[0] || null;
+    });
+  }
+  function kiemWeb(p){
+    return layWeb().then(function(e){ if (e && pending === p && khopWeb(e, p.set)) xongLuu(e); }).catch(function(){});
+  }
+  /* trình duyệt có thể mở thiệp từ bộ nhớ đệm (GitHub Pages giữ ~10 phút) → lấy bản mới nhất trên web làm mốc,
+     nháp đang làm trên bản cũ thì giữ phần anh sửa, phần còn lại theo bản mới */
+  function lamTuoi(){
+    return layWeb().then(function(e){
+      if (!e) return;
+      var moi = norm(e), cu = live;
+      var doiGoc = !!e.goc && !jeq(e.goc, M.goc || null);
+      if (jeq(toData(moi), toData(cu)) && !doiGoc) return;
+      if (e.goc) { M.goc = e.goc; goc = norm(e.goc); }
+      if (pending && khopWeb(e, pending.set)) { draft = rebase(cu, draft, moi); xongLuu(e); }
+      else { live = moi; draft = rebase(cu, draft, moi); }
+      luuNhap(); veLai(); if (sheetId) veSheet();
     }).catch(function(){});
   }
   function kiemGitHub(p){
@@ -1012,11 +1029,13 @@
     if (!window.__THIEP__) return;
     dungGiaoDien();
     veLai();
+    lamTuoi();
     if (pending) batDauTheoDoi();
     document.addEventListener('visibilitychange', function(){ if (!document.hidden && pending) { clearTimeout(hen); vong(); } });
     taiDanhSachBo().catch(function(){});
     taiBo(draft.album).catch(function(){});
     setTimeout(function(){
+      var tt = $('.sua-toast'); if (tt && !tt.hidden) return;   /* đang báo điều khác (vd “Đã lên web”) thì thôi */
       var n = soThayDoi();
       toast(pending ? 'Đang chờ lần lưu trước lên web…' : (n ? ('Đang có ' + n + ' thay đổi chưa lưu (bản nháp trên máy này)') : 'Chạm vào ảnh bất kỳ để đổi ảnh'), 3200);
     }, 500);
