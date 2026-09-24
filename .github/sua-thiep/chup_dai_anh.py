@@ -54,7 +54,9 @@ async def chup(key, port):
         if b is None:
             subprocess.run([sys.executable, '-m', 'playwright', 'install', 'chromium'], check=True)
             b = await p.chromium.launch()
-        pg = await b.new_page(viewport={'width': W, 'height': H_VIEW}, device_scale_factor=DPR)
+        # giờ Việt Nam: máy GitHub chạy UTC → thiệp tính ngày cưới theo giờ máy, thứ trong tuần bị lệch 1 ngày nếu để UTC
+        pg = await b.new_page(viewport={'width': W, 'height': H_VIEW}, device_scale_factor=DPR,
+                              timezone_id='Asia/Ho_Chi_Minh', locale='vi-VN')
         await pg.route(lambda u: any(x in u for x in ('google.com/maps', 'maps.google', 'youtube.com', 'ytimg.com', 'nhac-thiep', '.mp3')),
                        lambda r: r.abort())
         await pg.goto(f'http://127.0.0.1:{port}/thiep-mau.html?m={key}', wait_until='domcontentloaded')
