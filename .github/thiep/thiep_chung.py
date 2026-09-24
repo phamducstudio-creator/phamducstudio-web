@@ -19,7 +19,7 @@ GOC = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..'))
 THU_MUC = os.path.join(GOC, 'thiep')
 TEMPLATE = os.path.join(GOC, 'thiep-mau.html')
 WEB = 'https://phamducstudio.vn/'
-PHIEN_BAN_SUA = '20260927a'          # ?v= của js/sua-thiep.js trong trang thiệp riêng (đổi cùng lúc với thiep-mau.html)
+PHIEN_BAN_SUA = '20260927b'          # ?v= của js/sua-thiep.js trong trang thiệp riêng (đổi cùng lúc với thiep-mau.html)
 
 THEMES = {'', 'do-hy', 'hoang-kim', 'diu-dang', 'xanh-reu', 'xanh-dem', 'hien-dai', 'xanh-petrol'}
 STYLES = {'', 'phim-xua', 'thanh-lich', 'han-quoc', 'nang-gio', 'song-hy'}

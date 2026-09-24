@@ -21,6 +21,10 @@
    bay), ẩn/hiện từng phần (lời ngỏ, thơ, lịch, đếm ngược, bản đồ, RSVP, QR, lời chúc, thanh dưới, dòng giới thiệu studio), sửa
    tiêu đề từng khối, 4 bài thơ, "Lưu ý cho khách". Dữ liệu: tuy {tat, bat, td} (công khai) · tho {1..4} + ghi_them (thiệp riêng:
    nằm trong phần mã hoá). Thiệp vẽ theo renderTuy() trong thiep-mau.html; bot kiểm bằng thiep_chung.sach_tuy/sach_tho.
+
+   Nhạc nền (thiệp riêng: tab Thông tin · thiệp mẫu: tab Tên & bộ ảnh): 3 bài có sẵn + kho nhạc studio (list.json của repo
+   nhac-thiep), Nghe thử, "Thêm bài mới" → trang tải lên GitHub của kho (thiệp riêng → tai-len/rieng, thiệp mẫu → tai-len) →
+   bảng sửa theo dõi list.json, bài mới vào kho là tự chọn cho thiệp. Mã bài kho: d:<mã>.
    ========================================================================== */
 (function(){
   'use strict';
@@ -37,7 +41,7 @@
   var RIENG = ['sdt_cd', 'sdt_cr', 'cha_cr', 'me_cr', 'cha_cd', 'me_cd', 'ban_do', 'vietqr_bank', 'vietqr_stk', 'vietqr_ten', 'youtube_id', 'loi_ngo', 'cau_chuyen'];
   var PUB_SUA = ['ten_cr', 'ten_cd'].concat(ANH_F, ['nhac', 'tuy']);          /* THIEP: phần công khai bot kiểm */
   var RIENG_THEM = ['tho', 'ghi_them'];                                         /* THIEP: thơ + lưu ý cho khách — mã hoá cùng phần riêng */
-  var FIELDS = THIEP ? PUB_SUA.concat(RIENG, ['le'], RIENG_THEM) : ['album', 'ten_cr', 'ten_cd'].concat(ANH_F, ['tuy'], RIENG_THEM);
+  var FIELDS = THIEP ? PUB_SUA.concat(RIENG, ['le'], RIENG_THEM) : ['album', 'ten_cr', 'ten_cd'].concat(ANH_F, ['tuy'], RIENG_THEM, ['nhac']);
   var FIELDS_GOC = THIEP ? ['ten_cr', 'ten_cd'].concat(ANH_F) : ['album', 'ten_cr', 'ten_cd'].concat(ANH_F);   /* "Về bản gốc": chỉ tên + ảnh */
   var LE = [['vu_quy', 'Lễ Vu Quy'], ['thanh_hon', 'Lễ Thành Hôn'], ['tiec', 'Tiệc cưới']];
   /* Hiệu ứng & phần — khoá giống renderTuy() (thiep-mau.html) và thiep_chung.TUY_* (bot); xếp theo thứ tự trên thiệp */
@@ -90,8 +94,8 @@
     var dung = {}; [o.anh_cr, o.anh_cd].concat(o.anh_ds).forEach(function(n){ if (n) dung[n] = 1; });
     Object.keys(x.pos || {}).sort().forEach(function(n){ if (x.pos[n] && (!prune || dung[n])) o.pos[n] = String(x.pos[n]); });
     o.tuy = gonTuy(x.tuy); o.tho = gonTho(x.tho); o.ghi_them = String(x.ghi_them == null ? '' : x.ghi_them);
+    o.nhac = String(x.nhac || '').trim();
     if (THIEP) {
-      o.nhac = String(x.nhac || '');
       RIENG.forEach(function(k){ o[k] = String(x[k] == null ? '' : x[k]); });
       o.le = normLe(x.le);
     }
@@ -146,8 +150,8 @@
   function toData(o){
     var p = norm(o, true);
     var d = { album: p.album, ten_cr: p.ten_cr, ten_cd: p.ten_cd, bia: p.bia, bia_pos: p.bia_pos, anh_cr: p.anh_cr, anh_cd: p.anh_cd,
-      anh_ds: p.anh_ds.join(','), poster: p.poster, poster_pos: p.poster_pos, pos: p.pos, tuy: p.tuy, tho: p.tho, ghi_them: p.ghi_them };
-    if (THIEP) { d.nhac = p.nhac; RIENG.forEach(function(k){ d[k] = p[k]; }); d.le = p.le; }
+      anh_ds: p.anh_ds.join(','), poster: p.poster, poster_pos: p.poster_pos, pos: p.pos, tuy: p.tuy, tho: p.tho, ghi_them: p.ghi_them, nhac: p.nhac };
+    if (THIEP) { RIENG.forEach(function(k){ d[k] = p[k]; }); d.le = p.le; }
     return d;
   }
   function thayDoi(a, b){   /* các trường khác nhau giữa 2 bản (theo dạng lưu) */
@@ -437,6 +441,7 @@
     if (A.album !== B.album) {   /* đổi cả bộ: số ảnh 2 bộ không so với nhau được */
       L.unshift('Bộ ảnh: ' + tenBo(A.album) + ' → ' + tenBo(B.album));
       L.push('Ảnh chọn lại theo bộ mới — bìa ' + (B.bia || 'gốc') + ' · rể ' + B.anh_cr + ' · dâu ' + B.anh_cd + ' · câu chuyện ' + (B.anh_ds.join(' ') || '—') + ' · clip ' + B.poster);
+      if (A.nhac !== B.nhac) L.push('Nhạc nền: ' + tenNhac(A.nhac) + ' → ' + tenNhac(B.nhac));
       return L.concat(dongTuy(A, B, congKhai));
     }
     var bA = A.bia || ('bìa gốc'), bB = B.bia || ('bìa gốc');
@@ -452,8 +457,8 @@
     var trongB = {}; [B.anh_cr, B.anh_cd].concat(B.anh_ds).forEach(function(n){ if (n) trongB[n] = 1; });
     Object.keys(ks).sort().forEach(function(n){ if (trongB[n] && (A.pos[n] || '') !== (B.pos[n] || '') && B.album === A.album) doiPos.push(n); });
     if (doiPos.length) L.push('Canh khung: ảnh ' + doiPos.join(', '));
+    if (A.nhac !== B.nhac) L.push('Nhạc nền: ' + tenNhac(A.nhac) + ' → ' + tenNhac(B.nhac));
     if (THIEP) {
-      if (A.nhac !== B.nhac) L.push('Nhạc nền: ' + (A.nhac || 'mặc định') + ' → ' + (B.nhac || 'mặc định'));
       LE.forEach(function(x){
         var p = A.le[x[0]], q = B.le[x[0]];
         if (jeq(p, q)) return;
@@ -728,6 +733,7 @@
     if (id === 'o') requestAnimationFrame(function(){ requestAnimationFrame(function(){ hienO(sheetSlot); }); });
   }
   function dongSheet(){
+    dungNghe();
     sheetId = ''; sheetSlot = ''; vuaXong = false;
     sheet.classList.remove('mo'); dim.classList.remove('mo');
     danhDau();
@@ -952,6 +958,7 @@
       '<div><label for="suaCd">Cô dâu</label><input id="suaCd" maxlength="30" autocomplete="off" value="' + esc(draft.ten_cd) + '"></div></div>';
     h += '<p class="sua-p">Tên hiện ở bìa, phần giới thiệu và dưới ảnh dâu rể. Giữ đúng tên như trong album.</p>';
     h += '<p class="sua-lbl mt">Bộ ảnh</p><button type="button" class="sua-bo" id="suaDoiBo"><img src="' + esc('/images/album-' + draft.album + '-bia.jpg') + '" alt=""><span class="tx"><b>' + esc(tenBo(draft.album)) + '</b><small>Bấm để đổi sang bộ ảnh khác (studio / ngoại cảnh)</small></span></button>';
+    h += '<p class="sua-lbl mt">Nhạc nền của mẫu</p>' + oChonNhac(draft.nhac);
     h += '<p class="sua-lbl mt">Ảnh trong thiệp (' + cacO(draft).length + ' ô)</p><div class="sua-hang">';
     cacO(draft).forEach(function(id){
       var src = srcO(draft, id);
@@ -988,6 +995,7 @@
     if (bn) bn.addEventListener('click', function(){ doi(function(o){ var l = clone(live); FIELDS.forEach(function(k){ o[k] = l[k]; }); }); toast('Đã bỏ thay đổi — thiệp về như trên web'); });
     var vg = $('#suaVeGoc');
     if (vg) vg.addEventListener('click', function(){ doi(function(o){ var g = clone(goc); FIELDS_GOC.forEach(function(k){ o[k] = g[k]; }); }); toast('Đã về bản gốc — bấm Lưu để đưa lên web'); });
+    ganChonNhac();
   }
   function sachTen(s){ return String(s || '').replace(/[<>{}\[\]`"\\|]/g, '').replace(/\s+/g, ' ').trim().slice(0, 30); }
   /* giống thiep_chung.sach_chu() của bot: bỏ ký tự điều khiển + ký tự cấm, gọn khoảng trắng, cắt theo số chữ (không cắt đôi emoji) */
@@ -1010,13 +1018,143 @@
   function oVung(nhan, k, gt, goiY){
     return '<label class="sua-o">' + esc(nhan) + '<textarea data-k="' + k + '" rows="3" maxlength="600"' + (goiY ? ' placeholder="' + esc(goiY) + '"' : '') + '>' + esc(gt) + '</textarea></label>';
   }
-  function chonNhac(v){
-    var ds = [['canon-in-d', 'Canon in D — piano & dây, trang trọng'], ['minuet-in-g', 'Minuet in G — piano & hộp nhạc, trong trẻo'],
-      ['gymnopedie', 'Gymnopédie số 1 — piano, nhẹ nhàng'], ['khong', 'Không có nhạc']];
-    var co = false; ds.forEach(function(x){ if (x[0] === v) co = true; });
-    if (v && !co) ds.unshift([v, 'Bài riêng của cặp đôi (đang dùng)']);
-    if (!v) ds.unshift(['', 'Mặc định (Canon in D)']);
-    return '<label class="sua-o">Bài phát khi khách mở thiệp<select data-k="nhac">' + ds.map(function(x){ return '<option value="' + esc(x[0]) + '"' + (x[0] === v ? ' selected' : '') + '>' + esc(x[1]) + '</option>'; }).join('') + '</select></label>';
+  /* ---------------- NHẠC NỀN: 3 bài có sẵn + kho nhạc studio (repo nhac-thiep: tải thẳng lên GitHub hoặc qua Drive) ---------------- */
+  var NHAC_KHO = 'https://phamducstudio-creator.github.io/nhac-thiep/';
+  var KHO_GH = 'https://github.com/phamducstudio-creator/nhac-thiep';
+  var NHAC_SAN = [['canon-in-d', 'Canon in D', 'piano & dây, trang trọng', '/images/nhac-canon-in-d.mp3'],
+    ['minuet-in-g', 'Minuet in G', 'piano & hộp nhạc, trong trẻo', '/images/nhac-minuet-in-g.mp3'],
+    ['gymnopedie', 'Gymnopédie số 1', 'piano, nhẹ nhàng', '/images/nhac-gymnopedie.mp3']];
+  var kho = null, khoLoi = [], khoHua = null, nghe = null, choBai = null;
+  function taiKho(){   /* list.json của kho (bỏ qua bộ nhớ đệm) → cập nhật ô chọn nhạc nếu đang mở */
+    if (khoHua) return khoHua;
+    khoHua = fetch(NHAC_KHO + 'list.json?cb=' + Date.now(), { cache: 'no-store' }).then(function(r){ if (!r.ok) throw new Error('http ' + r.status); return r.json(); })
+      .then(function(j){
+        kho = ((j && j.bai) || []).filter(function(b){ return b && b.id && b.file; }); khoLoi = (j && j.loi) || [];
+        khoHua = null; capNhatNhac(); return kho;
+      }).catch(function(){ khoHua = null; return kho || []; });
+    return khoHua;
+  }
+  function baiKho(v){ var m = /^d:([-\w]{10,})$/.exec(v || ''); return (m && kho) ? (kho.filter(function(b){ return b.id === m[1]; })[0] || null) : null; }
+  function nhacTat(v){ return /^(khong|không|0|off|tat|tắt)$/i.test(String(v || '').trim()); }
+  function tenNhac(v){
+    v = String(v || '').trim();
+    if (!v) return 'mặc định (Canon in D)';
+    if (nhacTat(v)) return 'không có nhạc';
+    var s = NHAC_SAN.filter(function(x){ return x[0] === v; })[0]; if (s) return s[1];
+    var b = baiKho(v); if (b) return b.ten;
+    if (/^d:/.test(v)) return 'bài trong kho';
+    return v.indexOf(',') > 0 ? 'danh sách bài riêng' : 'bài riêng';
+  }
+  function urlNhac(v){
+    v = String(v || '').split(',')[0].trim() || 'canon-in-d';
+    var s = NHAC_SAN.filter(function(x){ return x[0] === v; })[0]; if (s) return s[3];
+    var m = /^d:([-\w]{10,})$/.exec(v); if (m) return NHAC_KHO + 'n/' + m[1] + '.mp3';
+    if (/^(https:\/\/|\/?images\/|\/thiep\/)\S+\.(mp3|m4a|aac|ogg|oga|wav)(\?\S*)?$/i.test(v)) return /^images\//.test(v) ? '/' + v : v;
+    return '';
+  }
+  function mmss(g){ g = Math.round(+g || 0); return g > 0 ? (Math.floor(g / 60) + ':' + ('0' + g % 60).slice(-2)) : ''; }
+  function tuyChonNhac(v){   /* các lựa chọn của ô Nhạc nền (thiệp mẫu chỉ liệt kê kho chung — thiệp mẫu là trang công khai) */
+    var o = [], co = false;
+    function op(val, nhan){ if (val === v) co = true; o.push('<option value="' + esc(val) + '"' + (val === v ? ' selected' : '') + '>' + esc(nhan) + '</option>'); }
+    if (!v) op('', 'Mặc định (Canon in D)');
+    NHAC_SAN.forEach(function(x){ op(x[0], x[1] + ' — ' + x[2]); });
+    var chung = (kho || []).filter(function(b){ return !b.rieng; }), rieng = (kho || []).filter(function(b){ return b.rieng; });
+    var nhom = [['Kho nhạc chung', chung]]; if (THIEP) nhom.push(['Kho nhạc riêng (chỉ thiệp chọn mới phát)', rieng]);
+    nhom.forEach(function(g){
+      if (!g[1].length) return;
+      o.push('<optgroup label="' + esc(g[0]) + '">');
+      g[1].forEach(function(b){ op('d:' + b.id, b.ten + (b.giay ? ' · ' + mmss(b.giay) : '')); });
+      o.push('</optgroup>');
+    });
+    op('khong', 'Không có nhạc');
+    if (v && !co) {
+      var b = baiKho(v);
+      o.unshift('<option value="' + esc(v) + '" selected>' + esc(b ? (b.ten + ' (kho riêng)') : (/^d:/.test(v) ? (kho ? 'Bài trong kho (không còn trong danh sách)' : 'Bài trong kho (đang tải danh sách…)') : 'Bài riêng của cặp đôi (đang dùng)')) + '</option>');
+    }
+    return o.join('');
+  }
+  function ttNhac(){
+    if (choBai) return '⏳ Đang chờ bài mới vào kho — khoảng 1–3 phút sau khi bấm “Commit changes” trên GitHub. Bài vào kho là tự chọn cho thiệp này.';
+    if (!kho) return 'Đang tải danh sách kho nhạc…';
+    var n = THIEP ? kho.length : kho.filter(function(b){ return !b.rieng; }).length;
+    return (n ? (THIEP ? 'Kho đang có ' : 'Kho chung đang có ') + n + ' bài. ' : (THIEP ? 'Kho chưa có bài nào. ' : 'Kho chung chưa có bài nào. ')) + (THIEP
+      ? '“Thêm bài mới” = tải file nhạc lên kho RIÊNG: chỉ thiệp chọn bài đó mới phát, không hiện công khai (hợp với bài hát có bản quyền).'
+      : '“Thêm bài mới” = tải file nhạc lên kho CHUNG: thiệp mẫu và khách đặt thiệp đều chọn được — nên dùng nhạc không lời được phép dùng.');
+  }
+  function oChonNhac(v){
+    return '<label class="sua-o">Bài phát khi khách mở thiệp<select data-nhac="1">' + tuyChonNhac(v) + '</select></label>' +
+      '<div class="sua-row" style="justify-content:flex-start;margin-top:-2px">' +
+      '<button type="button" class="sua-btn" id="suaNghe">' + ((nghe && !nghe.paused) ? '⏸ Dừng nghe' : '▶ Nghe thử') + '</button>' +
+      '<button type="button" class="sua-btn" id="suaThemNhac">＋ Thêm bài mới</button></div>' +
+      '<p class="sua-p" id="suaNhacTT">' + esc(ttNhac()) + '</p>';
+  }
+  function capNhatNhac(){   /* cập nhật ô chọn tại chỗ — không vẽ lại cả bảng (khỏi mất chữ đang gõ ở ô khác) */
+    var sel = sheet ? $('select[data-nhac]', sheet) : null; if (sel && draft) sel.innerHTML = tuyChonNhac(draft.nhac);
+    var tt = sheet ? $('#suaNhacTT', sheet) : null; if (tt) tt.textContent = ttNhac();
+  }
+  function dungNghe(){
+    if (nghe) { try { nghe.pause(); } catch (e) {} }
+    var b = sheet ? $('#suaNghe', sheet) : null; if (b) b.textContent = '▶ Nghe thử';
+  }
+  function ganChonNhac(){
+    var sel = $('select[data-nhac]', sheet); if (!sel) return;
+    sel.addEventListener('change', function(){
+      var v = sel.value; dungNghe();
+      if (v !== draft.nhac) doi(function(o){ o.nhac = v; }, true);
+      toast('Nhạc nền: ' + tenNhac(v));
+    });
+    $('#suaNghe', sheet).addEventListener('click', function(){
+      if (nghe && !nghe.paused) { dungNghe(); return; }
+      var v = sel.value; if (nhacTat(v)) { toast('Đang chọn “Không có nhạc”'); return; }
+      var u = urlNhac(v); if (!u) { toast('Bài này chưa nghe thử được ở đây'); return; }
+      if (!nghe) {
+        nghe = new Audio();
+        nghe.addEventListener('ended', dungNghe); nghe.addEventListener('pause', dungNghe);
+        nghe.addEventListener('error', function(){ dungNghe(); toast('Bài này chưa phát được (bài vừa tải lên thì đợi 1–2 phút)'); });
+      }
+      if (nghe.getAttribute('src') !== u) nghe.src = u;
+      nghe.volume = 0.8;
+      var pr = nghe.play(); if (pr && pr.catch) pr.catch(function(){ dungNghe(); });
+      this.textContent = '⏸ Dừng nghe';
+    });
+    $('#suaThemNhac', sheet).addEventListener('click', function(){
+      var w = window.open(KHO_GH + '/upload/main/tai-len' + (THIEP ? '/rieng' : ''), '_blank');
+      if (w) { try { w.opener = null; } catch (e) {} } else toast('Trình duyệt chặn mở tab — cho phép cửa sổ bật lên rồi bấm lại', 4500);
+      choBaiMoi();
+    });
+  }
+  /* bấm "Thêm bài mới" → theo dõi list.json (15 giây/lần, tối đa 15 phút): bài mới vào kho thì tự chọn cho thiệp; file lỗi thì báo */
+  function choBaiMoi(){
+    var ids = {}, loiCu = {};
+    (kho || []).forEach(function(b){ ids[b.id] = 1; });
+    khoLoi.forEach(function(x){ loiCu[x.id + '|' + x.luc] = 1; });
+    if (choBai) clearTimeout(choBai.hen);
+    var cb = choBai = { t0: Date.now(), ids: ids, loi: loiCu, hen: null };
+    capNhatNhac();
+    function vong(){
+      if (choBai !== cb) return;
+      if (Date.now() - cb.t0 > 15 * 60e3) { choBai = null; capNhatNhac(); return; }
+      cb.hen = setTimeout(function(){
+        if (choBai !== cb) return;
+        if (document.hidden) { vong(); return; }
+        taiKho().then(function(){
+          if (choBai !== cb) return;
+          var moi = (kho || []).filter(function(b){ return !cb.ids[b.id]; });
+          var loiMoi = khoLoi.filter(function(x){ return x.nguon === 'tai' && !cb.loi[x.id + '|' + x.luc]; });
+          loiMoi.forEach(function(x){ cb.loi[x.id + '|' + x.luc] = 1; });
+          if (loiMoi.length) toast('File “' + loiMoi[0].ten + '” chưa dùng được: ' + loiMoi[0].ly_do, 6000);
+          if (moi.length) {
+            var b = moi[0]; choBai = null;
+            doi(function(o){ o.nhac = 'd:' + b.id; }, true);
+            capNhatNhac();
+            toast('Bài “' + b.ten + '” đã vào kho — đã chọn cho thiệp này. Bấm Lưu để đưa lên web.', 6000);
+            return;
+          }
+          vong();
+        });
+      }, 15000);
+    }
+    vong();
   }
   function veThongTin(){
     var d = draft, le = d.le;
@@ -1046,7 +1184,7 @@
     h += '<p class="sua-lbl mt">Lời trên thiệp (bỏ trống = câu mặc định)</p>' +
       oVung('Lời ngỏ (dưới tên dâu rể)', 'loi_ngo', d.loi_ngo, 'Có những khoảnh khắc chỉ cần một ánh nhìn…') +
       oVung('Câu chuyện (trên ảnh dâu rể)', 'cau_chuyen', d.cau_chuyen, 'Với cả thế giới, bạn có thể chỉ là một người…');
-    h += '<p class="sua-lbl mt">Nhạc nền</p>' + chonNhac(d.nhac);
+    h += '<p class="sua-lbl mt">Nhạc nền</p>' + oChonNhac(d.nhac);
     h += '<p class="sua-lbl mt">Ảnh trong thiệp (' + cacO(draft).length + ' ô)</p><div class="sua-hang">';
     cacO(draft).forEach(function(id){
       if (id === 'poster' && !draft.youtube_id) return;
@@ -1099,6 +1237,7 @@
     if (bn) bn.addEventListener('click', function(){ doi(function(o){ var l = clone(live); FIELDS.forEach(function(k){ o[k] = l[k]; }); }); toast('Đã bỏ thay đổi — thiệp về như trên web'); });
     var vg = $('#suaVeGoc');
     if (vg) vg.addEventListener('click', function(){ doi(function(o){ var g = clone(goc); FIELDS_GOC.forEach(function(k){ o[k] = g[k]; }); }); toast('Ảnh & tên đã về như lúc giao — bấm Lưu để đưa lên web'); });
+    ganChonNhac();
   }
 
   /* ---------------- HIỆU ỨNG & PHẦN (thiệp mẫu + thiệp riêng) ---------------- */
@@ -1555,6 +1694,7 @@
     document.addEventListener('visibilitychange', function(){ if (!document.hidden && pending) { clearTimeout(hen); vong(); } });
     taiDanhSachBo().catch(function(){});
     taiBo(draft.album).catch(function(){});
+    taiKho();
     setTimeout(function(){
       var tt = $('.sua-toast'); if (tt && !tt.hidden) return;   /* đang báo điều khác (vd “Đã lên web”) thì thôi */
       var n = soThayDoi();

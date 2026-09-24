@@ -16,7 +16,7 @@
   if (P.style) document.documentElement.setAttribute('data-style', P.style);
   if (/[?&]sua(=|&|$)/.test(location.search)) {
     window.__SUA__ = { thiep: true };
-    var sj = document.createElement('script'); sj.src = '/js/sua-thiep.js?v=20260927a'; sj.async = true; document.head.appendChild(sj);
+    var sj = document.createElement('script'); sj.src = '/js/sua-thiep.js?v=20260927b'; sj.async = true; document.head.appendChild(sj);
   }
 })();
 </script>
@@ -1424,7 +1424,7 @@ rồi nắm tay nhau đi qua năm tháng.</p>
           j.bai.forEach(function(b){
             if (!b || !b.id || !b.file) return;
             var url = NHAC_KHO + b.file, co = null;
-            for (var k = 0; k < ds.length; k++) if (ds[k].url === url) co = ds[k];
+            for (var k = 0; k < ds.length; k++) if (ds[k].url === url || ds[k].id === 'd:' + b.id) co = ds[k];
             if (co) { if (!co.ten) co.ten = b.ten || ''; if (!co.mo_ta) co.mo_ta = mmss(b.giay); return; }
             if (!b.rieng && coBang) ds.push({ id: 'd:' + b.id, ten: b.ten || 'Nhạc nền', mo_ta: mmss(b.giay), url: url, kho: true });
           });

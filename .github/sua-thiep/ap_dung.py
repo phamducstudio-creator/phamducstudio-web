@@ -32,7 +32,7 @@ TRANG_BAN = os.path.join(GOC, 'thiep-cuoi-online.html')
 WEB = 'https://phamducstudio.vn/'
 FIELDS_ANH = ['album', 'ten_cr', 'ten_cd', 'bia', 'bia_pos', 'anh_cr', 'anh_cd', 'anh_ds', 'poster', 'poster_pos', 'pos']
 TUY_F = ['tuy', 'tho', 'ghi_them']                   # tab "Hiệu ứng & phần" (xem thiep_chung.sach_tuy)
-FIELDS = FIELDS_ANH + TUY_F
+FIELDS = FIELDS_ANH + TUY_F + ['nhac']               # nhac: mã bài có sẵn / d:<mã kho> / khong (thiep_chung.sach_nhac)
 TIEN_TO = '  var MAU = '
 RE_SO = re.compile(r'^\d{1,3}$')
 RE_POS = re.compile(r'^(\d{1,3})% (\d{1,3})%$')
@@ -117,6 +117,8 @@ def dong_tuy_mau(a, b, style=''):
             L.append(f"{t}: {ngan(ta.get(k) or 'câu mặc định')} → {ngan(tb.get(k) or 'câu mặc định')}")
     if (a.get('ghi_them') or '') != (b.get('ghi_them') or ''):
         L.append(f"Lưu ý cho khách: {ngan(a.get('ghi_them'))} → {ngan(b.get('ghi_them'))}")
+    if (a.get('nhac') or '') != (b.get('nhac') or ''):
+        L.append(f"Nhạc nền: {a.get('nhac') or 'mặc định'} → {b.get('nhac') or 'mặc định'}")
     return L
 
 
@@ -161,6 +163,7 @@ def ban_sua_duoc(e):
         'poster': e.get('poster', ''), 'poster_pos': e.get('poster_pos', '') or '',
         'pos': dict(sorted((e.get('pos') or {}).items())),
         'tuy': TC.sach_tuy(e.get('tuy')), 'tho': TC.sach_tho(e.get('tho')), 'ghi_them': TC.sach_ghi(e.get('ghi_them')),
+        'nhac': str(e.get('nhac') or '').strip(),
     }
 
 
@@ -214,6 +217,7 @@ def kiem_va_ghep(truoc, set_):
     moi['tuy'] = TC.sach_tuy(m.get('tuy'))
     moi['tho'] = TC.sach_tho(m.get('tho'))
     moi['ghi_them'] = TC.sach_ghi(m.get('ghi_them'))
+    moi['nhac'] = TC.sach_nhac(m.get('nhac'), '')
     return moi
 
 
@@ -254,7 +258,7 @@ def ap_dung(event_path, kq_path):
             if 'goc' not in e:
                 e['goc'] = {k: truoc[k] for k in FIELDS_ANH}   # bản studio dựng ban đầu (tên + ảnh) — nút "Về bản gốc"
             for k in FIELDS:
-                if k in ('bia', 'bia_pos') + tuple(TUY_F) and not moi[k]:
+                if k in ('bia', 'bia_pos', 'nhac') + tuple(TUY_F) and not moi[k]:
                     e.pop(k, None)                    # bìa mặc định / hiệu ứng mặc định: không ghi trường rỗng
                 else:
                     e[k] = moi[k]
