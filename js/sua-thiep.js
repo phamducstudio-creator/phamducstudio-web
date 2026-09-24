@@ -1028,6 +1028,7 @@
   function batDau(){
     if (!window.__THIEP__) return;
     dungGiaoDien();
+    luuNhap();          /* dọn nháp cũ đã lên web (khỏi báo lại mỗi lần mở) */
     veLai();
     lamTuoi();
     if (pending) batDauTheoDoi();
