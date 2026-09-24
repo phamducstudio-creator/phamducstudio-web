@@ -214,8 +214,8 @@ body.calc-page{padding-bottom:130px}
         <div class="tiergrid" id="tierGrid">
           <div class="tier" data-min="8000000"><div class="pct">−3% <span style="font-size:15px">+ 🎁</span></div><div class="from">từ 8 triệu</div><div class="name">Giảm 3% + tặng Standee thiết kế riêng (1tr)</div></div>
           <div class="tier" data-min="14000000"><div class="pct">−5% <span style="font-size:15px">+ 🎁</span></div><div class="from">từ 14 triệu</div><div class="name">Giảm 5% + bộ quà 4tr: Standee, in ảnh cổng &amp; 5 ảnh bàn HD 4K</div></div>
-          <div class="tier" data-min="20000000"><div class="pct">−10% <span style="font-size:15px">+ 🎁</span></div><div class="from">từ 20 triệu</div><div class="name">Giảm 10% + trọn bộ quà tặng 4tr</div></div>
-          <div class="tier" data-min="30000000"><div class="pct">−15% <span style="font-size:15px">+ 🎁</span></div><div class="from">từ 30 triệu</div><div class="name">Giảm 15% + trọn bộ quà tặng 4tr</div></div>
+          <div class="tier" data-min="20000000"><div class="pct">−10% <span style="font-size:15px">+ 🎁</span></div><div class="from">từ 20 triệu</div><div class="name">Giảm 10% + trọn bộ quà tặng 4tr + thiệp cưới online</div></div>
+          <div class="tier" data-min="30000000"><div class="pct">−15% <span style="font-size:15px">+ 🎁</span></div><div class="from">từ 30 triệu</div><div class="name">Giảm 15% + trọn bộ quà tặng 4tr + thiệp cưới online</div></div>
         </div>
       </div>
 
@@ -680,9 +680,11 @@ body.calc-page{padding-bottom:130px}
 <script>
 (function(){
   const FULLGIFTS=[{n:"Standee thiết kế riêng",v:1000000},{n:"In ảnh cổng HD 4K (từ album đã chụp)",v:2000000},{n:"In 5 ảnh để bàn HD 4K (từ album đã chụp)",v:1000000}];
+  /* 24/09/2026: gói từ 20 triệu tặng thêm thiệp cưới online (trang thiep-cuoi-online.html, giá lẻ 699.000đ) */
+  const THIEP={n:"Thiệp cưới online (6 mẫu, lưu trữ vĩnh viễn)",v:699000,thiep:true};
   const TIERS=[
-    {min:30000000,pct:15,name:"Cấp 4 - VIP",gifts:FULLGIFTS},
-    {min:20000000,pct:10,name:"Cấp 3 - Toàn diện",gifts:FULLGIFTS},
+    {min:30000000,pct:15,name:"Cấp 4 - VIP",gifts:FULLGIFTS.concat([THIEP])},
+    {min:20000000,pct:10,name:"Cấp 3 - Toàn diện",gifts:FULLGIFTS.concat([THIEP])},
     {min:14000000,pct:5,name:"Cấp 2 - Nâng cao",gifts:FULLGIFTS},
     {min:8000000,pct:3,name:"Cấp 1 - Tiêu chuẩn",gifts:[{n:"Standee thiết kế riêng",v:1000000}]}
   ];
@@ -810,6 +812,7 @@ body.calc-page{padding-bottom:130px}
       const nv=next.gifts.reduce((a,g)=>a+g.v,0);
       let ben='được giảm <b>'+next.pct+'%</b>';
       if(nv>0)ben+=' + quà tặng trị giá <b>'+fmt(nv)+'</b>';
+      if(next.gifts.some(g=>g.thiep)&&!(r.tier&&r.tier.gifts.some(g=>g.thiep)))ben+=' (có cả <b>thiệp cưới online</b>)';
       nudge.className='nudge show';
       nudge.innerHTML='✨ Chỉ cần thêm <b>'+fmt(next.min-r.sub)+'</b> nữa là '+ben+'!';
     }else{nudge.className='nudge';}
@@ -934,7 +937,7 @@ body.calc-page{padding-bottom:130px}
     const r=est(p); if(!r.sub) return;
     const b=document.createElement('button'); b.type='button'; b.className='preset'+(p.hot?' hot':''); b.dataset.preset=p.id;
     b.innerHTML='<span class="ptag">'+p.tag+'</span><span class="pname">'+p.name+'</span><span class="pnote">'+p.note+'</span>'
-      +'<span class="pprice">'+fmt(r.grand)+'</span><span class="pmeta">'+(r.disc>0?'đã trừ '+r.tier.pct+'% ưu đãi trọn gói · giá gốc '+fmt(r.sub):'giá niêm yết')+'</span>'
+      +'<span class="pprice">'+fmt(r.grand)+'</span><span class="pmeta">'+(r.disc>0?'đã trừ '+r.tier.pct+'% ưu đãi trọn gói · giá gốc '+fmt(r.sub):'giá niêm yết')+(r.tier&&r.tier.gifts.some(g=>g.thiep)?' · 🎁 tặng thiệp cưới online':'')+'</span>'
       +'<span class="pgo">Xem báo giá &amp; nhắn Zalo →</span>';
     b.addEventListener('click',()=>apply(p));
     grid.appendChild(b);
