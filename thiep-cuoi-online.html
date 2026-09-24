@@ -146,6 +146,15 @@
 .tc-radio{display:flex;gap:16px;flex-wrap:wrap}
 .tc-radio label{display:inline-flex !important;align-items:center;gap:6px;font-size:13.5px !important;font-weight:500 !important;color:rgba(255,253,247,.85) !important;letter-spacing:0 !important;margin:0 !important;cursor:pointer}
 .tc-radio input{width:auto !important}
+/* ô chọn nhạc nền trong form đặt thiệp + nút nghe thử */
+.tf-nhac{display:flex;gap:8px;align-items:stretch}
+.tf-nhac select{flex:1 1 auto;min-width:0}
+.tf-nghe{flex:0 0 auto;display:inline-flex;align-items:center;justify-content:center;gap:6px;min-width:108px;padding:0 12px;border:1px solid rgba(228,197,131,.55);background:rgba(228,197,131,.1);color:var(--gold-light);font:600 13px var(--font-body);cursor:pointer;white-space:nowrap}
+.tf-nghe:disabled{opacity:.4;cursor:default}
+.tf-nghe svg{width:13px;height:13px;flex:0 0 13px}
+.tf-sub{margin:6px 0 0;font-size:12px;line-height:1.5;color:rgba(255,253,247,.55)}
+.booking-form select optgroup{color:#111;background:#fff}
+@media (max-width:480px){.tf-nghe{min-width:46px;width:46px;padding:0}.tf-nghe span{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}.tf-nghe svg{width:15px;height:15px;flex-basis:15px}}
 
 @media (max-width:980px){
   .tc-hero .wrap{grid-template-columns:1fr;gap:10px;text-align:center}
@@ -422,6 +431,24 @@
               </div>
             </div>
             <div class="form-row">
+              <label for="tf-nhac">Nhạc nền</label>
+              <div class="tf-nhac">
+                <select id="tf-nhac" name="nhac">
+                  <option value="studio">Để studio chọn theo mẫu thiệp</option>
+                  <optgroup label="Nhạc có sẵn — bấm Nghe thử" id="tf-nhac-san">
+                    <option value="canon-in-d">Canon in D — piano &amp; dây, trang trọng</option>
+                    <option value="minuet-in-g">Minuet in G — piano &amp; hộp nhạc, trong trẻo</option>
+                    <option value="gymnopedie">Gymnopédie số 1 — piano, nhẹ nhàng</option>
+                  </optgroup>
+                  <optgroup label="Bài khác">
+                    <option value="rieng">Bài riêng — mình gửi file hoặc tên bài qua Zalo</option>
+                  </optgroup>
+                </select>
+                <button type="button" class="tf-nghe" id="tf-nghe" disabled><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg><span>Nghe thử</span></button>
+              </div>
+              <p class="tf-sub">Khách mời mở thiệp là nghe nhạc, và tự đổi được bài khác nếu muốn.</p>
+            </div>
+            <div class="form-row">
               <label for="tf-diadiem">Địa điểm tiệc cưới</label>
               <input type="text" id="tf-diadiem" name="diadiem" placeholder="Tên nhà hàng / địa chỉ — để hiện bản đồ chỉ đường" autocomplete="off">
             </div>
@@ -542,6 +569,55 @@
     a.addEventListener('click', function(){ sel.value = a.getAttribute('data-mau'); });
   });
 
+  /* NHẠC NỀN — 3 bài có sẵn + kho nhạc chung studio tự tải (list.json kho nhac-thiep); nghe thử; nhận ?nhac= từ thiệp mẫu */
+  var NHAC_KHO = 'https://phamducstudio-creator.github.io/nhac-thiep/';
+  var NHAC_URL = {"canon-in-d": "images/nhac-canon-in-d.mp3", "minuet-in-g": "images/nhac-minuet-in-g.mp3", "gymnopedie": "images/nhac-gymnopedie.mp3"};
+  var nsel = document.getElementById('tf-nhac'), nghe = document.getElementById('tf-nghe'), nhom = document.getElementById('tf-nhac-san');
+  var qNhac = new URLSearchParams(location.search).get('nhac') || '';
+  var nhacUrl = function(v){ if (NHAC_URL[v]) return NHAC_URL[v]; var m = /^d:([-\w]{10,})$/.exec(v); return m ? NHAC_KHO + 'n/' + m[1] + '.mp3' : ''; };
+  var chonNhac = function(v){ for (var i = 0; i < nsel.options.length; i++) if (nsel.options[i].value === v) { nsel.value = v; return true; } return false; };
+  var au = null;
+  var veNghe = function(){
+    var dang = au && !au.paused;
+    nghe.disabled = !nhacUrl(nsel.value);
+    nghe.setAttribute('aria-label', dang ? 'Dừng nghe thử' : 'Nghe thử bài đã chọn');
+    nghe.innerHTML = (dang ? '<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M7 5h4v14H7zM13 5h4v14h-4z"/></svg><span>Dừng</span>'
+                           : '<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg><span>Nghe thử</span>');
+  };
+  var phatThu = function(){
+    var u = nhacUrl(nsel.value); if (!u) return;
+    if (!au) { au = new Audio(); au.volume = 0.8; au.addEventListener('play', veNghe); au.addEventListener('pause', veNghe); au.addEventListener('ended', veNghe);
+               au.addEventListener('error', function(){ veNghe(); document.getElementById('tf-note-status').textContent = 'Bài này chưa nghe thử được — vẫn chọn được, studio sẽ kiểm tra.'; }); }
+    if (au.getAttribute('src') !== u) au.src = u;
+    var pr = au.play(); if (pr && pr.catch) pr.catch(function(){});
+  };
+  nghe.addEventListener('click', function(){ if (au && !au.paused && au.getAttribute('src') === nhacUrl(nsel.value)) au.pause(); else phatThu(); });
+  nsel.addEventListener('change', function(){ if (au && !au.paused) phatThu(); veNghe(); });
+  if (qNhac && !chonNhac(qNhac) && /^d:[-\w]{10,}$/.test(qNhac)) {
+    var o = document.createElement('option'); o.value = qNhac; o.textContent = 'Bài đã chọn trên thiệp mẫu'; nhom.appendChild(o); chonNhac(qNhac);
+  }
+  veNghe();
+  if (window.fetch) {
+    fetch(NHAC_KHO + 'list.json?v=' + Math.floor(Date.now() / 6e5)).then(function(r){ return r.ok ? r.json() : null; }).then(function(j){
+      if (!j || !j.bai) return;
+      j.bai.forEach(function(b){
+        if (!b || !b.id || !b.file || b.rieng) return;
+        var v = 'd:' + b.id, g = Math.round(+b.giay || 0), o = null;
+        for (var i = 0; i < nsel.options.length; i++) if (nsel.options[i].value === v) o = nsel.options[i];
+        if (!o) { o = document.createElement('option'); o.value = v; nhom.appendChild(o); }
+        o.textContent = (b.ten || 'Nhạc nền') + (g ? ' — ' + Math.floor(g / 60) + ':' + ('0' + g % 60).slice(-2) : '');
+      });
+      if (qNhac) chonNhac(qNhac);
+      veNghe();
+    }).catch(function(){});
+  }
+  var tenNhac = function(){
+    var v = nsel.value, t = nsel.options[nsel.selectedIndex] ? nsel.options[nsel.selectedIndex].textContent : '';
+    if (v === 'studio') return 'nhờ studio chọn theo mẫu';
+    if (v === 'rieng') return 'bài riêng (gửi file/tên bài qua Zalo)';
+    return t.replace(/\s+—\s+.*$/, '') + ' [' + v + ']';
+  };
+
   /* FORM ĐẶT THIỆP — lưu vào Google Sheet lead (cùng nơi với form đặt lịch), cột gói = "Thiệp Cưới Online — <mẫu>" */
   var form = document.getElementById('thiep-form');
   form.addEventListener('submit', function(e){
@@ -556,20 +632,23 @@
     var digits = phone.replace(/\D/g,'');
     if (digits.length < 9 || digits.length > 11){ fail('Số điện thoại chưa đúng — vui lòng kiểm tra lại.'); return; }
 
+    var nhac = tenNhac();
     var ghichu = '[Đặt thiệp cưới online] Cô dâu: ' + cd + ' — Chú rể: ' + cr + (mau ? ' — Mẫu: ' + mau : ' — Mẫu: nhờ tư vấn') +
-                 (dc ? ' — ' + dc : '') + (diadiem ? ' — Địa điểm tiệc: ' + diadiem : '') + (note ? ' — Ghi chú: ' + note : '');
+                 ' — Nhạc: ' + nhac + (dc ? ' — ' + dc : '') + (diadiem ? ' — Địa điểm tiệc: ' + diadiem : '') + (note ? ' — Ghi chú: ' + note : '');
     if (window.PDS_LEAD_SHEET_URL){
       try{
         var fd = new URLSearchParams({hoten: cd + ' & ' + cr, sdt: phone, ngay: date || '', goi: 'Thiệp Cưới Online' + (mau ? ' — ' + mau : ''), ghichu: ghichu, nguon: location.pathname + location.search});
         fetch(window.PDS_LEAD_SHEET_URL, {method:'POST', mode:'no-cors', body: fd}).catch(function(){});
       }catch(err){}
     }
-    if (window.fbq){ fbq('trackCustom','GuiFormThiepCuoi',{mau: mau || 'chua-chon'}); fbq('track','Lead',{content_name:'Form dat thiep cuoi online', content_category:'Thiep cuoi online', value:699000, currency:'VND'}); }
+    if (au && !au.paused) au.pause();
+    if (window.fbq){ fbq('trackCustom','GuiFormThiepCuoi',{mau: mau || 'chua-chon', nhac: nsel.value}); fbq('track','Lead',{content_name:'Form dat thiep cuoi online', content_category:'Thiep cuoi online', value:699000, currency:'VND'}); }
     if (window.gtag){ gtag('event','GuiFormThiepCuoi',{mau: mau || 'chua-chon'}); gtag('event','generate_lead',{method:'form', value:699000, currency:'VND'}); }
 
     var msg = 'Xin chào Phạm Đức Studio, mình muốn đặt Thiệp Cưới Online:\n- Cô dâu: ' + cd + '\n- Chú rể: ' + cr + '\n- SĐT: ' + phone;
     if (date) msg += '\n- Ngày cưới: ' + date;
     msg += '\n- Mẫu: ' + (mau || 'nhờ studio tư vấn');
+    msg += '\n- Nhạc nền: ' + nhac;
     if (dc) msg += '\n- ' + dc;
     if (diadiem) msg += '\n- Địa điểm tiệc: ' + diadiem;
     if (note) msg += '\n- Ghi chú: ' + note;
