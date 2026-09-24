@@ -305,14 +305,14 @@
             <div class="tc-act"><a class="v" href="thiep-mau.html?m=song-hy" target="_blank" rel="noopener" data-xem="song-hy">Xem thiệp mẫu</a><a class="c" href="#dat-thiep" data-mau="Song Hỷ">Chọn mẫu này</a></div></div>
         </article>
         <article class="tc-card">
-          <a class="tc-phone" href="thiep-mau.html?m=thanh-lich" target="_blank" rel="noopener" data-xem="thanh-lich" aria-label="Xem thiệp mẫu Thanh Lịch"><div class="tc-scr"><img src="images/thiep-mau-thanh-lich.webp" alt="Thiệp cưới online phong cách Thanh Lịch" width="300" height="2724" loading="lazy" decoding="async" style="--dur:28s"></div></a>
-          <div><span class="no">MẪU 04 · TRẮNG CHAMPAGNE</span><h3>Thanh Lịch</h3><p class="mood">Trắng sáng kiểu châu Âu — thẻ cô dâu chú rể so le</p><p class="cp">Uyên & Đăng</p>
+          <a class="tc-phone" href="thiep-mau.html?m=sang-trong" target="_blank" rel="noopener" data-xem="sang-trong" aria-label="Xem thiệp mẫu Sang Trọng"><div class="tc-scr"><img src="images/thiep-mau-sang-trong.webp" alt="Thiệp cưới online phong cách Sang Trọng" width="300" height="2724" loading="lazy" decoding="async" style="--dur:28s"></div></a>
+          <div><span class="no">MẪU 04 · TRẮNG CHAMPAGNE</span><h3>Sang Trọng</h3><p class="mood">Trắng sáng kiểu châu Âu — thẻ cô dâu chú rể so le</p><p class="cp">Uyên & Đăng</p>
             <div class="tc-sw"><i style="background:#4A4540"></i><i style="background:#B89B6A"></i><i style="background:#F3F1EC"></i></div>
-            <div class="tc-act"><a class="v" href="thiep-mau.html?m=thanh-lich" target="_blank" rel="noopener" data-xem="thanh-lich">Xem thiệp mẫu</a><a class="c" href="#dat-thiep" data-mau="Thanh Lịch">Chọn mẫu này</a></div></div>
+            <div class="tc-act"><a class="v" href="thiep-mau.html?m=sang-trong" target="_blank" rel="noopener" data-xem="sang-trong">Xem thiệp mẫu</a><a class="c" href="#dat-thiep" data-mau="Sang Trọng">Chọn mẫu này</a></div></div>
         </article>
         <article class="tc-card">
           <a class="tc-phone" href="thiep-mau.html?m=nang-gio" target="_blank" rel="noopener" data-xem="nang-gio" aria-label="Xem thiệp mẫu Nắng & Gió"><div class="tc-scr"><img src="images/thiep-mau-nang-gio.webp" alt="Thiệp cưới online phong cách Nắng & Gió" width="300" height="2569" loading="lazy" decoding="async" style="--dur:27s"></div></a>
-          <div><span class="no">MẪU 05 · VÀNG NẮNG</span><h3>Nắng & Gió</h3><p class="mood">Ngoài trời phóng khoáng — chữ INVITATION lớn, ảnh polaroid</p><p class="cp">Ngân & Lộc</p>
+          <div><span class="no">MẪU 05 · VÀNG NẮNG</span><h3>Nắng & Gió</h3><p class="mood">Ngoài trời phóng khoáng — chữ INVITATION lớn, ảnh polaroid</p><p class="cp">Thanh & Duy</p>
             <div class="tc-sw"><i style="background:#2F3B45"></i><i style="background:#D9A22E"></i><i style="background:#F3ECDD"></i></div>
             <div class="tc-act"><a class="v" href="thiep-mau.html?m=nang-gio" target="_blank" rel="noopener" data-xem="nang-gio">Xem thiệp mẫu</a><a class="c" href="#dat-thiep" data-mau="Nắng & Gió">Chọn mẫu này</a></div></div>
         </article>
@@ -413,7 +413,7 @@
                   <option>Cổ Điển</option>
                   <option>Hàn Quốc</option>
                   <option>Song Hỷ</option>
-                  <option>Thanh Lịch</option>
+                  <option>Sang Trọng</option>
                   <option>Nắng & Gió</option>
                   <option>Phim Xưa</option>
                 </select>
@@ -529,7 +529,7 @@
 
   /* Chọn mẫu → điền sẵn vào form */
   var sel = document.getElementById('tf-mau');
-  var NAMES = {"co-dien": "Cổ Điển", "han-quoc": "Hàn Quốc", "song-hy": "Song Hỷ", "thanh-lich": "Thanh Lịch", "nang-gio": "Nắng & Gió", "phim-xua": "Phim Xưa"};
+  var NAMES = {"co-dien": "Cổ Điển", "han-quoc": "Hàn Quốc", "song-hy": "Song Hỷ", "sang-trong": "Sang Trọng", "thanh-lich": "Sang Trọng", "nang-gio": "Nắng & Gió", "phim-xua": "Phim Xưa"};
   var q = new URLSearchParams(location.search).get('mau');
   if (q && NAMES[q]) sel.value = NAMES[q];
   document.querySelectorAll('[data-mau]').forEach(function(a){
