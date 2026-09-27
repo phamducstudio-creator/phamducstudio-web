@@ -1505,7 +1505,8 @@ rồi nắm tay nhau đi qua năm tháng.</p>
        Có phong bì: khách chạm mở phong bì (lần chạm này cũng cho phép phát nhạc) → xem bìa ~2,5 giây → tự cuộn. Không phong bì:
        tự cuộn sau 4,5 giây. Khách chạm / cuộn / gõ phím → tạm dừng, 6 giây không đụng thì chạy tiếp; nút dưới nút nhạc: dừng hẳn /
        chạy tiếp, hết thiệp thì thành ↑ (về đầu chạy lại). Tạm dừng khi đang xem ảnh lớn, gõ ô nhập, mở bảng nhạc, rời tab; bấm xem
-       clip thì dừng hẳn. Máy bật "giảm chuyển động" → không tự bắt đầu (vẫn có nút). Bảng sửa gọi __THIEP__.tuChay khi "Xem thử". */
+       clip thì dừng hẳn. Máy bật "giảm chuyển động" (Windows tắt hiệu ứng, pin yếu…) vẫn tự chạy: cuộn chậm, chạm là dừng, có nút dừng.
+       Bảng sửa gọi __THIEP__.tuChay khi "Xem thử". */
     var tuChay = (function(){
       var nut = null, on = false, tamDen = 0, y = 0, tLast = 0, raf = 0, xong = false;
       var CV = 2 * Math.PI * 16.5;
@@ -1566,13 +1567,11 @@ rồi nắm tay nhau đi qua năm tháng.</p>
         });
         window.addEventListener('scroll', function(){ if (!on) veNut(); }, { passive: true });
         veNut();
-        if (!(window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches)) {
-          if ($('env')) document.addEventListener('click', function mo(e){
-            if (!e.target || !e.target.closest || !e.target.closest('#env')) return;
-            document.removeEventListener('click', mo, true); batDau(4200);
-          }, true);
-          else batDau(4500);
-        }
+        if ($('env')) document.addEventListener('click', function mo(e){
+          if (!e.target || !e.target.closest || !e.target.closest('#env')) return;
+          document.removeEventListener('click', mo, true); batDau(4200);
+        }, true);
+        else batDau(4500);
       }
       return { batDau: batDau, dung: dung };
     })();
