@@ -45,7 +45,8 @@
   var FIELDS_GOC = THIEP ? ['ten_cr', 'ten_cd'].concat(ANH_F) : ['album', 'ten_cr', 'ten_cd'].concat(ANH_F);   /* "Về bản gốc": chỉ tên + ảnh */
   var LE = [['vu_quy', 'Lễ Vu Quy'], ['thanh_hon', 'Lễ Thành Hôn'], ['tiec', 'Tiệc cưới']];
   /* Hiệu ứng & phần — khoá giống renderTuy() (thiep-mau.html) và thiep_chung.TUY_* (bot); xếp theo thứ tự trên thiệp */
-  var HIEU_UNG = [['hoa', 'Cánh hoa rơi'], ['hien', 'Hiện dần khi cuộn'], ['kb', 'Ảnh bìa phóng chậm'], ['phong_bi', 'Phong bì — chạm để mở thiệp'], ['bay', 'Lời chúc bay lên màn hình']];
+  var HIEU_UNG = [['phong_bi', 'Phong bì — chạm để mở thiệp'], ['tu_chay', 'Thiệp tự chạy (tự cuộn chậm)'], ['hoa', 'Cánh hoa rơi'], ['hien', 'Hiện dần khi cuộn'],
+    ['kb', 'Ảnh bìa phóng chậm'], ['bay', 'Lời chúc bay lên màn hình']];
   var PHAN = [['loi_ngo', 'Lời ngỏ (dưới tên dâu rể)'], ['cau_chuyen', 'Câu chuyện (trên ảnh dâu rể)'], ['tho1', 'Thơ ở khối 3 ảnh ghép'],
     ['tho2', 'Thơ dưới ảnh tràn khung'], ['tho3', 'Câu trích ở khối 2 ảnh nổi'], ['lich', 'Lịch tháng cưới'], ['dem', 'Đồng hồ đếm ngược'],
     ['luu_lich', 'Nút “Lưu ngày cưới vào lịch”'], ['ban_do', 'Bản đồ Google Maps'], ['tho4', 'Thơ ở khối cặp ảnh cuối'], ['rsvp', 'Xác nhận tham dự (RSVP)'],
@@ -125,7 +126,7 @@
     var st = String((THIEP ? (DAY && DAY.phong_cach) : (M && M.style)) || '').trim();
     return st === 'sang-trong' ? 'thanh-lich' : st;
   }
-  function phongBiMacDinh(){ return kieuThiep() === 'song-hy' || String(((THIEP ? DAY : M) || {}).phong_bi || '').trim() === '1'; }
+  function phongBiMacDinh(){ return true; }   /* từ 25/09 mọi mẫu mặc định mở bằng phong bì (giống coPhongBi trong thiep-mau.html) */
   /* công tắc k có BẬT không (phong bì: mặc định theo kiểu thiệp, bật/tắt thêm; còn lại: mặc định bật) */
   function batGoc(o, k){
     var t = (o && o.tuy) || {};
@@ -697,10 +698,17 @@
     document.documentElement.classList.toggle('sua-xem', m === 'xem');
     var env = document.getElementById('env'); if (env && env.parentNode) env.parentNode.removeChild(env);
     document.body.classList.remove('env-lock');
+    var T = window.__THIEP__;
+    if (T && T.tuChay) T.tuChay.dung();
     if (m === 'xem') {
       dongSheet();
-      var T = window.__THIEP__, d = duLieuHienTai();   /* phong bì bật → xem thử cũng mở bằng phong bì như khách */
-      if (T && T.phongBi && T.coPhongBi && T.coPhongBi(d)) { window.scrollTo(0, 0); T.phongBi(d); }
+      var d = duLieuHienTai(), coPB = T && T.phongBi && T.coPhongBi && T.coPhongBi(d);   /* xem thử y như khách: phong bì → chạm mở → tự chạy */
+      if (coPB) { window.scrollTo(0, 0); T.phongBi(d); }
+      if (T && T.tuChay && batGoc(draft, 'tu_chay')) {
+        var e2 = document.getElementById('env');
+        if (e2) e2.addEventListener('click', function(){ if (cheDo === 'xem') T.tuChay.batDau(4200); }, { once: true });
+        else T.tuChay.batDau(1500);
+      }
       toast('Đang xem như khách — bấm “Quay lại sửa” để tiếp tục');
     }
   }
@@ -1253,7 +1261,8 @@
     if (k === 'hoa' && st === 'phim-xua') return 'Kiểu Phim Xưa vốn không có hoa rơi';
     if (k === 'kb' && (st === 'phim-xua' || st === 'han-quoc' || st === 'song-hy')) return 'Kiểu thiệp này vốn không phóng ảnh bìa';
     if (k === 'hien') return 'Khách cuộn tới đâu, khối đó hiện dần lên (lúc sửa luôn hiện sẵn)';
-    if (k === 'phong_bi') return (phongBiMacDinh() ? 'Kiểu Song Hỷ mặc định có. ' : 'Mặc định chỉ kiểu Song Hỷ có. ') + 'Lúc sửa không hiện — bấm “Xem thử” để thấy';
+    if (k === 'phong_bi') return 'Khách chạm mở phong bì là nhạc phát + thiệp bắt đầu tự chạy (điện thoại chỉ cho phát nhạc sau 1 lần chạm). Lúc sửa không hiện — bấm “Xem thử”';
+    if (k === 'tu_chay') return 'Khách mở thiệp là thiệp tự cuộn chậm từ trên xuống; khách chạm thì dừng, 6 giây sau chạy tiếp. Bấm “Xem thử” để thấy';
     if (k === 'bay') return batGoc(draft, 'chuc') ? 'Lời chúc của khách hiện lơ lửng trên màn hình (lúc sửa ẩn)' : 'Đang tắt theo phần Lời chúc';
     if (/^tho[1-4]$/.test(k)) { el = $('#' + KHOI_THO[k.slice(3)]); return (el && el.hidden) ? 'Khối này đang không hiện (ít ảnh câu chuyện)' : ''; }
     if ((k === 'loi_ngo' || k === 'cau_chuyen') && THIEP) return 'Sửa chữ ở tab Thông tin';
@@ -1313,7 +1322,7 @@
         veSheet();
         var el2 = sheet.querySelector('[data-ct="' + k + '"]'); if (el2) try { el2.focus({ preventScroll: true }); } catch (e) {}
         denKhoi(k);
-        toast((bat ? 'Đã bật: ' : 'Đã tắt: ') + tenCT(k) + ((k === 'phong_bi' || k === 'hien' || k === 'bay') ? ' — bấm Xem thử để thấy' : ''));
+        toast((bat ? 'Đã bật: ' : 'Đã tắt: ') + tenCT(k) + ((k === 'phong_bi' || k === 'tu_chay' || k === 'hien' || k === 'bay') ? ' — bấm Xem thử để thấy' : ''));
       });
     });
     var hen = null;

@@ -2,7 +2,8 @@
 """Chụp lại "dải ảnh" của 1 thiệp mẫu cho trang bán (images/thiep-mau-<mẫu>.webp) rồi sửa height= + ?v= trong
 thiep-cuoi-online.html. Cách chụp giữ đúng như bản dựng tay 24/09: màn 390px × DPR 2, ẩn thanh chọn mẫu / thanh nổi /
 nút nhạc, từ đầu thiệp tới hết khối "Wedding Time" (lịch + đếm ngược), thu về rộng 300px, WebP.
-Song Hỷ: thêm khung phong bì 711px (màn 390×759 trừ thanh mẫu 48px) ở đầu dải.
+Song Hỷ: thêm khung phong bì 711px (màn 390×759 trừ thanh mẫu 48px) ở đầu dải. Từ 25/09 mẫu nào cũng mở bằng phong bì,
+nhưng dải các mẫu khác giữ như cũ (bắt đầu từ bìa) để trang bán không đổi kiểu.
 
   chup_dai_anh.py <mẫu>          (chạy ở gốc repo; cần: pip install playwright pillow)
 Dùng Chrome có sẵn trên máy chạy GitHub Actions (channel="chrome"); không có thì tự tải Chromium của Playwright.
@@ -23,7 +24,7 @@ from PIL import Image
 GOC = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..'))
 W, DPR, H_VIEW, BAR = 390, 2, 759, 48
 AN = """
-.mau-bar,.bar,.music,.music-hint,.wfloat,.toast,.amb,.petal,.lb{display:none!important}
+.mau-bar,.bar,.music,.tu-chay,.music-hint,.wfloat,.toast,.amb,.petal,.lb{display:none!important}
 .rv{opacity:1!important;transform:none!important;transition:none!important}
 .cover .photo{animation:none!important}
 """
@@ -65,9 +66,10 @@ async def chup(key, port):
         await pg.wait_for_timeout(1200)
         khung = []
         if await pg.query_selector('#env'):
-            await pg.wait_for_function("(()=>{const i=document.querySelector('#env .letter img');return i&&i.complete&&i.naturalWidth>0})()", timeout=20000)
-            await pg.wait_for_timeout(500)
-            khung.append(await pg.screenshot(clip={'x': 0, 'y': BAR, 'width': W, 'height': H_VIEW - BAR}))
+            if key == 'song-hy':                        # chỉ dải Song Hỷ mở đầu bằng khung phong bì
+                await pg.wait_for_function("(()=>{const i=document.querySelector('#env .letter img');return i&&i.complete&&i.naturalWidth>0})()", timeout=20000)
+                await pg.wait_for_timeout(500)
+                khung.append(await pg.screenshot(clip={'x': 0, 'y': BAR, 'width': W, 'height': H_VIEW - BAR}))
             await pg.evaluate("(()=>{const e=document.getElementById('env'); if(e) e.remove(); document.body.classList.remove('env-lock');})()")
         await pg.add_style_tag(content=AN)
         await pg.evaluate("(()=>{document.querySelectorAll('.rv').forEach(e=>e.classList.add('in'));document.querySelectorAll('img').forEach(i=>{if(i.loading==='lazy'){i.loading='eager';const s=i.src;i.src='';i.src=s;}});})()")

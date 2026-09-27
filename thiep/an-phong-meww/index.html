@@ -16,7 +16,7 @@
   if (P.style) document.documentElement.setAttribute('data-style', P.style);
   if (/[?&]sua(=|&|$)/.test(location.search)) {
     window.__SUA__ = { thiep: true };
-    var sj = document.createElement('script'); sj.src = '/js/sua-thiep.js?v=20260927b'; sj.async = true; document.head.appendChild(sj);
+    var sj = document.createElement('script'); sj.src = '/js/sua-thiep.js?v=20260928a'; sj.async = true; document.head.appendChild(sj);
   }
 })();
 </script>
@@ -121,6 +121,17 @@ button,input,select,textarea{font:inherit;color:inherit}
 .music::after{content:"";position:absolute;width:6px;height:6px;border-radius:50%;background:var(--gold-light);opacity:0}
 .music.on::after{opacity:1;animation:ping 1.6s ease-out infinite}
 @keyframes ping{0%{transform:scale(1);opacity:.9}100%{transform:scale(5);opacity:0}}
+/* thiệp tự chạy (tự cuộn chậm): nút tròn dưới nút nhạc — vòng vàng = đã chạy tới đâu; ⏸ đang chạy · ⇊ cho chạy · ↑ chạy lại từ đầu */
+.tu-chay{position:fixed;top:calc(56px + env(safe-area-inset-top,0px));right:10px;z-index:40;width:38px;height:38px;border-radius:50%;border:0;background:rgba(var(--wine-rgb),.55);-webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px);color:var(--white);display:flex;align-items:center;justify-content:center;cursor:pointer;padding:0}
+.tu-chay::before{content:"";position:absolute;inset:-5px;border-radius:50%}
+.tu-chay .tc-o{position:absolute;inset:0;width:38px;height:38px;transform:rotate(-90deg);overflow:visible}
+.tu-chay .tc-nen{fill:none;stroke:rgba(var(--goldl-rgb),.45);stroke-width:1.5}
+.tu-chay .tc-vong{fill:none;stroke:var(--gold-light);stroke-width:2.2;stroke-linecap:round}
+.tu-chay .tc-ic{position:relative;display:flex}
+.tu-chay .tc-ic svg{width:17px;height:17px}
+.tu-chay.mot{top:calc(10px + env(safe-area-inset-top,0px))}
+body.mau .tu-chay{top:calc(104px + env(safe-area-inset-top,0px))}
+body.mau .tu-chay.mot{top:calc(58px + env(safe-area-inset-top,0px))}
 /* nhắc "chạm vào thiệp để nghe nhạc" — điện thoại chỉ cho phát nhạc sau lần chạm đầu (vuốt cuộn không tính);
    nằm giữa đáy ngay trên thanh lời chúc (cùng chỗ thông báo), không đè tiêu đề bìa; chạm vào nhắc cũng bật nhạc */
 .music-hint{position:fixed;left:50%;bottom:calc(var(--bar) + 16px + env(safe-area-inset-bottom,0px));z-index:41;transform:translate(-50%,10px);display:inline-flex;align-items:center;gap:8px;white-space:nowrap;font-family:var(--font-body);font-size:12.5px;font-weight:500;line-height:1;letter-spacing:.02em;padding:10px 16px;border-radius:999px;background:rgba(var(--wine-rgb),.84);-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);color:var(--white);border:1px solid rgba(var(--goldl-rgb),.55);box-shadow:0 8px 24px rgba(0,0,0,.25);cursor:pointer;opacity:0;visibility:hidden;pointer-events:none;transition:opacity .45s ease,transform .45s ease,visibility 0s .45s}
@@ -471,8 +482,8 @@ html[data-style="song-hy"]{--paper:#F6EEE3;--paper-2:#EFE2D0;--white:#FFF9F1;--w
 .env .flap{position:absolute;left:0;right:0;top:0;height:60%;z-index:3;background:linear-gradient(180deg,var(--wine-700),var(--wine-800));clip-path:polygon(0 0,100% 0,50% 100%);transform-origin:50% 0;transition:transform .8s ease,z-index 0s .4s}
 .env .seal{position:absolute;left:50%;top:57%;width:62px;height:62px;margin:-31px 0 0 -31px;z-index:4;border-radius:50%;display:flex;align-items:center;justify-content:center;
   background:radial-gradient(circle at 35% 30%,#F3DDA6,#C9A060 58%,#9B7535);color:#6B4A1C;font-family:'Great Vibes','Playfair Display',cursive;font-size:24px;box-shadow:0 4px 10px rgba(0,0,0,.35),inset 0 0 0 3px rgba(107,74,28,.25);transition:opacity .35s,transform .35s}
-.env .tap{margin:24px 0 0;font-size:12px;letter-spacing:.24em;text-transform:uppercase;color:var(--wine-800);animation:tapPulse 1.6s ease-in-out infinite}
-@keyframes tapPulse{50%{opacity:.35}}
+.env .tap{margin:24px 0 0;font-size:13px;font-weight:600;letter-spacing:.22em;text-transform:uppercase;color:var(--wine-800);animation:tapPulse 1.6s ease-in-out infinite}
+@keyframes tapPulse{50%{opacity:.55}}
 .env.open .seal{opacity:0;transform:scale(.5)}
 .env.open .flap{transform:rotateX(180deg);z-index:0}
 .env.open .letter{transform:translateY(-62%)}
@@ -1206,9 +1217,8 @@ rồi nắm tay nhau đi qua năm tháng.</p>
     (t.bat || []).forEach(function(k){ o.bat[k] = 1; });
     return o;
   }
-  function coPhongBi(d){
-    var u = tuyCua(d), macDinh = String(d.phong_cach || '').trim() === 'song-hy' || String(d.phong_bi || '').trim() === '1';
-    return (macDinh && !u.tat.phong_bi) || !!u.bat.phong_bi;
+  function coPhongBi(d){   /* mọi mẫu mở bằng phong bì: chạm mở = điện thoại cho phép phát nhạc + thiệp bắt đầu tự chạy; tắt: tuy.tat "phong_bi" */
+    return !tuyCua(d).tat.phong_bi;
   }
   function renderTuy(d){
     var u = tuyCua(d), tat = u.tat, h = document.documentElement;
@@ -1253,7 +1263,7 @@ rồi nắm tay nhau đi qua năm tháng.</p>
     var STYLES = ['phim-xua','thanh-lich','han-quoc','nang-gio','song-hy'];
     var st = String(d.phong_cach||'').trim(); if (st === 'sang-trong') st = 'thanh-lich';   /* tên hiển thị mới: Sang Trọng */
     if (STYLES.indexOf(st) >= 0) document.documentElement.setAttribute('data-style', st);
-    if (coPhongBi(d) && !window.__SUA__) envelope(d);   /* Song Hỷ mặc định có phong bì; bảng sửa: bỏ phong bì */
+    if (coPhongBi(d) && !window.__SUA__) envelope(d);   /* mọi mẫu mặc định có phong bì; bảng sửa: bỏ phong bì (Xem thử mới hiện) */
     var guest = d.guest || d.loi_moi_mau || 'Quý khách';
 
     /* hero */
@@ -1491,12 +1501,88 @@ rồi nắm tay nhau đi qua năm tháng.</p>
       play();
     }
 
+    /* ===== Thiệp tự chạy: tự cuộn chậm từ trên xuống (mặc định bật; tắt ở "Hiệu ứng & phần" → tuy.tat "tu_chay") =====
+       Có phong bì: khách chạm mở phong bì (lần chạm này cũng cho phép phát nhạc) → xem bìa ~2,5 giây → tự cuộn. Không phong bì:
+       tự cuộn sau 4,5 giây. Khách chạm / cuộn / gõ phím → tạm dừng, 6 giây không đụng thì chạy tiếp; nút dưới nút nhạc: dừng hẳn /
+       chạy tiếp, hết thiệp thì thành ↑ (về đầu chạy lại). Tạm dừng khi đang xem ảnh lớn, gõ ô nhập, mở bảng nhạc, rời tab; bấm xem
+       clip thì dừng hẳn. Máy bật "giảm chuyển động" → không tự bắt đầu (vẫn có nút). Bảng sửa gọi __THIEP__.tuChay khi "Xem thử". */
+    var tuChay = (function(){
+      var nut = null, on = false, tamDen = 0, y = 0, tLast = 0, raf = 0, xong = false;
+      var CV = 2 * Math.PI * 16.5;
+      var IC_DUNG = '<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M8 6h3v12H8zM13 6h3v12h-3z"/></svg>';
+      var IC_CHAY = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 6l5 5 5-5"/><path d="M7 13l5 5 5-5"/></svg>';
+      var IC_LAI = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 19V5"/><path d="M6 11l6-6 6 6"/></svg>';
+      var tocDo = function(){ return window.innerWidth >= 700 ? 64 : 42; };   /* px mỗi giây */
+      var cuoi = function(){ return Math.max(document.documentElement.scrollHeight, document.body.scrollHeight) - window.innerHeight; };
+      var vuong = function(){   /* có lý do tạm dừng không */
+        if (document.hidden || $('env') || document.body.classList.contains('env-lock') || Date.now() < tamDen) return true;
+        var lb = $('lb'); if (lb && !lb.hidden) return true;
+        var ae = document.activeElement; if (ae && /^(INPUT|TEXTAREA|SELECT)$/.test(ae.tagName)) return true;
+        return !!document.querySelector('.mpanel.open');
+      };
+      var veNut = function(){
+        if (!nut) return;
+        var c = cuoi(), p = c > 0 ? Math.min(1, Math.max(0, (window.pageYOffset || 0) / c)) : 0;
+        nut.querySelector('.tc-vong').style.strokeDashoffset = (CV * (1 - p)).toFixed(1);
+        var tt = on ? 'dung' : (xong ? 'lai' : 'chay');
+        if (nut.getAttribute('data-tt') === tt) return;
+        nut.setAttribute('data-tt', tt);
+        nut.querySelector('.tc-ic').innerHTML = on ? IC_DUNG : (xong ? IC_LAI : IC_CHAY);
+        nut.setAttribute('aria-label', on ? 'Dừng thiệp tự chạy' : (xong ? 'Về đầu thiệp và chạy lại' : 'Cho thiệp tự chạy'));
+        nut.setAttribute('aria-pressed', on ? 'true' : 'false');
+      };
+      var buoc = function(t){
+        raf = 0;
+        if (!on) return;
+        if (vuong()) { tLast = 0; raf = requestAnimationFrame(buoc); return; }
+        var yNow = window.pageYOffset || 0;
+        if (!tLast || Math.abs(yNow - y) > 4) { tLast = t; y = yNow; raf = requestAnimationFrame(buoc); return; }   /* vừa chạy lại / khách tự cuộn → đi tiếp từ chỗ đang đứng */
+        var dt = Math.min(0.1, (t - tLast) / 1000), c = cuoi(); tLast = t;
+        y = Math.min(c, y + tocDo() * dt);
+        window.scrollTo(0, y);
+        if (y >= c - 1) { on = false; xong = true; veNut(); return; }
+        veNut();
+        raf = requestAnimationFrame(buoc);
+      };
+      var batDau = function(sau){ on = true; xong = false; tLast = 0; tamDen = Date.now() + (sau || 0); if (!raf) raf = requestAnimationFrame(buoc); veNut(); };
+      var dung = function(){ on = false; if (raf) { cancelAnimationFrame(raf); raf = 0; } veNut(); };
+      var cham = function(e){
+        var t = e.target;
+        if (t && t.closest && (t.closest('#env') || t.closest('.tu-chay'))) return;   /* chạm mở phong bì / chạm nút này: không tính */
+        if (on) tamDen = Math.max(tamDen, Date.now() + 6000);
+      };
+      ['touchstart', 'wheel', 'mousedown', 'keydown'].forEach(function(ev){ window.addEventListener(ev, cham, { passive: true, capture: true }); });
+      document.addEventListener('thiep:video', dung);
+      if (!window.__SUA__ && !tuyCua(d).tat.tu_chay) {
+        nut = document.createElement('button'); nut.type = 'button';
+        nut.className = 'tu-chay' + ($('musicBtn').hidden ? ' mot' : '');
+        nut.innerHTML = '<svg class="tc-o" viewBox="0 0 38 38" aria-hidden="true"><circle class="tc-nen" cx="19" cy="19" r="16.5"/>' +
+          '<circle class="tc-vong" cx="19" cy="19" r="16.5" stroke-dasharray="' + CV.toFixed(1) + '" stroke-dashoffset="' + CV.toFixed(1) + '"/></svg><span class="tc-ic"></span>';
+        document.body.appendChild(nut);
+        nut.addEventListener('click', function(){
+          if (on) { dung(); toast('Đã dừng thiệp tự chạy — bấm nút để chạy tiếp'); return; }
+          if (xong || (window.pageYOffset || 0) >= cuoi() - 2) { xong = false; window.scrollTo({ top: 0, behavior: 'smooth' }); batDau(1600); return; }
+          batDau(0);
+        });
+        window.addEventListener('scroll', function(){ if (!on) veNut(); }, { passive: true });
+        veNut();
+        if (!(window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches)) {
+          if ($('env')) document.addEventListener('click', function mo(e){
+            if (!e.target || !e.target.closest || !e.target.closest('#env')) return;
+            document.removeEventListener('click', mo, true); batDau(4200);
+          }, true);
+          else batDau(4500);
+        }
+      }
+      return { batDau: batDau, dung: dung };
+    })();
+
     renderTuy(d);
     showState('card');
     setupReveal();
     setupLightbox();
     window.__THIEP__ = { d: d, anh: renderAnh, bia: renderBia, clip: renderClip, ten: renderTen,   /* bảng sửa ẩn vẽ lại từng phần */
-      ngay: renderNgay, giaDinh: renderGiaDinh, goi: renderGoi, suKien: renderSuKien, qr: renderQR, video: renderVideo, tuy: renderTuy, coPhongBi: coPhongBi, phongBi: envelope,
+      ngay: renderNgay, giaDinh: renderGiaDinh, goi: renderGoi, suKien: renderSuKien, qr: renderQR, video: renderVideo, tuy: renderTuy, coPhongBi: coPhongBi, phongBi: envelope, tuChay: tuChay,
       datD: function(x){ CUR = x; window.__THIEP__.d = x; } };
     try { document.dispatchEvent(new CustomEvent('thiep:render')); } catch (e) {}
 

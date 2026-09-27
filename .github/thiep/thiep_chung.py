@@ -19,7 +19,7 @@ GOC = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..'))
 THU_MUC = os.path.join(GOC, 'thiep')
 TEMPLATE = os.path.join(GOC, 'thiep-mau.html')
 WEB = 'https://phamducstudio.vn/'
-PHIEN_BAN_SUA = '20260927b'          # ?v= của js/sua-thiep.js trong trang thiệp riêng (đổi cùng lúc với thiep-mau.html)
+PHIEN_BAN_SUA = '20260928a'          # ?v= của js/sua-thiep.js trong trang thiệp riêng (đổi cùng lúc với thiep-mau.html)
 
 THEMES = {'', 'do-hy', 'hoang-kim', 'diu-dang', 'xanh-reu', 'xanh-dem', 'hien-dai', 'xanh-petrol'}
 STYLES = {'', 'phim-xua', 'thanh-lich', 'han-quoc', 'nang-gio', 'song-hy'}
@@ -153,7 +153,7 @@ CHUP_LAI = ('ten_cd', 'ten_cr', 'ngay', 'bia', 'bia_pos', 'theme', 'style')   # 
 # ---- Hiệu ứng & phần (tab "Hiệu ứng & phần" của bảng sửa ẩn; thiệp vẽ theo renderTuy() trong thiep-mau.html) ----
 # tuy = {"tat": [khoá tắt], "bat": ["phong_bi"], "td": {khoá: tiêu đề}} — công khai (thiệp mẫu: trong MAU · thiệp riêng: trong pub)
 # tho = {"1".."4": thơ} + ghi_them (lưu ý cho khách) — thiệp mẫu: trong MAU · thiệp riêng: trong phần MÃ HOÁ
-TEN_TUY = {'hoa': 'Cánh hoa rơi', 'hien': 'Hiện dần khi cuộn', 'kb': 'Ảnh bìa phóng chậm', 'phong_bi': 'Phong bì mở thiệp',
+TEN_TUY = {'phong_bi': 'Phong bì mở thiệp', 'tu_chay': 'Thiệp tự chạy', 'hoa': 'Cánh hoa rơi', 'hien': 'Hiện dần khi cuộn', 'kb': 'Ảnh bìa phóng chậm',
            'bay': 'Lời chúc bay lên', 'loi_ngo': 'Lời ngỏ', 'cau_chuyen': 'Câu chuyện', 'tho1': 'Thơ khối 3 ảnh ghép',
            'tho2': 'Thơ dưới ảnh tràn khung', 'tho3': 'Câu trích khối 2 ảnh nổi', 'lich': 'Lịch tháng cưới', 'dem': 'Đồng hồ đếm ngược',
            'luu_lich': 'Nút lưu ngày cưới vào lịch', 'ban_do': 'Bản đồ', 'tho4': 'Thơ khối cặp ảnh cuối', 'rsvp': 'Xác nhận tham dự',
@@ -244,9 +244,7 @@ def dong_tuy(a, b, style=''):
     """Tóm tắt thay đổi Hiệu ứng & phần (công khai được): tắt/bật gì, đổi tiêu đề nào."""
     a, b = a or {}, b or {}
 
-    def bat(t, k):
-        if k == 'phong_bi':
-            return (style == 'song-hy' and k not in (t.get('tat') or [])) or k in (t.get('bat') or [])
+    def bat(t, k):                                   # mọi công tắc mặc định bật (phong bì: mọi mẫu, từ 25/09)
         return k not in (t.get('tat') or [])
     tat_, bat_ = [], []
     for k in TUY_TAT:
