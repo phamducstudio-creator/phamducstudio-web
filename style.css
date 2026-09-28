@@ -1215,3 +1215,38 @@ footer.lp-mini-foot b{color:var(--ink);}
   .anh-lon-body .grid-foot-note{display:none;}
   .anh-lon-body::after{content:"1–2 ảnh lớn 60×90cm + 5 ảnh để bàn, chụp tại studio. Tặng khung Titan."; display:block; font-size:12px; color:var(--ink-soft); margin-top:4px;}
 }
+
+/* ===== CHÂN TRANG GỌN (28/09/2026) — ghi đè khối .pdft inline ở mọi trang bằng selector footer.pdft ===== */
+footer.pdft{padding:0 0 14px;}
+footer.pdft .pdft-grid{grid-template-columns:1.15fr 1fr 1.1fr; gap:24px 36px; padding-top:22px;}
+footer.pdft .pdft-brand img{height:46px; margin-bottom:8px;}
+footer.pdft .pdft-brand p{display:none;}
+footer.pdft .pdft-brand::before{content:"Chụp ảnh & quay phim cưới trọn gói · Cần Thơ · từ 2019"; display:block; font-size:13px; color:var(--ink-soft); margin:0 0 12px; line-height:1.5;}
+footer.pdft .pdft-brand{display:flex; flex-direction:column;}
+footer.pdft .pdft-brand img{order:-1; width:auto; align-self:flex-start;}
+footer.pdft .pdft-social{gap:8px;}
+footer.pdft .pdft-social a{padding:6px 12px; font-size:12px;}
+footer.pdft h5{font-size:11px; margin:0 0 10px;}
+footer.pdft .pdft-contact div.addr{font-size:13px; margin-bottom:6px; line-height:1.5;}
+footer.pdft .pdft-contact a.map{display:table; margin:0 0 10px; font-size:12.5px;}
+footer.pdft .pdft-contact a.tel{display:inline-block; font-size:19px; margin-right:16px; line-height:1.4;}
+footer.pdft .pdft-contact a.web{display:block; margin-top:6px; font-size:12.5px;}
+footer.pdft .pdft-links{display:grid; grid-template-columns:1fr 1fr; gap:0 18px; align-content:start;}
+footer.pdft .pdft-links h5{grid-column:1/-1;}
+footer.pdft .pdft-links a{padding:4px 0; font-size:13.5px;}
+footer.pdft .pdft-bottom{margin-top:18px; padding-top:12px; font-size:12px;}
+@media (max-width:820px){
+  footer.pdft .pdft-grid{grid-template-columns:1fr 1fr; gap:18px 20px; padding-top:18px;}
+  footer.pdft .pdft-brand{grid-column:1/-1; flex-direction:row; flex-wrap:wrap; align-items:center; gap:4px 14px;}
+  footer.pdft .pdft-brand img{height:42px; margin:0;}
+  footer.pdft .pdft-brand::before{flex:1; min-width:180px; margin:0;}
+  footer.pdft .pdft-social{width:100%; margin-top:6px;}
+  footer.pdft .pdft-links{grid-template-columns:1fr;}
+  footer.pdft .pdft-contact a.tel{display:block; margin-right:0; font-size:17px;}
+  footer.pdft .pdft-bottom{margin-top:14px; flex-direction:column; gap:2px;}
+}
+@media (max-width:480px){
+  footer.pdft .pdft-grid{grid-template-columns:1fr; gap:16px;}
+  footer.pdft .pdft-links{grid-template-columns:1fr 1fr; gap:0 12px;}
+  footer.pdft .pdft-links a{font-size:13px;}
+}
