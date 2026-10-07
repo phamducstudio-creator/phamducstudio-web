@@ -83,9 +83,6 @@ b.hl{color:var(--goldl);font-weight:600}
 
   <p class="stat" id="stat">Đang đọc kho nhạc…</p>
 
-  <div class="sec">Nhạc có sẵn <small>luôn có, studio tự phối — không lo bản quyền</small></div>
-  <div class="list" id="lsSan"></div>
-
   <div class="sec">Nhạc chung <small>khách được chọn</small></div>
   <div class="list" id="lsChung"><div class="empty">Chưa có bài nào.</div></div>
 
@@ -109,11 +106,6 @@ b.hl{color:var(--goldl);font-weight:600}
   var DRIVE = 'https://drive.google.com/drive/folders/1Wye8OP8fQau_MgFnVTdkgWx2JDcloJ1H';
   var KHO = 'https://phamducstudio-creator.github.io/nhac-thiep/';
   var GH = 'https://github.com/phamducstudio-creator/nhac-thiep';
-  var SAN = [
-    { ma: 'canon-in-d', ten: 'Canon in D', mo_ta: 'Piano & dây · trang trọng', url: 'images/nhac-canon-in-d.mp3', giay: 65 },
-    { ma: 'minuet-in-g', ten: 'Minuet in G', mo_ta: 'Piano & hộp nhạc · trong trẻo', url: 'images/nhac-minuet-in-g.mp3', giay: 84 },
-    { ma: 'gymnopedie', ten: 'Gymnopédie số 1', mo_ta: 'Piano · nhẹ nhàng, hoài niệm', url: 'images/nhac-gymnopedie.mp3', giay: 82 }
-  ];
   var $ = function(id){ return document.getElementById(id); };
   var esc = function(s){ return String(s == null ? '' : s).replace(/[&<>"']/g, function(c){ return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]; }); };
   var mmss = function(g){ g = Math.round(+g || 0); return g > 0 ? Math.floor(g / 60) + ':' + ('0' + g % 60).slice(-2) : ''; };
@@ -152,7 +144,6 @@ b.hl{color:var(--goldl);font-weight:600}
       '</div></div>';
   };
   var veDs = function(el, arr){ el.innerHTML = arr.length ? arr.map(dong).join('') : '<div class="empty">Chưa có bài nào.</div>'; ve(); };
-  veDs($('lsSan'), SAN);
 
   /* lệnh cho bài đã tải thẳng: tạo file trong tai-len/lenh/ (trang GitHub điền sẵn — anh chỉ bấm Commit changes) */
   var lenh = function(ten, noi_dung){
@@ -179,7 +170,7 @@ b.hl{color:var(--goldl);font-weight:600}
     }
     if (t.hasAttribute('data-go')) {
       var id2 = t.getAttribute('data-go'), b2 = dsBai[id2];
-      if (!confirm(b2 ? ('Gỡ bài “' + b2.ten + '” khỏi kho?\nThiệp đang dùng bài này sẽ tự chuyển sang bài có sẵn.') : 'Bỏ mục báo lỗi này?')) return;
+      if (!confirm(b2 ? ('Gỡ bài “' + b2.ten + '” khỏi kho?\nThiệp đang chọn bài này sẽ chuyển sang bài khác trong kho, hoặc không còn nhạc nếu kho hết bài.') : 'Bỏ mục báo lỗi này?')) return;
       lenh('go-' + id2 + '.txt', 'go');
       return;
     }

@@ -281,7 +281,7 @@
         <div class="tc-f"><div class="ic"><svg viewBox="0 0 24 24"><path d="M21 12a8 8 0 0 1-11.6 7.1L4 20l1-4.6A8 8 0 1 1 21 12z"/></svg></div><h4>Lời chúc &amp; thả tim</h4><p>Lời chúc hiện ngay trên thiệp, bay lên như bong bóng — vui như đang ở tiệc.</p></div>
         <div class="tc-f"><div class="ic"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><path d="M14 14h3v3h-3zM21 14v1M14 21h1M18 21h3v-3"/></svg></div><h4>Mừng cưới qua QR</h4><p>Mã QR ngân hàng của hai bạn — khách ở xa vẫn gửi được lời chúc và mừng cưới.</p></div>
         <div class="tc-f"><div class="ic"><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/></svg></div><h4>Ghi tên từng khách</h4><p>"Trân trọng kính mời Gia đình chú Sáu" — mỗi khách một link, đúng lễ như thiệp tay.</p></div>
-        <div class="tc-f"><div class="ic"><svg viewBox="0 0 24 24"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></svg></div><h4>Nhạc nền &amp; phim cưới</h4><p>Nhạc không lời lên ngay khi khách chạm vào thiệp, có nút bật/tắt. Có clip pre-wedding thì studio gắn luôn, khách bấm xem tại chỗ.</p></div>
+        <div class="tc-f"><div class="ic"><svg viewBox="0 0 24 24"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></svg></div><h4>Nhạc nền &amp; phim cưới</h4><p>Nhạc nền theo ý hai bạn lên ngay khi khách chạm vào thiệp, có nút bật/tắt. Có clip pre-wedding thì studio gắn luôn, khách bấm xem tại chỗ.</p></div>
       </div>
     </div>
   </section>
@@ -370,7 +370,7 @@
           <li>Lịch âm dương, đồng hồ đếm ngược tới giờ cưới</li>
           <li>Khách xác nhận tham dự, gửi lời chúc, thả tim ngay trên thiệp</li>
           <li>Mừng cưới qua mã QR ngân hàng của hai bạn</li>
-          <li>Nhạc nền không lời — khách chạm vào thiệp là nhạc lên</li>
+          <li>Nhạc nền theo ý hai bạn — khách chạm vào thiệp là nhạc lên</li>
           <li>Link ghi tên riêng từng khách mời — gửi bao nhiêu khách cũng được</li>
           <li class="hl">Lưu trữ vĩnh viễn — link không hết hạn, mở lại xem kỷ niệm bất cứ lúc nào</li>
           <li>2 lần chỉnh sửa miễn phí sau khi bàn giao</li>
@@ -434,11 +434,6 @@
               <div class="tf-nhac">
                 <select id="tf-nhac" name="nhac">
                   <option value="studio">Để studio chọn theo mẫu thiệp</option>
-                  <optgroup label="Nhạc có sẵn — bấm Nghe thử" id="tf-nhac-san">
-                    <option value="canon-in-d">Canon in D — piano &amp; dây, trang trọng</option>
-                    <option value="minuet-in-g">Minuet in G — piano &amp; hộp nhạc, trong trẻo</option>
-                    <option value="gymnopedie">Gymnopédie số 1 — piano, nhẹ nhàng</option>
-                  </optgroup>
                   <optgroup label="Bài khác">
                     <option value="rieng">Bài riêng — mình gửi file hoặc tên bài qua Zalo</option>
                   </optgroup>
@@ -568,12 +563,12 @@
     a.addEventListener('click', function(){ sel.value = a.getAttribute('data-mau'); });
   });
 
-  /* NHẠC NỀN — 3 bài có sẵn + kho nhạc chung studio tự tải (list.json kho nhac-thiep); nghe thử; nhận ?nhac= từ thiệp mẫu */
+  /* NHẠC NỀN — kho nhạc chung studio tự tải (list.json kho nhac-thiep); nghe thử; nhận ?nhac= từ thiệp mẫu */
   var NHAC_KHO = 'https://phamducstudio-creator.github.io/nhac-thiep/';
-  var NHAC_URL = {"canon-in-d": "images/nhac-canon-in-d.mp3", "minuet-in-g": "images/nhac-minuet-in-g.mp3", "gymnopedie": "images/nhac-gymnopedie.mp3"};
-  var nsel = document.getElementById('tf-nhac'), nghe = document.getElementById('tf-nghe'), nhom = document.getElementById('tf-nhac-san');
+  var nsel = document.getElementById('tf-nhac'), nghe = document.getElementById('tf-nghe'), nhom = null;
+  var layNhom = function(){ if (!nhom) { nhom = document.createElement('optgroup'); nhom.label = 'Nhạc của studio — bấm Nghe thử'; nsel.insertBefore(nhom, nsel.querySelector('optgroup')); } return nhom; };
   var qNhac = new URLSearchParams(location.search).get('nhac') || '';
-  var nhacUrl = function(v){ if (NHAC_URL[v]) return NHAC_URL[v]; var m = /^d:([-\w]{10,})$/.exec(v); return m ? NHAC_KHO + 'n/' + m[1] + '.mp3' : ''; };
+  var nhacUrl = function(v){ var m = /^d:([-\w]{10,})$/.exec(v); return m ? NHAC_KHO + 'n/' + m[1] + '.mp3' : ''; };
   var chonNhac = function(v){ for (var i = 0; i < nsel.options.length; i++) if (nsel.options[i].value === v) { nsel.value = v; return true; } return false; };
   var au = null;
   var veNghe = function(){
@@ -593,7 +588,7 @@
   nghe.addEventListener('click', function(){ if (au && !au.paused && au.getAttribute('src') === nhacUrl(nsel.value)) au.pause(); else phatThu(); });
   nsel.addEventListener('change', function(){ if (au && !au.paused) phatThu(); veNghe(); });
   if (qNhac && !chonNhac(qNhac) && /^d:[-\w]{10,}$/.test(qNhac)) {
-    var o = document.createElement('option'); o.value = qNhac; o.textContent = 'Bài đã chọn trên thiệp mẫu'; nhom.appendChild(o); chonNhac(qNhac);
+    var o = document.createElement('option'); o.value = qNhac; o.textContent = 'Bài đã chọn trên thiệp mẫu'; layNhom().appendChild(o); chonNhac(qNhac);
   }
   veNghe();
   if (window.fetch) {
@@ -603,7 +598,7 @@
         if (!b || !b.id || !b.file || b.rieng) return;
         var v = 'd:' + b.id, g = Math.round(+b.giay || 0), o = null;
         for (var i = 0; i < nsel.options.length; i++) if (nsel.options[i].value === v) o = nsel.options[i];
-        if (!o) { o = document.createElement('option'); o.value = v; nhom.appendChild(o); }
+        if (!o) { o = document.createElement('option'); o.value = v; layNhom().appendChild(o); }
         o.textContent = (b.ten || 'Nhạc nền') + (g ? ' — ' + Math.floor(g / 60) + ':' + ('0' + g % 60).slice(-2) : '');
       });
       if (qNhac) chonNhac(qNhac);

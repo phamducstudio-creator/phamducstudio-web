@@ -22,7 +22,7 @@
    tiêu đề từng khối, 4 bài thơ, "Lưu ý cho khách". Dữ liệu: tuy {tat, bat, td} (công khai) · tho {1..4} + ghi_them (thiệp riêng:
    nằm trong phần mã hoá). Thiệp vẽ theo renderTuy() trong thiep-mau.html; bot kiểm bằng thiep_chung.sach_tuy/sach_tho.
 
-   Nhạc nền (thiệp riêng: tab Thông tin · thiệp mẫu: tab Tên & bộ ảnh): 3 bài có sẵn + kho nhạc studio (list.json của repo
+   Nhạc nền (thiệp riêng: tab Thông tin · thiệp mẫu: tab Tên & bộ ảnh): kho nhạc studio (list.json của repo
    nhac-thiep), Nghe thử, "Thêm bài mới" → trang tải lên GitHub của kho (thiệp riêng → tai-len/rieng, thiệp mẫu → tai-len) →
    bảng sửa theo dõi list.json, bài mới vào kho là tự chọn cho thiệp. Mã bài kho: d:<mã>.
    ========================================================================== */
@@ -1026,12 +1026,10 @@
   function oVung(nhan, k, gt, goiY){
     return '<label class="sua-o">' + esc(nhan) + '<textarea data-k="' + k + '" rows="3" maxlength="600"' + (goiY ? ' placeholder="' + esc(goiY) + '"' : '') + '>' + esc(gt) + '</textarea></label>';
   }
-  /* ---------------- NHẠC NỀN: 3 bài có sẵn + kho nhạc studio (repo nhac-thiep: tải thẳng lên GitHub hoặc qua Drive) ---------------- */
+  /* ---------------- NHẠC NỀN: kho nhạc studio (repo nhac-thiep: tải thẳng lên GitHub hoặc qua Drive) ---------------- */
   var NHAC_KHO = 'https://phamducstudio-creator.github.io/nhac-thiep/';
   var KHO_GH = 'https://github.com/phamducstudio-creator/nhac-thiep';
-  var NHAC_SAN = [['canon-in-d', 'Canon in D', 'piano & dây, trang trọng', '/images/nhac-canon-in-d.mp3'],
-    ['minuet-in-g', 'Minuet in G', 'piano & hộp nhạc, trong trẻo', '/images/nhac-minuet-in-g.mp3'],
-    ['gymnopedie', 'Gymnopédie số 1', 'piano, nhẹ nhàng', '/images/nhac-gymnopedie.mp3']];
+  var NHAC_SAN = [];   /* đã gỡ 3 bài studio tự phối (07/10/2026): chỉ còn kho nhạc */
   var kho = null, khoLoi = [], khoHua = null, nghe = null, choBai = null;
   function taiKho(){   /* list.json của kho (bỏ qua bộ nhớ đệm) → cập nhật ô chọn nhạc nếu đang mở */
     if (khoHua) return khoHua;
@@ -1046,7 +1044,7 @@
   function nhacTat(v){ return /^(khong|không|0|off|tat|tắt)$/i.test(String(v || '').trim()); }
   function tenNhac(v){
     v = String(v || '').trim();
-    if (!v) return 'mặc định (Canon in D)';
+    if (!v) return 'mặc định (bài đầu kho nhạc chung)';
     if (nhacTat(v)) return 'không có nhạc';
     var s = NHAC_SAN.filter(function(x){ return x[0] === v; })[0]; if (s) return s[1];
     var b = baiKho(v); if (b) return b.ten;
@@ -1054,7 +1052,8 @@
     return v.indexOf(',') > 0 ? 'danh sách bài riêng' : 'bài riêng';
   }
   function urlNhac(v){
-    v = String(v || '').split(',')[0].trim() || 'canon-in-d';
+    v = String(v || '').split(',')[0].trim();
+    if (!v) { var c0 = (kho || []).filter(function(b){ return !b.rieng; })[0]; return c0 ? NHAC_KHO + c0.file : ''; }
     var s = NHAC_SAN.filter(function(x){ return x[0] === v; })[0]; if (s) return s[3];
     var m = /^d:([-\w]{10,})$/.exec(v); if (m) return NHAC_KHO + 'n/' + m[1] + '.mp3';
     if (/^(https:\/\/|\/?images\/|\/thiep\/)\S+\.(mp3|m4a|aac|ogg|oga|wav)(\?\S*)?$/i.test(v)) return /^images\//.test(v) ? '/' + v : v;
@@ -1064,7 +1063,7 @@
   function tuyChonNhac(v){   /* các lựa chọn của ô Nhạc nền (thiệp mẫu chỉ liệt kê kho chung — thiệp mẫu là trang công khai) */
     var o = [], co = false;
     function op(val, nhan){ if (val === v) co = true; o.push('<option value="' + esc(val) + '"' + (val === v ? ' selected' : '') + '>' + esc(nhan) + '</option>'); }
-    if (!v) op('', 'Mặc định (Canon in D)');
+    if (!v) op('', 'Mặc định (bài đầu kho nhạc chung)');
     NHAC_SAN.forEach(function(x){ op(x[0], x[1] + ' — ' + x[2]); });
     var chung = (kho || []).filter(function(b){ return !b.rieng; }), rieng = (kho || []).filter(function(b){ return b.rieng; });
     var nhom = [['Kho nhạc chung', chung]]; if (THIEP) nhom.push(['Kho nhạc riêng (chỉ thiệp chọn mới phát)', rieng]);

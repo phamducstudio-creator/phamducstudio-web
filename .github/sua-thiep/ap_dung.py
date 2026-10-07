@@ -32,7 +32,7 @@ TRANG_BAN = os.path.join(GOC, 'thiep-cuoi-online.html')
 WEB = 'https://phamducstudio.vn/'
 FIELDS_ANH = ['album', 'ten_cr', 'ten_cd', 'bia', 'bia_pos', 'anh_cr', 'anh_cd', 'anh_ds', 'poster', 'poster_pos', 'pos']
 TUY_F = ['tuy', 'tho', 'ghi_them']                   # tab "Hiệu ứng & phần" (xem thiep_chung.sach_tuy)
-FIELDS = FIELDS_ANH + TUY_F + ['nhac']               # nhac: mã bài có sẵn / d:<mã kho> / khong (thiep_chung.sach_nhac)
+FIELDS = FIELDS_ANH + TUY_F + ['nhac']               # nhac: d:<mã kho> / link .mp3 / khong (thiep_chung.sach_nhac)
 TIEN_TO = '  var MAU = '
 RE_SO = re.compile(r'^\d{1,3}$')
 RE_POS = re.compile(r'^(\d{1,3})% (\d{1,3})%$')

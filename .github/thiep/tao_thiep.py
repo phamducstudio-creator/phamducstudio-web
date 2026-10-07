@@ -33,7 +33,7 @@ thong-tin.json (bỏ trống mục nào thì thiệp tự ẩn khối đó):
   "tuy": {"tat": [], "bat": [], "td": {}},       // Hiệu ứng & phần (công khai) — khoá xem thiep_chung.TEN_TUY / TEN_TD;
                                           //   vd tắt hoa rơi + bản đồ: {"tat": ["hoa", "ban_do"]} · phong bì cho mẫu khác Song Hỷ: {"bat": ["phong_bi"]}
                                           //   · đổi tiêu đề: {"td": {"story": "Chuyện tụi mình"}}. Lệnh sua: ghi ĐỦ cả khối tuy.
-  "nhac": "",                             // trống = nhạc của mẫu · canon-in-d · minuet-in-g · gymnopedie · d:<mã Drive> · khong
+  "nhac": "",                             // trống = bài đầu kho nhạc chung (kho trống = không nhạc) · d:<mã bài trong kho> · khong
   "anh": {"thu_muc": "…", "tep": [],      // tep trống = mọi ảnh trong thư mục (theo tên)
           "bia": 1, "cr": 2, "cd": 3, "ds": [4, 5, 6], "poster": 7,   // số thứ tự trong danh sách ảnh (1 = ảnh đầu); trống = tự chọn
           "bia_pos": "", "pos": {"4": "50% 20%"}},

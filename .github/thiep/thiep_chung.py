@@ -19,7 +19,7 @@ GOC = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..'))
 THU_MUC = os.path.join(GOC, 'thiep')
 TEMPLATE = os.path.join(GOC, 'thiep-mau.html')
 WEB = 'https://phamducstudio.vn/'
-PHIEN_BAN_SUA = '20260928a'          # ?v= của js/sua-thiep.js trong trang thiệp riêng (đổi cùng lúc với thiep-mau.html)
+PHIEN_BAN_SUA = '20261007a'          # ?v= của js/sua-thiep.js trong trang thiệp riêng (đổi cùng lúc với thiep-mau.html)
 
 THEMES = {'', 'do-hy', 'hoang-kim', 'diu-dang', 'xanh-reu', 'xanh-dem', 'hien-dai', 'xanh-petrol'}
 STYLES = {'', 'phim-xua', 'thanh-lich', 'han-quoc', 'nang-gio', 'song-hy'}
@@ -146,7 +146,7 @@ def sach_ngay(v, ten_truong, cho_trong=False):
     return v
 
 
-NHAC_CO = {'canon-in-d', 'minuet-in-g', 'gymnopedie'}
+NHAC_CO = set()   # đã gỡ 3 bài studio tự phối (07/10/2026); nhạc nay chỉ là d:<mã kho> / link .mp3 / khong
 PUB_SUA = ['ten_cd', 'ten_cr', 'bia', 'bia_pos', 'anh_cr', 'anh_cd', 'anh_ds', 'poster', 'poster_pos', 'pos', 'ngay', 'nhac', 'tuy']
 CHUP_LAI = ('ten_cd', 'ten_cr', 'ngay', 'bia', 'bia_pos', 'theme', 'style')   # đổi mấy trường này thì chụp lại share.jpg
 
