@@ -157,9 +157,9 @@ TEN_TUY = {'phong_bi': 'Phong bì mở thiệp', 'tu_chay': 'Thiệp tự chạy
            'bay': 'Lời chúc bay lên', 'loi_ngo': 'Lời ngỏ', 'cau_chuyen': 'Câu chuyện', 'tho1': 'Thơ khối 3 ảnh ghép',
            'tho2': 'Thơ dưới ảnh tràn khung', 'tho3': 'Câu trích khối 2 ảnh nổi', 'lich': 'Lịch tháng cưới', 'dem': 'Đồng hồ đếm ngược',
            'luu_lich': 'Nút lưu ngày cưới vào lịch', 'ban_do': 'Bản đồ', 'tho4': 'Thơ khối cặp ảnh cuối', 'rsvp': 'Xác nhận tham dự',
-           'qr': 'Mừng cưới QR', 'chuc': 'Lời chúc', 'thanh': 'Thanh nút dưới đáy', 'quang_cao': 'Dòng giới thiệu studio cuối thiệp'}
-TUY_TAT = tuple(TEN_TUY)
-TUY_BAT = ('phong_bi',)
+           'qr': 'Mừng cưới QR', 'chuc': 'Lời chúc', 'thanh': 'Thanh nút dưới đáy', 'quang_cao': 'Dòng giới thiệu studio cuối thiệp', 'album_het': 'Album gồm tất cả ảnh'}
+TUY_TAT = tuple(k for k in TEN_TUY if k != 'album_het')
+TUY_BAT = ('phong_bi', 'album_het')
 TEN_TD = {'story': 'Our Story', 'love1': 'love you (khối 3 ảnh)', 'film': 'Our Film', 'time': 'Wedding Time', 'address': 'Address',
           'love2': 'love you (cặp ảnh cuối)', 'album': 'Khoảnh khắc của chúng mình', 'rsvp': 'RSVP', 'withlove': 'With Love',
           'welcome': 'Welcome', 'thanks': 'Thank you', 'ghi': 'Lưu ý cho khách'}

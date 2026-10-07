@@ -53,7 +53,7 @@
     ['qr', 'Mừng cưới qua mã QR'], ['chuc', 'Lời chúc (khối + nút gửi)'], ['thanh', 'Thanh nút dưới đáy (lời chúc · tim · mừng cưới)'],
     ['quang_cao', 'Dòng giới thiệu studio cuối thiệp']];
   var CONG_TAC = HIEU_UNG.concat(PHAN);
-  var TAT_OK = CONG_TAC.map(function(x){ return x[0]; }), BAT_OK = ['phong_bi'];
+  var TAT_OK = CONG_TAC.map(function(x){ return x[0]; }), BAT_OK = ['phong_bi', 'album_het'];
   var TIEU_DE = [['story', 'Khối ảnh dâu rể', 'Our Story'], ['love1', 'Khối 3 ảnh ghép', 'love you'], ['film', 'Khối clip', 'Our Film'],
     ['time', 'Khối ngày cưới', 'Wedding Time'], ['address', 'Khối địa điểm', 'Address'], ['love2', 'Khối cặp ảnh cuối', 'love you'],
     ['album', 'Khối lưới album', 'Khoảnh khắc của chúng mình'], ['rsvp', 'Khối xác nhận', 'RSVP'], ['withlove', 'Khối mừng cưới', 'With Love'],

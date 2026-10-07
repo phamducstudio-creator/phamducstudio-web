@@ -1160,6 +1160,18 @@ rồi nắm tay nhau đi qua năm tháng.</p>
       pool.forEach(function(x){ var a=document.createElement('a'); a.className='ph'; a.href='#'; a.innerHTML='<img alt="" loading="lazy">'; g.appendChild(a); addPhoto(a, d, x.n, x.s); });
       $('albumSec').hidden = false;
     }
+    if (tuyCua(d).bat.album_het) {   /* tuy.bat "album_het": album có TẤT CẢ ảnh (ảnh đã dùng ở trên hiện lại, không gắn ô sửa) */
+      var seen = {}, g2 = $('grid');
+      Array.prototype.forEach.call(g2.querySelectorAll('.ph'), function(e){ seen[e.getAttribute('data-n')] = 1; });
+      [d.bia, d.anh_cr, d.anh_cd].concat(nums).forEach(function(n){
+        n = String(n || '').trim(); if (!n || seen[n]) return; seen[n] = 1;
+        var a=document.createElement('a'); a.className='ph'; a.href='#'; a.innerHTML='<img alt="" loading="lazy">'; g2.appendChild(a);
+        var i = photos.length; photos.push({ thumb: img(d.album, n, '800'), big: img(d.album, n) });
+        var im = a.querySelector('img'); im.src = R(photos[i].thumb); im.style.objectPosition = (d.pos && d.pos[n]) || '';
+        a.setAttribute('data-i', i); a.setAttribute('data-n', n);
+      });
+    }
+    if (tuyCua(d).bat.album_het && $('grid').children.length) $('albumSec').hidden = false;
   }
 
   /* ---------- thiệp phong bì: chạm để mở ---------- */
