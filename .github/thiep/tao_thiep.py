@@ -68,7 +68,7 @@ DUOI_ANH = ('.jpg', '.jpeg', '.png', '.webp', '.tif', '.tiff')
 PUB_ANH = ['bia', 'bia_pos', 'anh_cr', 'anh_cd', 'anh_ds', 'poster', 'poster_pos', 'pos']
 PUB_TEN = ['ten_cd', 'ten_cr']
 RIENG = ['sdt_cd', 'sdt_cr', 'cha_cr', 'me_cr', 'cha_cd', 'me_cd', 'le', 'ban_do', 'vietqr_bank', 'vietqr_stk', 'vietqr_ten',
-         'youtube_id', 'loi_ngo', 'cau_chuyen', 'tho', 'ghi_them', 'loi_moi_mau', 'tao']
+         'youtube_id', 'loi_ngo', 'cau_chuyen', 'tho', 'ghi_them', 'loi_moi_mau', 'tao', 'qr_anh', 'ban_do_vt']
 
 
 def hom_nay():
@@ -498,6 +498,26 @@ def lenh_sua(l, duong):
             x = C.sach_tho(v) if kk == 'tho' else C.sach_ghi(v)
             if x:
                 rieng[kk] = x
+            else:
+                rieng.pop(kk, None)
+        elif kk == 'ban_do_vt':                         # toạ độ ghim Google Maps "lat,lng" (bản đồ + nút Chỉ đường Lễ Vu Quy)
+            v = chu(v, 40).replace(' ', '')
+            if v and not re.match(r'^-?\d{1,3}\.\d+,-?\d{1,3}\.\d+$', v):
+                raise C.Loi('ban_do_vt phải dạng "10.5318889,105.7205833"')
+            if v:
+                rieng[kk] = v
+            else:
+                rieng.pop(kk, None)
+        elif kk == 'qr_anh':                            # hộp quà mừng cưới: [{nhan, ten, ten2, bank, stk, chu, anh: "qr-xxxx.jpg" (đã để trong thư mục thiệp)}]
+            ds_ = []
+            for x in (v or [])[:4]:
+                f = chu(x.get('anh'), 60)
+                if not re.match(r'^qr-[a-z0-9-]+\.jpg$', f) or not os.path.isfile(C.duong_dan(ma, f)):
+                    raise C.Loi(f'qr_anh: không thấy ảnh "{f}" trong thư mục thiệp')
+                ds_.append({'nhan': chu(x.get('nhan'), 30), 'ten': chu(x.get('ten'), 60), 'ten2': chu(x.get('ten2'), 40),
+                            'bank': chu(x.get('bank'), 40), 'stk': chu(x.get('stk'), 30), 'chu': chu(x.get('chu'), 60), 'anh': f})
+            if ds_:
+                rieng[kk] = ds_
             else:
                 rieng.pop(kk, None)
         elif kk in RIENG:
